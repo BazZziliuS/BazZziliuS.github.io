@@ -1471,7 +1471,7 @@ body.is-preload #bg:before {
 	display: -webkit-flex;
 	display: -ms-flex;
 	display: flex;
-	margin-bottom: 10rem;
+	margin-bottom: 0rem;
 	list-style: none;
 	padding-left: 0;
 	border: solid 1px #ffffff;
