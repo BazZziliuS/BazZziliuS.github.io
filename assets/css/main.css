@@ -1397,7 +1397,7 @@ body.is-preload #bg:before {
 	position: relative;
 	margin-top: 3.5rem;
 }
-
+/*Тут полоски горизонтальные*/
 #header > *:before {
 	content: "";
 	display: block;
@@ -1420,7 +1420,7 @@ body.is-preload #bg:before {
 #header .logo {
 	width: 5.5rem;
 	height: 5.5rem;
-	line-height: 5.5rem;
+	line-height: 7.7rem;
 	border: solid 1px #ffffff;
 	border-radius: 100%;
 }
@@ -1465,17 +1465,17 @@ body.is-preload #bg:before {
 	font-size: 0.8rem;
 	line-height: 2;
 }
-
+/*Тут кнопки двигают все*/
 #header nav ul {
 	display: -moz-flex;
 	display: -webkit-flex;
 	display: -ms-flex;
 	display: flex;
-	margin-bottom: 0;
+	margin-bottom: 10rem;
 	list-style: none;
 	padding-left: 0;
 	border: solid 1px #ffffff;
-	border-radius: 4px;
+	border-radius: 10px;
 }
 
 #header nav ul li {
