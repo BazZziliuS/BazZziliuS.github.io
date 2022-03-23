@@ -1297,6 +1297,10 @@ body.is-preload #bg:before {
 	background-color: #000000;
 }
 
+/*Убирает скролл бар*/
+::-webkit-scrollbar {
+  width: 0;
+}
 /* Wrapper */
 
 #wrapper {
