@@ -109,7 +109,7 @@ nav,
 section {
 	display: block;
 }
-
+/*115-118 запрет копирования*/
 body {
 	line-height: 1;
 	-ms-user-select: none; 
