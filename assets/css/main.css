@@ -112,6 +112,10 @@ section {
 
 body {
 	line-height: 1;
+	-ms-user-select: none; 
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	user-select: none; 
 }
 
 ol,
@@ -1454,7 +1458,7 @@ body.is-preload #bg:before {
 	-webkit-transition-delay: 0.25s;
 	-ms-transition-delay: 0.25s;
 	transition-delay: 0.25s;
-	padding: 3rem 2rem;
+	padding: 2rem 2rem;
 	max-height: 40rem;
 	overflow: hidden;
 }
@@ -1469,13 +1473,13 @@ body.is-preload #bg:before {
 	font-size: 0.8rem;
 	line-height: 2;
 }
-/*Тут кнопки двигают все*/
+/*Тут кнопки двигают все (Если кнопок четное кол-во то идет по пизде) 0 6 */
 #header nav ul {
 	display: -moz-flex;
 	display: -webkit-flex;
 	display: -ms-flex;
 	display: flex;
-	margin-bottom: 6rem;
+	margin-bottom: 10rem;
 	list-style: none;
 	padding-left: 0;
 	border: solid 1px #ffffff;
@@ -1510,7 +1514,7 @@ body.is-preload #bg:before {
 #header nav ul li a:active {
 	background-color: rgba(255, 255, 255, 0.175);
 }
-
+/*1521 - Полоска по середине вылезает за периметр*/
 #header nav.use-middle:after {
 	content: "";
 	display: block;
@@ -1789,6 +1793,10 @@ body.is-article-visible #footer {
 body.is-preload #footer {
 	opacity: 0;
 }
+
+
+
+
 
 /* .profile-photo {
 	display: flex;
