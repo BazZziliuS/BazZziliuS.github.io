@@ -1473,6 +1473,13 @@ body.is-preload #bg:before {
 	font-size: 0.8rem;
 	line-height: 2;
 }
+
+#header .content .quote_item {
+	text-transform: uppercase;
+	letter-spacing: 0.2rem;
+	font-size: 0.8rem;
+	line-height: 2;
+}
 /*Тут кнопки двигают все (Если кнопок четное кол-во то идет по пизде) 0 6 */
 #header nav ul {
 	display: -moz-flex;
