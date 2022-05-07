@@ -29,7 +29,7 @@ Config.enableAnnouncements = true;
 Config.announceMessages = [
   "Приятного вам времяпровождения!",
   "Заметили очепятку, баг или другу проблему?",
-  "Пишите нам в discord.gg/XXXX"
+  "Напишите нам vk.com/xxxxxxx"
 ];
 
 /**
