@@ -29,7 +29,7 @@ Config.enableAnnouncements = true;
 Config.announceMessages = [
   "Приятного вам времяпровождения!",
   "Заметили очепятку, баг или другу проблему?",
-  "Напишите нам vk.com/xxxxxxx"
+  "Напишите нам vk.com/prekrasnoerp"
 ];
 
 /**
@@ -47,4 +47,4 @@ Config.backgroundImage = "gman.jpg";
 /**
  * Enable debug messages?
  */
-Config.enableDebug = false;
+Config.enableDebug = true;
