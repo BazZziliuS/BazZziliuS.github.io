@@ -47,4 +47,4 @@ Config.backgroundImage = "gman.jpg";
 /**
  * Enable debug messages?
  */
-Config.enableDebug = true;
+Config.enableDebug = false;
