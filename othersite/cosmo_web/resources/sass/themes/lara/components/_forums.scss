@@ -1,0 +1,364 @@
+//
+#forums {
+
+  .form-control {
+    background-color: #14151d;
+    border: 1px solid #14151d !important;
+    color: white !important;
+  }
+
+
+  #category {
+    border: none;
+    background-color: $backgroundSecondary;
+
+    .card-header {
+      background-color: $backgroundSecondary;
+
+      .card-title {
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+      }
+
+      .card-desc {
+        color: rgba(255, 255, 255, .75);
+        font-weight: 300;
+      }
+    }
+
+    .setWidth {
+      width: 35px;
+      @media (max-width: 830px) {
+        width: 25px !important;
+      }
+    }
+
+    #board {
+      background-color: transparent;
+      border: none;
+      transition: background-color 200ms ease;
+
+      &:hover {
+        background-color: $backgroundPrimary;
+      }
+
+      .info {
+        .title {
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-weight: 400;
+        }
+
+        .description {
+          color: rgba(255, 255, 255, .75);
+          font-weight: 300;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+
+      .latest_info {
+        .thread_title {
+          color: white;
+          font-weight: 400;
+          font-size: 1.15rem;
+        }
+
+        .thread_author {
+          color: rgba(255, 255, 255, .75);
+          font-weight: 300;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+
+  #search_threads.card {
+    i {
+      display: none;
+    }
+
+    background-color: $backgroundSecondary;
+
+    .card-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 400;
+    }
+
+    .card-body {
+      .card {
+        background-color: $backgroundSecondary;
+        border: none;
+        transition: background-color 200ms ease;
+        padding: 8px;
+
+        &:hover {
+          background-color: $backgroundPrimary;
+        }
+
+        h6 {
+          color: white;
+          font-weight: 400;
+        }
+
+        p {
+          color: rgba(255, 255, 255, .75) !important;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  #recent_activity.card {
+    background-color: $backgroundSecondary;
+
+    .card-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 400;
+    }
+
+    .card-body {
+      .card {
+        background-color: $backgroundSecondary;
+        border: none;
+        transition: background-color 200ms ease;
+        padding: 8px;
+
+        &:hover {
+          background-color: $backgroundPrimary;
+        }
+
+        h6 {
+          color: white;
+          font-weight: 400;
+        }
+
+        p {
+          color: rgba(255, 255, 255, .75) !important;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  #latest_threads.card {
+    background-color: $backgroundSecondary;
+
+    .card-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 400;
+    }
+
+    .card-body {
+      .card {
+        background-color: $backgroundSecondary;
+        border: none;
+        transition: background-color 200ms ease;
+        padding: 8px;
+
+        &:hover {
+          background-color: $backgroundPrimary;
+        }
+
+        h6 {
+          color: white;
+          font-weight: 400;
+        }
+
+        p {
+          color: rgba(255, 255, 255, .75) !important;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  #latest_posts.card {
+    background-color: $backgroundSecondary;
+
+    .card-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 400;
+    }
+
+    .card-body {
+      .card {
+        background-color: $backgroundSecondary;
+        border: none;
+        transition: background-color 200ms ease;
+        padding: 8px;
+
+        &:hover {
+          background-color: $backgroundPrimary;
+        }
+
+        h6 {
+          color: white;
+          font-weight: 400;
+        }
+
+        p {
+          color: rgba(255, 255, 255, .75) !important;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  #forum_polls.card {
+    background-color: $backgroundSecondary;
+
+    .card-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 400;
+    }
+
+    .card-body {
+      background-color: $backgroundSecondary;
+      border: none;
+      transition: background-color 200ms ease;
+      padding: 15px !important;
+      padding-bottom: 0 !important;
+
+      h5 {
+        color: white;
+        font-size: 1.25rem;
+      }
+
+      p {
+        color: rgba(255, 255, 255, .75);
+        font-size: 1rem;
+      }
+
+      label {
+        color: rgba(255,255,255,.75);
+      }
+    }
+  }
+}
+
+#threads {
+  .thread {
+    background-color: $backgroundSecondary;
+    transition: background-color 200ms ease;
+
+    &:hover {
+      &:not(.reps) {
+        background-color: $backgroundPrimary;
+      }
+
+      .reactions {
+        .reaction {
+          opacity: 1;
+        }
+      }
+    }
+
+    .title {
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 400;
+    }
+
+    .username_full {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 300;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .reactions {
+      width: 100%;
+      position: absolute;
+      bottom: 0 !important;
+      right: 20px !important;
+      display: inline-block;
+      flex-flow: row wrap;
+      font-size: .87rem;
+      color: white;
+
+      .reacted {
+        left: 40px !important;
+        position: relative !important;
+        .reaction {
+          img {
+            width: 20px !important;
+            height: 20px !important;
+          }
+          &:not(:last-child) {
+            margin-right: 30px;
+          }
+        }
+      }
+
+      .reaction {
+        vertical-align: center;
+        height: 20px;
+        width: 20px;
+        opacity: .45;
+        transition: opacity 200ms ease;
+
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    h5 {
+      color: white;
+    }
+
+    .col {
+      &:not(p) {
+        color: white;
+      }
+    }
+  }
+
+  .thread-title {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+}

@@ -1,0 +1,187 @@
+#forumBoards {
+  margin-top: -10rem !important;
+
+  .card {
+    background-color: $backgroundSecondary;
+    color: white;
+    border: none;
+
+    .card-body {
+      padding: 10px !important;
+      padding-bottom: 2px !important;
+    }
+  }
+
+  .board {
+    border: none;
+    margin-bottom: .5rem !important;
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    .info {
+      margin-left: -2rem !important;
+
+      .name {
+        font-size: 1.25rem;
+        color: white;
+      }
+
+      .desc {
+        color: rgba(255, 255, 255, .65);
+        margin-right: 16px;
+      }
+    }
+
+    .thread-author {
+      color: rgba(255, 255, 255, .65);
+    }
+
+    .thread-title {
+      color: rgba(255, 255, 255, .85);
+    }
+
+    .icon_holder {
+      margin: 0 auto 0 auto;
+    }
+  }
+
+  .card-desc {
+    color: rgba(255, 255, 255, .75);
+  }
+
+  .thread_title {
+    color: rgba(255, 255, 255, .65);
+    font-size: 1.10rem;
+  }
+
+  .thread_author {
+    color: rgba(255, 255, 255, .75);
+    font-size: .95rem;
+  }
+}
+
+#threads {
+  .card {
+    background-color: $backgroundSecondary;
+    color: white;
+    border: none;
+
+
+    .title {
+      color: white;
+    }
+
+    .username_full {
+      color: rgba(255, 255, 255, .75);
+    }
+
+    .username {
+      font-weight: bold;
+    }
+  }
+
+  .thread-title {
+    color: white;
+    font-size: 1.75rem;
+  }
+}
+
+#latest_threads {
+  .card-body {
+    .card {
+      padding: .5rem !important;
+    }
+  }
+
+  .latest {
+    h6 {
+      color: white;
+    }
+    p {
+      color: rgba(255,255,255,.75);
+    }
+    small {
+      color: rgba(255,255,255,.85);
+      font-weight: lighter;
+    }
+  }
+
+  input {
+    border-radius: 0;
+    background: $backgroundPrimary;
+  }
+}
+
+#latest_posts {
+  .card-body {
+    .card {
+      padding: .5rem !important;
+    }
+  }
+}
+
+#recent_activity {
+  .card-body {
+    .card {
+      padding: .5rem !important;
+
+    }
+  }
+}
+
+.search {
+  position: relative;
+
+  input {
+    border: none;
+  }
+
+  i {
+    position: absolute;
+    color: white;
+    opacity: .5;
+    top: 10px;
+    right: 10px;
+    transform: rotate(10deg);
+    font-size: 3rem;
+  }
+}
+
+.reactions {
+  width: 100%;
+  position: absolute;
+  bottom: 0 !important;
+  right: 20px !important;
+  display: inline-block;
+  flex-flow: row wrap;
+  font-size: .87rem;
+  color: white;
+
+  .reacted {
+    left: 30px !important;
+    position: relative !important;
+    .reaction {
+      img {
+        width: 20px !important;
+        height: 20px !important;
+      }
+      &:not(:last-child) {
+        margin-right: 35px !important;
+      }
+    }
+  }
+
+  .reaction {
+    vertical-align: center;
+    height: 20px;
+    width: 20px;
+    opacity: .45;
+    transition: opacity 200ms ease;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}

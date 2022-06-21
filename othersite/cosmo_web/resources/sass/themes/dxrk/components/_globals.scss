@@ -1,0 +1,152 @@
+html {
+  padding: 0;
+  margin: 0;
+  text-emphasis: none;
+  text-decoration: none;
+  scrollbar-width: thin;
+  scrollbar-color: $backgroundSecondary $backgroundPrimary;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: $fontFamily, sans-serif;
+  padding: 0;
+  margin: 0;
+  text-emphasis: none;
+  text-decoration: none;
+  height: 100%;
+  background-color: $backgroundPrimary;
+  color: rgba(255, 255, 255, .75);
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+a {
+  text-decoration: none !important;
+  text-emphasis: none !important
+}
+
+::-moz-selection {
+  background-color: #{ $accentColor + '20' };
+}
+
+::selection {
+  color: $accentColor;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $backgroundPrimary;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $backgroundSecondary;
+  border: 3px solid $backgroundPrimary;
+}
+// Globals
+header {
+  .navbar {
+    background-color: $backgroundSecondaryAlt;
+    box-shadow: 0 10px 20px -12px rgba(0, 0, 0, .42), 0 3px 20px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2) !important;
+
+    .navbar-brand {
+      font-weight: 600;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-item .nav-link:not(i) {
+      color: rgba(255, 255, 255, .75);
+      transition: all 200ms ease;
+      font-weight: 400;
+      font-size: 16px;
+
+      &:hover {
+        color: white;
+      }
+    }
+
+    .dropdown {
+      .dropdown-menu {
+        background-color: $backgroundSecondary;
+        color: rgba(255, 255, 255, .75);
+        padding: 6px;
+        border-radius: 6px;
+
+        .dropdown-item {
+          color: rgba(255, 255, 255, .75);
+          padding: 10px;
+          border-radius: 6px;
+          transition: all 200ms ease;
+
+          i {
+            margin-left: 0;
+            margin-right: 3px;
+          }
+
+          &:hover, &:active, &:focus, &:visited {
+            background-color: $backgroundSecondaryAlt;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+.app {
+  flex: 1;
+}
+.hero {
+  position: relative;
+  padding-top: 10rem;
+  padding-bottom: 20rem;
+
+  .overlay {
+    background: #000;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: .2;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+
+    .title {
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.25px;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 300;
+    }
+  }
+
+  .pattern-bottom {
+    transform: rotate(180deg);
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-size: 1450px 160px;
+    height: 0;
+    padding: 0 0 140px;
+  }
+}

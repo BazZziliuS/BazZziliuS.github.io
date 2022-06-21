@@ -1,0 +1,496 @@
+//
+#notifications .card {
+  background-color: $defaultBackgroundOPQ;
+  border-radius: .25rem;
+
+  .card-title {
+    font-weight: 600;
+    color: white;
+  }
+
+  .forms {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .read {
+    margin-right: 10px;
+  }
+
+  .notification_list {
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+
+    .notification_list_item {
+      text-decoration: none;
+      text-emphasis: none;
+      position: relative;
+      display: block;
+      padding: 1rem 1rem;
+
+      &:not(:last-child):after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        content: '';
+        background: linear-gradient(to right, rgba(255, 255, 255, .75) 35%, rgba(255, 255, 255, .35) 50%, rgba(255, 255, 255, .75) 100%);
+        width: 100%;
+        height: 1px;
+      }
+
+      &:hover {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        background: $defaultBackgroundHVR;
+      }
+
+      .notification_title {
+        font-size: 1.25rem;
+        color: white;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .notification_time {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, .75);
+        margin-bottom: 0;
+        padding-bottom: 0;
+        padding-top: .25rem;
+      }
+    }
+  }
+}
+
+#staff .staff {
+  background-color: $defaultBackgroundOPQ;
+  border-radius: .25rem;
+  border: none !important;
+  transition: all 200ms ease;
+
+  img {
+    max-width: 5rem;
+    width: auto;
+    max-height: 5rem;
+    height: auto;
+    margin-right: 10px;
+  }
+
+  .username {
+    font-weight: 500;
+    font-size: 1.75rem;
+    color: white;
+  }
+
+  .role {
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    background: $defaultBackgroundHVR;
+  }
+}
+
+#profile {
+  .card {
+    background-color: $defaultBackgroundOPQ;
+    border-radius: .25rem;
+
+    .card-title {
+      font-weight: 600;
+      color: white;
+      margin-bottom: 0 !important;
+    }
+
+
+    .nav-pills {
+      .nav-item:not(:last-child) {
+        padding-right: 1rem
+      }
+
+      .nav-link {
+        padding: .75rem 1rem;
+        color: #fff;
+        font-weight: 500;
+        font-size: .875rem;
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: all .15s ease;
+
+        &:hover {
+          color: white;
+          background-color: $accentColor;
+        }
+
+        &.active, .show > .nav-link {
+          color: #fff;
+          background-color: $accentColor;
+        }
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .nav-pills .nav-item {
+        margin-bottom: 1rem
+      }
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 700px) {
+      .upper {
+        display: block !important;
+      }
+      .bio {
+        width: 100% !important;
+      }
+      .username {
+        font-size: 2rem;
+      }
+      .avatar {
+        padding-right: 10px !important;
+      }
+    }
+
+    .upper {
+      transition: all 200ms ease;
+
+      .avatar {
+        width: 7rem !important;
+        height : 7rem !important;
+
+        padding-right: 10px;
+      }
+
+      .username {
+        font-size: 2.5rem;
+        color: white;
+        letter-spacing: 1.55px;
+        font-weight: 500;
+      }
+
+      .role {
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+
+      .created {
+        color: white;
+        font-weight: 400;
+      }
+
+      .signature {
+        color: rgba(255, 255, 255, .75);
+      }
+    }
+
+    .like {
+      .fa-green {
+        color: #2ecc71;
+      }
+
+      .likes {
+        color: white;
+        display: inline-flex;
+        margin-bottom: auto;
+      }
+    }
+
+    .editor {
+      background: transparent !important;
+    }
+
+    .comments {
+      .comment {
+        color: rgba(255, 255, 255, .75);
+        background: rgba(0, 0, 0, .2);
+        border-radius: .25rem;
+
+        &:not(:last-child) {
+          margin-bottom: .75rem;
+        }
+
+        .first {
+          margin-top: auto;
+          margin-bottom: auto;
+        }
+
+        .default {
+          color: white;
+          font-size: 1.5rem;
+          font-weight: 400;
+        }
+
+        .username {
+          color: white;
+          line-height: 1.5 !important;
+          font-size: 1rem !important;
+        }
+
+        .text {
+          line-height: .5 !important;
+          margin-top: .25rem !important;
+        }
+
+        .buttons {
+          opacity: 0;
+          transition: opacity 200ms ease;
+        }
+
+        &:hover .buttons {
+          opacity: 1;
+        }
+
+      }
+
+      @media only screen and (min-device-width: 320px) and (max-device-width: 700px) {
+        .comment {
+          .text {
+            line-height: 1 !important;
+            width: 100% !important;
+          }
+
+          .first {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+          }
+
+          .card-body {
+            display: block !important;
+          }
+
+          .buttons {
+            opacity: 1;
+          }
+
+          .username {
+            display: inline !important;
+            margin-left: -.85rem !important;
+          }
+        }
+      }
+      @media only screen and (min-device-width: 700px) and (max-device-width: 1500px) {
+        .comment .text {
+          line-height: 1rem !important;
+        }
+      }
+    }
+
+    .threads .thread {
+      background: transparent;
+      transition: all 200ms ease !important;
+
+      &:hover {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        background: $defaultBackgroundHVR;
+      }
+
+      .info {
+        .title {
+          color: white;
+        }
+
+        .replies {
+        }
+      }
+    }
+
+    .achievements .achievement {
+      background: transparent;
+      transition: all 200ms ease !important;
+
+      &:hover {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        background: $defaultBackgroundHVR;
+      }
+
+      .name {
+        color: white;
+        font-weight: 400;
+        font-size: 1.25rem;
+      }
+
+      .info img {
+        margin-right: 5px;
+      }
+    }
+
+    .edit {
+      .profile_edit-text {
+        color: white;
+        text-transform: uppercase;
+      }
+    }
+
+    // TODO: Nav Pills, Edit Page (PROFILE DONE)
+  }
+
+  .btn-like {
+    color: white;
+  }
+
+  .btn-edit {
+    transition: all 200ms ease;
+    background: $accentColor;
+    color: white;
+  }
+}
+
+#users {
+  .form-control {
+    background-color: $defaultBackgroundOPQ !important;
+    color: white;
+    border: none !important;
+    outline: 0 !important;
+
+    &:focus {
+      color: white;
+      background-color: $defaultBackgroundOPQ !important;
+      border-color: $defaultBackgroundOPQ !important;
+      outline: 0;
+      box-shadow: none !important;
+    }
+  }
+
+  .card {
+    border-radius: .25rem;
+    background-color: $defaultBackgroundOPQ !important;
+    text-decoration: none !important;
+    text-emphasis: none !important;
+    transition: all 200ms ease;
+
+    .card-title {
+      font-weight: 600;
+      color: white;
+    }
+
+    .user {
+      background-color: transparent !important;
+      border: none;
+      border-radius: .25rem;
+      transition: all 200ms ease;
+
+      &:hover {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        background: $defaultBackgroundHVR !important;
+      }
+
+      img {
+        max-width: 5rem;
+        width: auto;
+        max-height: 5rem;
+        height: auto;
+        border-radius: .25rem;
+        margin-right: 10px;
+      }
+
+      h5 {
+        color: white;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+#terms {
+  .card-header {
+    position: relative;
+
+    .card-title {
+      font-weight: 600;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 300;
+    }
+  }
+
+  .card {
+    background-color: $defaultBackgroundOPQ !important;
+    border: none;
+    border-radius: .25rem;
+
+    .card-body {
+      color: white;
+    }
+  }
+}
+#changelog {
+  @media (min-width:1400px) {
+    & {
+      max-width: 1390px !important;
+    }
+  }
+
+  @media (min-width:1500px) {
+    & {
+      max-width: 1540px !important;
+    }
+  }
+  .day {
+    &:not(:last-child) {
+      margin-bottom: 4rem;
+    }
+
+    h3 {
+      font-size: 2.25rem;
+      text-transform: uppercase;
+      letter-spacing: 1.25px;
+      color: white;
+      font-weight: 700;
+    }
+
+    .card {
+      background-color: $defaultBackgroundOPQ;
+      border: none;
+      color: rgba(255, 255, 255, .75);
+      overflow: hidden;
+      position: relative;
+
+      .card-header {
+        border: none;
+
+        h4, small {
+          padding: 0;
+          margin: 0;
+        }
+        h4 {
+          color: white;
+          font-weight: 600;
+        }
+        small {
+          color: rgba(255,255,255,.75);
+          font-weight: 300;
+        }
+      }
+
+      .card-labels {
+        padding: 5px;
+        background-color: rgba(255, 255, 255, .02);
+
+        span {
+          background-color: #B30A5320;
+          margin: auto;
+          padding: 10px;
+          color: #b30a53;
+          border-radius: 5px;
+
+          &:not(:last-child) {
+            margin-right: 5px;
+          }
+        }
+      }
+      .card-body {
+        padding-bottom: 0;
+      }
+    }
+
+  }
+}

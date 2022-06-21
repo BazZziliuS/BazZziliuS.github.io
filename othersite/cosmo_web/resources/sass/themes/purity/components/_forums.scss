@@ -1,0 +1,228 @@
+//
+#forums {
+  .card-header {
+    position: relative;
+
+    .card-title {
+      font-weight: 600;
+      color: white;
+    }
+
+    .card-desc {
+      color: rgba(255, 255, 255, .75);
+      font-weight: 300;
+    }
+  }
+
+  .category {
+    background-color: $defaultBackgroundOPQ !important;
+    border: none;
+    border-radius: .25rem;
+
+
+    .board {
+      background-color: transparent;
+      border: none;
+      border-radius: .25rem;
+      transition: all 200ms ease;
+
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+
+      .title {
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .description {
+        color: rgba(255, 255, 255, .75);
+        font-weight: 400;
+      }
+
+      &:hover {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        background: $defaultBackgroundHVR;
+      }
+
+      .icon-holder {
+        padding-left: 0 !important;
+      }
+
+      .latest_info {
+        .thread_title {
+          color: rgba(255, 255, 255, .75);
+          transition: color 200ms ease;
+
+          &:hover {
+            color: white;
+          }
+        }
+
+        .thread_author {
+          color: rgba(255, 255, 255, .65);
+          transition: color 200ms ease;
+
+          &:hover {
+            color: rgba(255, 255, 255, .75);
+          }
+        }
+      }
+    }
+  }
+
+  span.btn-primary {
+    background-color: $defaultBackgroundOPQ;
+    color: white;
+  }
+
+  #forum_polls {
+    background-color: $defaultBackgroundOPQ !important;
+    border: none;
+    border-radius: .25rem;
+
+    form .polls-group {
+      h5 {
+        color: white;
+        font-weight: 500
+      }
+
+      p {
+        color: rgba(255, 255, 255, .75);
+        font-weight: 400
+      }
+    }
+
+    .card-footer .btn {
+      background-color: $accentColor;
+      color: white;
+      border: none;
+    }
+  }
+
+  #search_threads {
+    background-color: $defaultBackgroundOPQ !important;
+    border: none;
+    border-radius: .25rem;
+
+    .fa-search {
+      display: none
+    }
+
+    .form-group {
+      margin-bottom: 0 !important
+    }
+
+    input {
+      background-color: $defaultBackgroundHVR;
+      border: none !important;
+      color: white;
+
+      &:focus {
+        border: none;
+        box-shadow: none !important;
+        color: white;
+      }
+    }
+  }
+  #recent_activity:not(.card-body), #latest_posts:not(.card-body), #latest_threads:not(.card-body) {
+    background-color: $defaultBackgroundOPQ !important;
+    border: none;
+    border-radius: .25rem;
+
+    .latest {
+      background-color: transparent;
+      border-radius: .15rem;
+      border: none;
+      padding: 8px;
+
+      &:not(:last-child) {
+        margin-bottom: .25rem;
+      }
+
+      &:hover {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        background: $defaultBackgroundHVR;
+      }
+
+      .text-left {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: auto;
+      }
+
+      .text-right {
+        text-align: right;
+        margin-left: auto;
+        justify-content: end;
+      }
+
+      h6 {
+        color: white;
+        font-weight: 400;
+      }
+
+      p {
+        color: rgba(255, 255, 255, .75);
+        font-weight: 300;
+      }
+
+      small {
+        color: rgba(255, 255, 255, .65);
+      }
+
+      img {
+        max-width: 45px !important;
+        height: auto !important;
+      }
+    }
+  }
+  #recent_activity .card-body, #latest_posts .card-body, #latest_threads .card-body {
+    padding: 1rem !important;
+  }
+
+  .thread_show {
+    .reactions {
+      opacity: .5;
+      transition: all 200ms ease;
+      width: 100%;
+      position: absolute;
+      bottom: 0 !important;
+      right: 20px !important;
+      display: inline-block;
+      flex-flow: row wrap;
+      font-size: .87rem;
+      color: white;
+
+      .reacted {
+        left: 40px !important;
+        position: relative !important;
+        .reaction {
+          img {
+            width: 20px !important;
+            height: 20px !important;
+          }
+          &:not(:last-child) {
+            margin-right: 35px !important;
+          }
+        }
+      }
+
+      .reaction {
+        vertical-align: center;
+        height: 20px;
+        width: 20px;
+        opacity: .45;
+        transition: opacity 200ms ease;
+
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+    }
+    &:hover .reactions .reaction, &:hover .reacted .reaction {
+      opacity: 1;
+    }
+  }
+}

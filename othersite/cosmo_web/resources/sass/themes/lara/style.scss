@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap');
+
+$accentColor: #3498DB;
+$backgroundPrimary: #14151d;
+$backgroundSecondary: #1f2029;
+
+//////////////////////////////////////////////////
+///////////////       HOME       /////////////////
+//////////////////////////////////////////////////
+@import "components/_home";
+
+//////////////////////////////////////////////////
+///////////////       FORUMS       ///////////////
+//////////////////////////////////////////////////
+@import "components/_forums";
+
+//////////////////////////////////////////////////
+///////////////       STORE       ////////////////
+//////////////////////////////////////////////////
+@import "components/_store";
+
+//////////////////////////////////////////////////
+///////////////       GLOBALS       //////////////
+//////////////////////////////////////////////////
+@import "components/_misc";
+
+.polls {
+  .form-control {
+    background-color: $backgroundSecondary !important;
+  }
+
+  #category {
+    .card-body p {
+      color: rgba(255, 255, 255, .75);
+    }
+  }
+
+  .progress {
+    height: 30px;
+    border-radius: .25rem;
+    background-color: $backgroundPrimary;
+    .progress-bar {
+      background-color: $accentColor;
+      color: white !important;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+  }
+  .progressSort {
+    &:not(:last-child) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+}

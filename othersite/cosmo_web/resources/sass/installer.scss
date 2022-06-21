@@ -1,0 +1,99 @@
+@import '~bootstrap/scss/bootstrap';
+@import '~toastr/toastr';
+
+$fontFamily: Ubuntu;
+$fontSize: 400;
+
+$accentColor: #6200EE;
+$backgroundColor: #121212;
+$cardBackground: #1d1d1d;
+
+@import url('https://fonts.googleapis.com/css2?family=#{$fontFamily}:wght@300;400;500;700&display=swap');
+
+html, body {
+  font-family: $fontFamily, sans-serif;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: $backgroundColor;
+  overflow-x: hidden;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.card {
+  background: $cardBackground;
+
+  .title {
+    color: white;
+    font-weight: 400;
+  }
+
+  label {
+    color: white;
+  }
+
+  code {
+    background-color: $backgroundColor;
+    padding: 6px;
+    border-radius: 5px;
+
+    &.enabled {
+      color: #000;
+      background-color: #04b97f !important;
+    }
+    &.disabled {
+      color: #000;
+      background-color: #cf6679 !important;
+    }
+  }
+
+  ul {
+    li {
+      margin-bottom: 15px;
+      color: rgba(255,255,255,.75);
+
+      b {
+        color: white;
+      }
+    }
+  }
+}
+
+a.btn {
+  color: #0a0c0d;
+  background-color: #04b97f !important;
+  border-color: #04b97f !important;
+
+  &:hover {
+    color: black;
+  }
+}
+
+#pills {
+  .nav-pills > .nav-link.active {
+    border-radius: .25rem;
+    background: $backgroundColor;
+    color: white;
+  }
+
+  .nav-pills > .nav-link {
+    color: #fff;
+    margin-right: 5px;
+    background-color: transparent;
+    border-radius: 30px;
+    padding: 11px 23px;
+    line-height: 1.5;
+  }
+
+  .nav-pills > .nav-link i {
+    font-size: 14px;
+    position: relative;
+    top: -1px;
+    margin-right: 3px;
+  }
+}

@@ -1,0 +1,253 @@
+#store {
+
+  .nav-item {
+    cursor: pointer;
+    background: $backgroundSecondary;
+    transition: all 200ms ease;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+
+    a {
+      color: $accentColorHover;
+      border: none !important;
+    }
+
+    &:hover {
+      background: $accentColorHover;
+      border-color: white;
+      a {
+        color: white;
+      }
+    }
+
+    display: inline-flex;
+    margin-right: 15px;
+
+    @media only screen and (max-width: 451px) {
+      display: inline-block;
+      margin-right: 5px !important;
+    }
+    @media only screen and (max-width: 435px) {
+      display: flex;
+      flex-basis: 100%;
+      width: 100%;
+      margin-bottom: .25rem;
+    }
+
+    .nav-link {
+      &.active, &:active, &:focus {
+        background: $accentColor !important;
+        color: white !important;
+        border-bottom: 1px solid white !important;
+      }
+    }
+  }
+
+  .card {
+    background: $backgroundSecondary !important;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    color: white;
+  }
+
+  .server-select {
+    position: relative;
+    overflow: hidden;
+
+    .card-title {
+      color: white;
+      font-weight: 600;
+    }
+
+    i {
+      position: absolute;
+      top: -20px;
+      right: 0;
+      font-size: 15rem;
+      color: white;
+      transform: rotate(-45deg);
+      opacity: .1;
+    }
+  }
+
+  .progress {
+    margin-bottom: 2rem;
+    height: 40px;
+    background: $backgroundSecondary;
+
+    .progress-bar {
+      color: white;
+      background: $accentColor;
+      font-size: 1.25rem;
+    }
+  }
+
+  .store_section-title {
+    color: white;
+    font-weight: 500;
+  }
+
+  .table {
+    thead {
+      background-color: $backgroundSecondary;
+      color: white;
+    }
+
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          background-color: $backgroundSecondary;
+          opacity: .5;
+          color: white;
+        }
+
+        &:nth-child(even) {
+          background-color: $backgroundSecondary;
+          opacity: 1;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .package {
+    .card-header {
+      border-bottom: none;
+      width: 100%;
+      position: relative;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      h3 {
+        color: white;
+        font-weight: 600;
+        text-align: left;
+        font-size: 1.7rem;
+        white-space: normal !important;
+      }
+    }
+
+    .card-body {
+      color: white;
+    }
+
+    .card-footer {
+      border-top: none;
+      padding: 0 !important;
+    }
+
+    .purchase {
+      width: 100% !important;
+
+      span.perma {
+        background: rgba(0, 184, 148, .15);
+        padding: 1rem;
+        color: #00b894;
+        width: 100%;
+        height: 100%;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 1rem;
+        border-radius: 0 !important;
+      }
+    }
+
+    .price {
+      color: white;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 1.7rem;
+    }
+
+    .price.sale {
+      bottom: 40px !important;
+      color: #27ae60;
+    }
+
+    .price.old {
+      font-size: 1rem;
+      color: #e74c3c;
+    }
+
+    .form-control {
+      background-color: rgb(40, 41, 51);
+      border-radius: 0 !important;
+      color: white;
+      width: 100%;
+      border: none;
+    }
+
+    .input {
+      &:focus {
+        border-color: transparent !important;
+        outline: 0;
+        box-shadow: none !important;
+      }
+    }
+
+    .row {
+      .col-md-6 {
+        padding: 0;
+      }
+    }
+
+    .btn {
+      text-align: center;
+      background-color: $accentColor;
+      opacity: .7;
+      height: 100%;
+      width: 100%;
+      border-radius: 0 !important;
+      font-size: 1rem !important;
+      padding: 1rem;
+      line-height: 0.7 !important;
+
+      span.fix {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+        opacity: 1;
+        color: white;
+      }
+    }
+  }
+}
+
+table {
+  border: none !important;
+
+  thead {
+    border: none !important;
+  }
+
+  tbody {
+    border: none !important;
+  }
+
+  tr {
+    border: none !important;
+  }
+
+  td {
+    border: none !important;
+  }
+
+  th {
+    border: none !important;
+  }
+}
+
+#checkout {
+  .card {
+    &:not(.card-body) {
+      background: $backgroundSecondary !important;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      color: white;
+    }
+  }
+}

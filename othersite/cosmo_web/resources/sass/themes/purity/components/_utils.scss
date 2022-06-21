@@ -1,0 +1,250 @@
+//
+.pagination {
+  margin-top: 1.5rem;
+  background: transparent;
+
+  .page-item {
+    color: white;
+    border: transparent !important;
+    border-radius: .25rem;
+    transition: all 200ms ease;
+
+    .page-link {
+      background-color: $defaultBackgroundOPQ !important;
+      border: 1px solid transparent;
+      color: white;
+      border-radius: .25rem;
+    }
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+
+    &.disabled {
+      background-color: $defaultBackgroundOPQ;
+    }
+
+    &.active, &:not(.disabled):hover {
+      background-color: $accentColor;
+    }
+  }
+}
+
+
+.fa-beat {
+  animation: fa-beat 5s ease infinite;
+}
+
+@keyframes fa-beat {
+  0% {
+    transform: scale(1);
+  }
+  5% {
+    transform: scale(1.25);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.25);
+  }
+  40% {
+    transform: scale(1);
+  }
+  55% {
+    transform: scale(1.25);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+
+// TOXY POXY FUCKING MOXY NOXY SHITTY NITTY TOX TINYMCE EDITOR
+// I hate this so much, its so toxic
+.tox {
+  position: relative !important;
+  color: white;
+  border: none !important;
+
+  .tox-toolbar, .tox-toolbar__overflow, .tox-toolbar__primary {
+    background: $defaultBackgroundOPQ !important;
+  }
+
+  &:not([dir="rtl"]) .tox-toolbar__group:not(:last-of-type) {
+    border-right: 1px solid transparent !important;
+  }
+
+  * {
+    border: none !important;
+  }
+
+  span, button {
+    color: white !important;
+  }
+
+  svg {
+    fill: white !important;
+  }
+
+  .tox-split-button:hover {
+    box-shadow: none !important;
+  }
+
+  .tox-tbtn {
+    transition: all 200ms ease;
+
+    &:hover, &:active {
+      background: $accentColor !important;
+      border: none !important;
+      color: white !important;
+    }
+
+    color: rgba(255, 255, 255, .75) !important;
+  }
+
+  .tox-edit-area__iframe, .tox-statusbar {
+    background-color: transparent !important;
+    border-radius: 0 0 .6rem .6rem;
+  }
+
+  .tox-tbtn--enabled {
+    background-color: $accentColor !important;
+    color: white;
+  }
+
+  .tox-toolbar {
+    background-color: $defaultBackgroundOPQ !important;
+    border: none !important;
+  }
+
+  .tox-edit-area {
+    color: white;
+    border-top: 1px solid #ccc !important;
+    background: $defaultBackgroundOPQ !important;
+  }
+}
+
+
+.btn-discord {
+  background: #7289DA;
+  color: rgba(255, 255, 255, .75);
+  transition: all 200ms ease;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.btn-steam {
+  background: #1b2838;
+  color: rgba(255, 255, 255, .75);
+  transition: all 200ms ease;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.modal-content {
+  background-color: $defaultBackgroundOPQ;
+  color: white;
+
+  input {
+    background: $defaultBackgroundOPQ;
+    color: white;
+    border: none;
+
+    &:focus {
+      background: $defaultBackgroundOPQ;
+      box-shadow: none;
+      border: none;
+    }
+  }
+
+  .form-control:disabled, .form-control[readonly] {
+    background-color: $defaultBackgroundOPQ;
+    opacity: 1;
+    cursor: not-allowed;
+  }
+}
+
+.breadcrumb {
+  background-color: $defaultBackgroundOPQ !important;
+  border: none !important;
+  border-radius: .25rem !important;
+
+  .breadcrumb-item {
+    & + .breadcrumb-item::before {
+      display: inline-block;
+      padding-right: .5rem;
+      color: rgba(255, 255, 255, .875);
+      content: "/";
+    }
+
+    a {
+      color: rgba(255, 255, 255, .75);
+      transition: color 200ms ease;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}
+
+.custom-radio {
+  .custom-control-label {
+    color: white !important;
+
+    &:before {
+      border-radius: .25rem !important;
+    }
+  }
+
+  .custom-control-input {
+    &:checked ~ .custom-control-label::before {
+      color: #fff;
+      border-color: $accentColor;
+      background-color: $accentColor;
+    }
+  }
+}
+
+.alert {
+  border: 1px solid $defaultBackgroundHVR;
+
+  &.fixedBar {
+    background-color: rgba(0, 0, 0, .75);
+    border: 1px solid $defaultBackgroundHVR;
+  }
+
+  .icon {
+    .fa-stack i {
+      position: absolute;
+      z-index: 99;
+    }
+
+    .fa-stack i:first-child {
+      color: $accentColor;
+      opacity: .3;
+    }
+
+    .fa-stack i:nth-child(2) {
+      color: $accentColor !important;
+      opacity: 1;
+    }
+  }
+
+  span {
+    color: $accentColor;
+  }
+
+  .btn-custom {
+    background-color: $accentColor;
+    color: white !important
+  }
+}
