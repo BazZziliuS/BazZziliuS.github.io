@@ -27,9 +27,7 @@ Config.enableAnnouncements = true;
  * only works if enableAnnouncements = true
  */
 Config.announceMessages = [
-  "Приятного вам времяпровождения!",
-  "Заметили очепятку, баг или другу проблему?",
-  "Напишите нам vk.com/prekrasnoerp"
+  "Приятного вам времяпровождения!"
 ];
 
 /**
