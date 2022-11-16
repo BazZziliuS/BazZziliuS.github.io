@@ -41,17 +41,17 @@ var l_background = "backgrounds/videos/glimmering.webm";
 Place one or more images
 Multiple images will automatically shuffle between them*/
 var l_bgImages = [
-	"backgrounds/images/font0.png",
-	"backgrounds/images/font1.png",
-	"backgrounds/images/font2.png",
-	"backgrounds/images/font3.png",
-	"backgrounds/images/font4.png",
-	"backgrounds/images/font5.png",
-	"backgrounds/images/font6.png",
-	"backgrounds/images/font7.png",
-	"backgrounds/images/font8.png",
-	"backgrounds/images/font9.png",
-	"backgrounds/images/font10.png"
+	"backgrounds/images/loading.png",
+	"backgrounds/images/loading11.png",
+	"backgrounds/images/loading2.png",
+	"backgrounds/images/loading3.png",
+	"backgrounds/images/loading4.png",
+	"backgrounds/images/loading5.png",
+	"backgrounds/images/loading6.png",
+	"backgrounds/images/loading7.png",
+	"backgrounds/images/loading8.png",
+	"backgrounds/images/loading9.png",
+	"backgrounds/images/loading10.png"
 ]
 
 /*Random background images order?*/
@@ -95,7 +95,7 @@ Choose a value between 0 and 100*/
 var l_musicVolume = 25;
 
 /*Enable custom messages?*/
-var l_messagesEnabled = true;
+var l_messagesEnabled = false;
 
 /*Enter your custom messages below*/
 var l_messages = [
