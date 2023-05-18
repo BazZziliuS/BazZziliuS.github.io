@@ -23,7 +23,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 700px;
       margin: 0 auto;
       padding: 20px;
       background-color: #ffffff;
@@ -72,9 +72,13 @@
     }
     .button:nth-child(1) {
      background-color: #32CD32;
+     transition: transform 0.3s;
+	  cursor: pointer;
+	  text-decoration: none; 
     }
     .button:hover:nth-child(1) {
      background-color: #228B22;
+     transform: scale(1.05);
     }
     .button:hover {
       background-color: #0056b3;
@@ -181,7 +185,7 @@
         padding: 15px;
       }
     }
-     .profile-pic {
+    .profile-pic {
       min-width: 125px;
       min-height: 125px;
       width: 125px;
@@ -190,6 +194,12 @@
       background-repeat: no-repeat;
       border-radius: 15px;
       background-size: contain;
+      transition: transform 0.3s;
+      cursor: pointer;
+      text-decoration: none; 
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
     }
     .name-desc {
     font-family: 'Acrom';
@@ -225,7 +235,7 @@
   <div class="container">
     <div class="header">
   <div class="profile">
-    <div class="profile-pic" style="background-image: url(https://s00.yaplakal.com/pics/pics_original/4/1/4/12741414.jpg);"></div>
+    <div class="profile-pic" style="background-image: url(https://i.imgur.com/rrA5HkS.gif);"></div>
     <div class="profile-info">
       <h1 class="name">Корней Корнеевский</h1>
       <p class="name-desc">Начинающий программист на Python</p>
@@ -241,21 +251,25 @@
 
 
     <div class="qualities">
+<!--       <div class="quality">
+        <h3>Быстрое выполнение</h3>
+        <p>Ваша работа всегда выполняется без задержек.</p>
+      </div> -->
       <div class="quality">
-        <h3>Делаю быстро</h3>
-        <p>Никогда не задерживаю Вашу работу.</p>
-      </div>
-      <div class="quality">
-        <h3>Качественно</h3>
-        <p>Делаю качественно, ведь это мой конёк.</p>
-      </div>
-      <div class="quality">
-        <h3>Работаю по ТЗ</h3>
-        <p>Делаю как написано в тех.задании.</p>
+        <h3>Следую ТЗ</h3>
+        <p>Все задачи выполняются согласно предоставленному Техническому Заданию.</p>
       </div>
       <div class="quality">
         <h3>Доступные цены</h3>
-        <p>Цены, которые не ударят по вашему кошельку.</p>
+        <p>Предлагаю цены, которые не нагрузят ваш кошелек.</p>
+      </div>
+      <div class="quality">
+        <h3>Индивидуальный подход</h3>
+        <p>Учитываю все ваши пожелания и требования, чтобы достичь наилучшего результата.</p>
+      </div>
+      <div class="quality">
+        <h3>Надежное сотрудничество</h3>
+        <p>Гарантирую надежное и долгосрочное сотрудничество, основанное на взаимном доверии и взаимовыгоде.</p>
       </div>
     </div>
 
