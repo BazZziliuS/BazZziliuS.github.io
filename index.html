@@ -29,6 +29,20 @@
       background-color: #ffffff;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .container::before {
+      content: "Свободен";
+      position: absolute;
+      top: 30px;
+      left: -10px;
+      background-color: #32CD32;
+      color: #ffffff;
+      padding: 5px 10px;
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      transform: rotate(-45deg);
     }
 
     .header {
@@ -224,7 +238,6 @@
       font-size: 14px;
       color: #666666;
       }
-
   </style>
 
 
