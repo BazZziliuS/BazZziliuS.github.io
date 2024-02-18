@@ -480,15 +480,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-						       itemON('https://bazzzilius.github.io/weather.js', 'Погода', '@lampishe', 'Weather');
+						       itemON('https://bazzzilius.github.io/scripts/weather.js', 'Погода', '@lampishe', 'Weather');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/weather.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/weather.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 			                onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall()
-						var myResult = checkPlugin('https://bazzzilius.github.io/weather.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/weather.js')
 						setTimeout(function() {	
 							$('div[data-name="Weather"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
@@ -516,15 +516,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-						       itemON('https://bazzzilius.github.io/cub_off.js', 'Cub Off', '@scabrum', 'Cub_off');
+						       itemON('https://bazzzilius.github.io/scripts/cub_off.js', 'Cub Off', '@scabrum', 'Cub_off');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/cub_off.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/cub_off.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 			                onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall()
-						var myResult = checkPlugin('https://bazzzilius.github.io/cub_off.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/cub_off.js')
 						setTimeout(function() {	
 							$('div[data-name="Cub_off"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
@@ -552,15 +552,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-						       itemON('https://bazzzilius.github.io/interface.js', 'Стильный Интерфейс', '@lampa', 'Style_interface_fix');
+						       itemON('https://bazzzilius.github.io/scripts/interface.js', 'Стильный Интерфейс', '@lampa', 'Style_interface_fix');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/interface.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/interface.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 			                onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall()
-						var myResult = checkPlugin('https://bazzzilius.github.io/interface.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/interface.js')
 						setTimeout(function() {	
 							$('div[data-name="Style_interface_fix"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
@@ -624,15 +624,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-						       itemON('https://bazzzilius.github.io/source.js', 'Дополнительные Источники', '@scabrum', 'New_source');
+						       itemON('https://bazzzilius.github.io/scripts/source.js', 'Дополнительные Источники', '@scabrum', 'New_source');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/source.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/source.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 			                onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall()
-						var myResult = checkPlugin('https://bazzzilius.github.io/source.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/source.js')
 						setTimeout(function() {	
 							$('div[data-name="New_source"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
@@ -962,15 +962,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-						       itemON('https://bazzzilius.github.io/redirect.js', 'Смена Сервера', '@scabrum', 'Redirect');
+						       itemON('https://bazzzilius.github.io/scripts/redirect.js', 'Смена Сервера', '@scabrum', 'Redirect');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/redirect.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/redirect.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 					onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall();
-						var myResult = checkPlugin('https://bazzzilius.github.io/redirect.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/redirect.js')
 						setTimeout(function() {	
 							$('div[data-name="Redirect"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
@@ -1237,15 +1237,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-							itemON('https://bazzzilius.github.io/jackett.js', 'Переключение Парсеров', '@AndreyURL54', 'Switch_Parser');
+							itemON('https://bazzzilius.github.io/scripts/jackett.js', 'Переключение Парсеров', '@AndreyURL54', 'Switch_Parser');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/jackett.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/jackett.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 					onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall();
-						var myResult = checkPlugin('https://bazzzilius.github.io/jackett.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/jackett.js')
 						setTimeout(function() {	
 							$('div[data-name="Switch_Parser"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
@@ -1576,15 +1576,15 @@ Lampa.SettingsApi.addComponent({
 					},
 					onChange: function(value) {
 						if (value == '1') {
-							itemON('https://bazzzilius.github.io/tv.js', 'Hack TV', '@scabrum', 'Hack_TV');
+							itemON('https://bazzzilius.github.io/scripts/tv.js', 'Hack TV', '@scabrum', 'Hack_TV');
 						}
 						if (value == '2') {
-							var pluginToRemoveUrl = "https://bazzzilius.github.io/tv.js";
+							var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/tv.js";
 							deletePlugin(pluginToRemoveUrl);
 						}
 					},
 					onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall();
-						var myResult = checkPlugin('https://bazzzilius.github.io/tv.js')
+						var myResult = checkPlugin('https://bazzzilius.github.io/scripts/tv.js')
 						setTimeout(function() {	
 							$('div[data-name="Hack_TV"]').append('<div class="settings-param__status one"></div>')
 							if (myResult) {
