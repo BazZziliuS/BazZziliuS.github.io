@@ -588,15 +588,15 @@ Lampa.SettingsApi.addComponent({
 				},
 				onChange: function(value) {
 					if (value == '1') {
-						itemON('https://bazzzilius.github.io/scripts/gold_theme.js', 'Start', '@scabrum', 'Start');
+						itemON('https://bazzzilius.github.io/scripts/start.js', 'Start', '@scabrum', 'Start');
 					}
 					if (value == '2') {
-						var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/gold_theme.js";
+						var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/start.js";
 						deletePlugin(pluginToRemoveUrl);
 					}
 				},
 						onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall()
-					var myResult = checkPlugin('https://bazzzilius.github.io/scripts/gold_theme.js')
+					var myResult = checkPlugin('https://bazzzilius.github.io/scripts/start.js')
 					setTimeout(function() {	
 						$('div[data-name="Start"]').append('<div class="settings-param__status one"></div>')
 						if (myResult) {
