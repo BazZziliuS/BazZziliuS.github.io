@@ -3,7 +3,7 @@
 
     function startPlugin() {
         window.plugin_theme_gold_ready = true;
-        javascript:(function() {
+
             var style = document.createElement('style');
             style.innerHTML = `
                 body{
@@ -112,7 +112,7 @@
                 }
             `;
             document.head.appendChild(style);
-        })();
+        ();
 
     if (!window.plugin_theme_gold_ready) startPlugin();
 
