@@ -34,9 +34,6 @@
         }).join(' | '));
         if (data.runtime) details.push(Lampa.Utils.secondsToTime(data.runtime * 60, true));
         if (pg) details.push('<span class="full-start__pg" style="font-size: 0.9em;">' + pg + '</span>');
-          if (data.number_of_seasons) {
-			details.push('<span>Сезоны: ' + data.number_of_seasons + '</span>');
-          }
         html.find('.new-interface-info__head').empty().append(head.join(', '));
         html.find('.new-interface-info__details').html(details.join('<span class="new-interface-info__split">&#9679;</span>'));
       };
@@ -305,7 +302,6 @@
         if (!(object.source == 'tmdb' || object.source == 'cub')) use = old_interface;
         if (window.innerWidth < 767) use = old_interface;
         if (Lampa.Manifest.app_digital < 153) use = old_interface;
-        if (Lampa.Platform.screen('mobile')) use = old_interface;
         return new use(object);
       };
 
