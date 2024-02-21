@@ -571,6 +571,42 @@ Lampa.SettingsApi.addComponent({
 						}, 100);
 					}
 		});
+				Lampa.SettingsApi.addParam({
+					component: 'add_interface_plugin',
+				param: {
+					name: 'Start',
+					type: 'select',
+					values: {
+						1:	'Установить',
+						2:	'Удалить',
+					},
+				//default: '1',
+					},
+				field: {
+					name: 'Start',
+					description: 'Плагин позволяет заходить на заблокированные карточки'
+				},
+				onChange: function(value) {
+					if (value == '1') {
+						itemON('https://bazzzilius.github.io/scripts/gold_theme.js', 'Start', '@scabrum', 'Start');
+					}
+					if (value == '2') {
+						var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/gold_theme.js";
+						deletePlugin(pluginToRemoveUrl);
+					}
+				},
+						onRender: function (item) {$('.settings-param__name', item).css('color','f3d900'); hideInstall()
+					var myResult = checkPlugin('https://bazzzilius.github.io/scripts/gold_theme.js')
+					setTimeout(function() {	
+						$('div[data-name="Start"]').append('<div class="settings-param__status one"></div>')
+						if (myResult) {
+							$('div[data-name="Start"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+						} else {
+							$('div[data-name="Start"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+						}
+					}, 100);
+				}
+		});
 	        Lampa.SettingsApi.addParam({
 					component: 'add_interface_plugin',
 					param: {
