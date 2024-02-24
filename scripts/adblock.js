@@ -1,39 +1,40 @@
 (function() {
     'use strict';
 
-    // Функция для удаления элемента
-    function removeAdVideoBlock(targetElement) {
-        targetElement.remove();
-        console.log('Удален рекламный блок');
+    // Функция для скипа рекламы
+    function skipAd() {
+        let adSkipButton = document.querySelector('.ad-skip-button'); // Замените '.ad-skip-button' на селектор вашей кнопки "Пропустить"
+        if (adSkipButton) {
+            adSkipButton.click(); // Можно также использовать adSkipButton.dispatchEvent(new Event('click'));
+            console.log('Реклама пропущена!');
+        } else {
+            console.log('Кнопка "Пропустить" не найдена.');
+        }
     }
-
-    // Создаем новый экземпляр MutationObserver с колбэком
-    var observer = new MutationObserver(function(mutations) {
+    
+    // Функция для мониторинга новых элементов на странице
+    function monitorAds() {
+        // Создаем экземпляр MutationObserver
+        let observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            // Проверяем, появился ли элемент с классом ad-video-block ad-preroll ad-preroll__bg
-            var adVideoBlock = document.querySelector('.ad-video-block');
-            var adpreroll = document.querySelector('.ad-preroll');
-            var adpreroll__bg = document.querySelector('.ad-preroll__bg');
-            if (adVideoBlock) {
-                // Если элемент найден, вызываем функцию для его удаления
-                removeAdVideoBlock(adVideoBlock);
-            }
-            if (adpreroll) {
-                // Если элемент найден, вызываем функцию для его удаления
-                removeAdVideoBlock(adpreroll);
-            }
-            if (adpreroll__bg) {
-                // Если элемент найден, вызываем функцию для его удаления
-                removeAdVideoBlock(adpreroll__bg);
+            // Проверяем, появился ли новый элемент с классом '.ad-video-block'
+            let newAdBlock = mutation.target.querySelector('.ad-video-block');
+            if (newAdBlock) {
+            // Если элемент найден, вызываем функцию для его пропуска
+            skipAd();
             }
         });
-    });
-
-    function startMe() {
+        });
+    
         // Настраиваем и запускаем Observer для отслеживания изменений в DOM
-        var observerConfig = { childList: true, subtree: true };
+        let observerConfig = { childList: true, subtree: true };
         observer.observe(document.body, observerConfig);
-    };
+    }
+    
+    // Вызываем функцию мониторинга после загрузки страницы
+    function startMe() {
+        window.addEventListener('load', monitorAds);
+    }
 
     if(window.appready) startMe();
         else {
