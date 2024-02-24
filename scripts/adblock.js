@@ -4,7 +4,7 @@
     // Функция для удаления элемента
     function removeAdVideoBlock(targetElement) {
         targetElement.remove();
-        print('Удален рекламный блок');
+        console.log('Удален рекламный блок');
     }
 
     // Создаем новый экземпляр MutationObserver с колбэком
