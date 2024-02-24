@@ -583,7 +583,7 @@ Lampa.SettingsApi.addComponent({
 				//default: '1',
 					},
 				field: {
-					name: 'Start',
+					name: '[OBFUSCATE] Start',
 					description: 'Плагин позволяет заходить на заблокированные карточки'
 				},
 				onChange: function(value) {
@@ -691,7 +691,7 @@ Lampa.SettingsApi.addComponent({
 					//default: '1',
 						},
 					field: {
-						name: 'Дополнительные источники',
+						name: '[OBFUSCATE] Дополнительные источники',
 						description: 'Плагин добавляет дополнительные источники для получения информации о фильмах'
 					},
 					onChange: function(value) {
