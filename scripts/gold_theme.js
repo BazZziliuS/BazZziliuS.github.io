@@ -109,20 +109,20 @@
             }
             `;
 
-            var styleSheet = document.createElement("style");
-            styleSheet.type = "text/css";
-            styleSheet.innerText = styles;
-            document.head.appendChild(styleSheet);
+        var styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = styles;
+        document.head.appendChild(styleSheet);
 
     };
-        
 
-        if(window.appready) startMe();
-        else {
-            Lampa.Listener.follow('app', function(e) {
-                if(e.type == 'ready') {
-                    startMe();
-                }
-            });
-        }
+
+    if (window.appready) startMe();
+    else {
+        Lampa.Listener.follow('app', function (e) {
+            if (e.type == 'ready') {
+                startMe();
+            }
+        });
+    }
 })();
