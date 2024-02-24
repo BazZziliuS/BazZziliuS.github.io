@@ -2,14 +2,12 @@
     'use strict';
 
     // Функция для скипа рекламы
-    function skipAd() {
-        let adSkipButton = document.querySelector('.ad-skip-button'); // Замените '.ad-skip-button' на селектор вашей кнопки "Пропустить"
+    function skipAdadSkipButton(adSkipButton) {
+         // Замените '.ad-skip-button' на селектор вашей кнопки "Пропустить"
         if (adSkipButton) {
             adSkipButton.click(); // Можно также использовать adSkipButton.dispatchEvent(new Event('click'));
             console.log('Реклама пропущена!');
-        } else {
-            console.log('Кнопка "Пропустить" не найдена.');
-        }
+        } 
     }
     
     // Функция для мониторинга новых элементов на странице
@@ -20,8 +18,13 @@
             // Проверяем, появился ли новый элемент с классом '.ad-video-block'
             let newAdBlock = mutation.target.querySelector('.ad-video-block');
             if (newAdBlock) {
-            // Если элемент найден, вызываем функцию для его пропуска
-            skipAd();
+                // Если элемент найден, вызываем функцию для его пропуска
+                let adSkipButton = document.querySelector('.ad-skip-button');
+                if (adSkipButton) {
+                    skipAd(adSkipButton);
+                } else {
+                    console.log('Кнопка "Пропустить" не найдена.');
+                }
             }
         });
         });
