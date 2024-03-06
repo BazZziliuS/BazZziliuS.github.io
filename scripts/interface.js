@@ -34,7 +34,6 @@
       }).join(' | '));
       if (data.runtime) details.push(Lampa.Utils.secondsToTime(data.runtime * 60, true));
       if (pg) details.push('<span class="full-start__pg" style="font-size: 0.9em;">' + pg + '</span>');
-      if (data.number_of_seasons) { details.push('<span>Сезоны: ' + data.number_of_seasons + '</span>'); }
       html.find('.new-interface-info__head').empty().append(head.join(', '));
       html.find('.new-interface-info__details').html(details.join('<span class="new-interface-info__split">&#9679;</span>'));
     };
@@ -124,10 +123,13 @@
       }
     };
 
+    this.push = function () { };
+
     this.build = function (data) {
       var _this2 = this;
 
       lezydata = data;
+      console.trace();
       info = new create(object);
       info.create();
       scroll.minus(info.render());
