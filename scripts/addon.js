@@ -276,6 +276,82 @@
         });
 
         Lampa.SettingsApi.addParam({
+            component: 'add_online_plugin',
+            param: {
+                name: 'rus_movie',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+                //default: '1',
+            },
+            field: {
+                name: 'Rus_movie',
+                description: 'Добавляет в левое меню закладку с новинками русских фильмов и сериалов'
+            },
+            onChange: function (value) {
+                if (value == '1') {
+                    itemON('https://bazzzilius.github.io/scripts/rus_movie.js', 'rus_movie', '@bylampa', 'Rus_movie');
+                }
+                if (value == '2') {
+                    var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/rus_movie.js";
+                    deletePlugin(pluginToRemoveUrl);
+                }
+            },
+            onRender: function (item) {
+                $('.settings-param__name', item).css('color', 'f3d900'); hideInstall();
+                var myResult = checkPlugin('https://bazzzilius.github.io/scripts/rus_movie.js')
+                setTimeout(function () {
+                    $('div[data-name="rus_movie"]').append('<div class="settings-param__status one"></div>')
+                    if (myResult) {
+                        $('div[data-name="rus_movie"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                    } else {
+                        $('div[data-name="rus_movie"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                    }
+                }, 100);
+            }
+        });
+
+        Lampa.SettingsApi.addParam({
+            component: 'add_online_plugin',
+            param: {
+                name: 'in_quality',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+                //default: '1',
+            },
+            field: {
+                name: 'В качестве',
+                description: 'Добавляет в левое меню закладку с новинками в качестве'
+            },
+            onChange: function (value) {
+                if (value == '1') {
+                    itemON('https://bazzzilius.github.io/scripts/in_quality.js', 'in_quality', '@bylampa', 'In_quality');
+                }
+                if (value == '2') {
+                    var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/in_quality.js";
+                    deletePlugin(pluginToRemoveUrl);
+                }
+            },
+            onRender: function (item) {
+                $('.settings-param__name', item).css('color', 'f3d900'); hideInstall();
+                var myResult = checkPlugin('https://bazzzilius.github.io/scripts/in_quality.js')
+                setTimeout(function () {
+                    $('div[data-name="in_quality"]').append('<div class="settings-param__status one"></div>')
+                    if (myResult) {
+                        $('div[data-name="in_quality"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                    } else {
+                        $('div[data-name="in_quality"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                    }
+                }, 100);
+            }
+        });
+
+        Lampa.SettingsApi.addParam({
             component: 'add_interface_plugin',
             param: {
                 name: 'Rating',
@@ -1279,44 +1355,6 @@
                         $('div[data-name="Online_Mod"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
                     } else {
                         $('div[data-name="Online_Mod"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
-                    }
-                }, 100);
-            }
-        });
-
-        Lampa.SettingsApi.addParam({
-            component: 'add_online_plugin',
-            param: {
-                name: 'rus_movie',
-                type: 'select',
-                values: {
-                    1: 'Установить',
-                    2: 'Удалить',
-                },
-                //default: '1',
-            },
-            field: {
-                name: 'Rus_movie',
-                description: 'Плагин добавляет вкладку с Русскими фильмами и сериалами'
-            },
-            onChange: function (value) {
-                if (value == '1') {
-                    itemON('https://bazzzilius.github.io/scripts/rus_movie.js', 'rus_movie', '@undefined', 'Rus_movie');
-                }
-                if (value == '2') {
-                    var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/rus_movie.js";
-                    deletePlugin(pluginToRemoveUrl);
-                }
-            },
-            onRender: function (item) {
-                $('.settings-param__name', item).css('color', 'f3d900'); hideInstall();
-                var myResult = checkPlugin('https://bazzzilius.github.io/scripts/rus_movie.js')
-                setTimeout(function () {
-                    $('div[data-name="rus_movie"]').append('<div class="settings-param__status one"></div>')
-                    if (myResult) {
-                        $('div[data-name="rus_movie"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
-                    } else {
-                        $('div[data-name="rus_movie"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
                     }
                 }, 100);
             }
