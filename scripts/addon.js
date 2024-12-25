@@ -2029,6 +2029,22 @@
             }
 
         });
+        Lampa.Settings.listener.follow('open', function (e) {
+            if (e.name == 'add_plugin') {
+                setTimeout(function () {
+                    // убираем артефакты после входа в Расширения, надпись "Редактировать" / "Ещё" / "История" / "Статус"
+                    if (document.querySelector("div > span > div > span")) {
+                        if (document.querySelector("div > span > div > span").innerText == 'реклама') {
+                            $('div > span:contains("Еще")').parent().remove()
+                            $('div > span:contains("Редактировать")').parent().remove()
+                            $('div > span:contains("История")').parent().remove()
+                            $('div > span:contains("Статус")').parent().remove()
+                        }
+                    }
+                }, 0);
+            }
+
+        });
 
         /* Счётчик Яндекса | Зачем? Не знаю*/
         (function (m, e, t, r, i, k, a) {
