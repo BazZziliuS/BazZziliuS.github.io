@@ -636,11 +636,11 @@
                 $('.settings-param__name', item).css('color', 'f3d900'); hideInstall()
                 var myResult = checkPlugin('https://bazzzilius.github.io/scripts/snow.js')
                 setTimeout(function () {
-                    $('div[data-name="snow"]').append('<div class="settings-param__status one"></div>')
+                    $('div[data-name="Snow"]').append('<div class="settings-param__status one"></div>')
                     if (myResult) {
-                        $('div[data-name="snow"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                        $('div[data-name="Snow"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
                     } else {
-                        $('div[data-name="snow"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                        $('div[data-name="Snow"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
                     }
                 }, 100);
             }
@@ -769,7 +769,7 @@
                 //default: '1',
             },
             field: {
-                name: '[OBFUSCATE] Дополнительные источники',
+                name: 'Дополнительные источники',
                 description: 'Плагин добавляет дополнительные источники для получения информации о фильмах'
             },
             onChange: function (value) {
