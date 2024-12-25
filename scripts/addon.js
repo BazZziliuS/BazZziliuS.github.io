@@ -599,7 +599,7 @@
             },
             onChange: function (value) {
                 if (value == '1') {
-                    itemON('https://bazzzilius.github.io/scripts/cardify.js', 'Стильный Интерфейс', '@lampa', 'Style_cardify');
+                    itemON('https://bazzzilius.github.io/scripts/cardify.js', 'Стильный Интерфейс', '@lampa', 'Cardify');
                 }
                 if (value == '2') {
                     var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/cardify.js";
@@ -610,11 +610,49 @@
                 $('.settings-param__name', item).css('color', 'f3d900'); hideInstall()
                 var myResult = checkPlugin('https://bazzzilius.github.io/scripts/cardify.js')
                 setTimeout(function () {
-                    $('div[data-name="Style_cardify"]').append('<div class="settings-param__status one"></div>')
+                    $('div[data-name="Cardify"]').append('<div class="settings-param__status one"></div>')
                     if (myResult) {
-                        $('div[data-name="Style_cardify"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                        $('div[data-name="Cardify"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
                     } else {
-                        $('div[data-name="Style_cardify"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                        $('div[data-name="Cardify"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                    }
+                }, 100);
+            }
+        });
+
+        Lampa.SettingsApi.addParam({
+            component: 'add_interface_plugin',
+            param: {
+                name: 'Snow',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+                //default: '1',
+            },
+            field: {
+                name: 'Снег',
+                description: 'Добавляет новогоднее настроение.'
+            },
+            onChange: function (value) {
+                if (value == '1') {
+                    itemON('https://bazzzilius.github.io/scripts/snow.js', 'Снег', '@undefined', 'Snow');
+                }
+                if (value == '2') {
+                    var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/snow.js";
+                    deletePlugin(pluginToRemoveUrl);
+                }
+            },
+            onRender: function (item) {
+                $('.settings-param__name', item).css('color', 'f3d900'); hideInstall()
+                var myResult = checkPlugin('https://bazzzilius.github.io/scripts/snow.js')
+                setTimeout(function () {
+                    $('div[data-name="snow"]').append('<div class="settings-param__status one"></div>')
+                    if (myResult) {
+                        $('div[data-name="snow"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                    } else {
+                        $('div[data-name="snow"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
                     }
                 }, 100);
             }
@@ -632,7 +670,7 @@
                 //default: '1',
             },
             field: {
-                name: '[OBFUSCATE] Start',
+                name: 'Start',
                 description: 'Плагин позволяет заходить на заблокированные карточки'
             },
             onChange: function (value) {
@@ -805,23 +843,6 @@
                 }, 100);
             }
         });
-        /*  Lampa.SettingsApi.addParam({
-                                component: 'add_interface_plugin',
-                                param: {
-                                       name: 'Reboot_interface_plugin',
-                                       type: 'static',
-                                },
-                                field: {
-                                       name: '<div class="settings-folder" style="padding:0!important"><div style="display: block; margin: 0 auto;height:2.3em;padding-right:.1em"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g style="fill:none;stroke:#ffffff;stroke-width:12px;stroke-linecap:round;stroke-linejoin:round;"> <path d="m 50,10 0,35"></path> <path d="M 20,29 C 4,52 15,90 50,90 85,90 100,47 74,20"></path> </g> <path style="fill:#ffffff;" d="m 2,21 29,-2 2,29"></path> </g></svg></div></div>',
-                   description: '<div style="text-align: center;">Нажмите для перезагрузки Lampa</div>',
-                             },
-                                 onRender: function (item) {
-                                    item.on('hover:enter', function(){
-                                       location.reload();
-                                    });
-                                 }
-          });*/
-
 
         Lampa.Settings.listener.follow('open', function (e) {
             if (e.name == 'main') {
@@ -1268,6 +1289,44 @@
                         $('div[data-name="Online_Mod"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
                     } else {
                         $('div[data-name="Online_Mod"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                    }
+                }, 100);
+            }
+        });
+
+        Lampa.SettingsApi.addParam({
+            component: 'add_online_plugin',
+            param: {
+                name: 'rus_movie',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+                //default: '1',
+            },
+            field: {
+                name: 'Rus_movie',
+                description: 'Плагин добавляет вкладку с Русскими фильмами и сериалами'
+            },
+            onChange: function (value) {
+                if (value == '1') {
+                    itemON('https://bazzzilius.github.io/scripts/rus_movie.js', 'rus_movie', '@undefined', 'Rus_movie');
+                }
+                if (value == '2') {
+                    var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/rus_movie.js";
+                    deletePlugin(pluginToRemoveUrl);
+                }
+            },
+            onRender: function (item) {
+                $('.settings-param__name', item).css('color', 'f3d900'); hideInstall();
+                var myResult = checkPlugin('https://bazzzilius.github.io/scripts/rus_movie.js')
+                setTimeout(function () {
+                    $('div[data-name="rus_movie"]').append('<div class="settings-param__status one"></div>')
+                    if (myResult) {
+                        $('div[data-name="rus_movie"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                    } else {
+                        $('div[data-name="rus_movie"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
                     }
                 }, 100);
             }
