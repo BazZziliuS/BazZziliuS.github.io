@@ -937,11 +937,11 @@
                 $('.settings-param__name', item).css('color', 'f3d900'); hideInstall()
                 var myResult = checkPlugin('https://bazzzilius.github.io/scripts/load.js')
                 setTimeout(function () {
-                    $('div[data-name="load"]').append('<div class="settings-param__status one"></div>')
+                    $('div[data-name="Load"]').append('<div class="settings-param__status one"></div>')
                     if (myResult) {
-                        $('div[data-name="load"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                        $('div[data-name="Load"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
                     } else {
-                        $('div[data-name="load"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                        $('div[data-name="Load"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
                     }
                 }, 100);
             }
