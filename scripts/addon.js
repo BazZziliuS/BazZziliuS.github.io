@@ -1323,6 +1323,44 @@
         Lampa.SettingsApi.addParam({
             component: 'add_online_plugin',
             param: {
+                name: 'cinema',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+                //default: '1',
+            },
+            field: {
+                name: 'Cinema',
+                description: 'Плагин для просмотра фильмов и сериалов в онлайн'
+            },
+            onChange: function (value) {
+                if (value == '1') {
+                    itemON('https://bazzzilius.github.io/scripts/cinema.js', 'cinema', '@cinema', 'Cinema');
+                }
+                if (value == '2') {
+                    var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/cinema.js";
+                    deletePlugin(pluginToRemoveUrl);
+                }
+            },
+            onRender: function (item) {
+                $('.settings-param__name', item).css('color', 'f3d900'); hideInstall();
+                var myResult = checkPlugin('https://bazzzilius.github.io/scripts/cinema.js')
+                setTimeout(function () {
+                    $('div[data-name="cinema"]').append('<div class="settings-param__status one"></div>')
+                    if (myResult) {
+                        $('div[data-name="cinema"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+                    } else {
+                        $('div[data-name="cinema"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+                    }
+                }, 100);
+            }
+        });
+
+        Lampa.SettingsApi.addParam({
+            component: 'add_online_plugin',
+            param: {
                 name: 'Онлайн_Prestige',
                 type: 'select',
                 values: {
