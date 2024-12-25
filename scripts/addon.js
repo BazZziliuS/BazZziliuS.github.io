@@ -581,6 +581,45 @@
 				}, 100);
 			}
 		});
+
+		Lampa.SettingsApi.addParam({
+			component: 'add_interface_plugin',
+			param: {
+				name: 'Cardify',
+				type: 'select',
+				values: {
+					1: 'Установить',
+					2: 'Удалить',
+				},
+				//default: '1',
+			},
+			field: {
+				name: 'Стильныe карточки',
+				description: 'Расширение преобразует привычный вид карточек, предлагая обновленный интерфейс — более яркий, красочный и привлекательный.'
+			},
+			onChange: function (value) {
+				if (value == '1') {
+					itemON('https://bazzzilius.github.io/scripts/cardify.js', 'Стильный Интерфейс', '@lampa', 'Style_cardify');
+				}
+				if (value == '2') {
+					var pluginToRemoveUrl = "https://bazzzilius.github.io/scripts/cardify.js";
+					deletePlugin(pluginToRemoveUrl);
+				}
+			},
+			onRender: function (item) {
+				$('.settings-param__name', item).css('color', 'f3d900'); hideInstall()
+				var myResult = checkPlugin('https://bazzzilius.github.io/scripts/cardify.js')
+				setTimeout(function () {
+					$('div[data-name="Style_cardify"]').append('<div class="settings-param__status one"></div>')
+					if (myResult) {
+						$('div[data-name="Style_cardify"]').find('.settings-param__status').removeClass('active error wait').addClass('active')
+					} else {
+						$('div[data-name="Style_cardify"]').find('.settings-param__status').removeClass('active error wait').addClass('error')
+					}
+				}, 100);
+			}
+		});
+		
 		Lampa.SettingsApi.addParam({
 			component: 'add_interface_plugin',
 			param: {
