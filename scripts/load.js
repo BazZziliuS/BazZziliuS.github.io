@@ -2,8 +2,8 @@
   "use strict";
   window.Lampa.Plugins.load = new Proxy(window.Lampa.Plugins.load, {
     apply(a, b, c) {
-      console.log("Interceptor: Intercepted call to window.Lampa.Plugins.load");
-      console.log("Plugins", "start load");
+      console.log("!Interceptor: Intercepted call to window.Lampa.Plugins.load");
+      console.log("!Plugins", "start load");
       modify();
       loadBlackList(d => {
         Account.plugins(e => {
@@ -12,12 +12,12 @@
           f = f.filter((a, b) => {
             return f.indexOf(a) === b;
           });
-          console.log("Plugins", "load list:", f);
+          console.log("!Plugins", "load list:", f);
           b._blacklist = d;
           d.forEach(a => {
             f = f.filter(b => b.toLowerCase().indexOf(a) == -1);
           });
-          console.log("Plugins", "clear list:", f);
+          console.log("!Plugins", "clear list:", f);
           let g = [];
           let h = {};
           let i = [];
@@ -37,7 +37,7 @@
               createPluginDB(h[a], a);
             }
           }, a => {
-            console.log("Plugins", "include:", h[a]);
+            console.log("!Plugins", "include:", h[a]);
             b._created.push(h[a]);
             updatePluginDB(h[a], a);
             delete b.analysisPlugins;
