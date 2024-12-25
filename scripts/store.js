@@ -25,7 +25,7 @@
         if (a.name === "main") {
           a.body.find(c).on("hover:enter", function () {
             Lampa.Extensions.show({
-              store: "https://znh339.github.io/plugins/store.json",
+              store: "https://raw.githubusercontent.com/abrosxd/cdn/f23dbb015d00016097bb8a18a76f9a27725a3d37/lampa/storelist.json",
               with_installed: true
             });
           });
