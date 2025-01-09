@@ -1401,6 +1401,58 @@
         Lampa.SettingsApi.addParam({
             component: 'add_online_plugin',
             param: {
+                name: 'inter_movie',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+            },
+            field: {
+                name: 'Зарубежные подборки',
+                description: 'Плагин добавляет в левом меню пункт с зарубежными подборками',
+            },
+            onChange: (value) => {
+                const pluginUrl = 'https://bazzzilius.github.io/scripts/inter_movie.js';
+
+                if (value === '1') {
+                    itemON(pluginUrl, 'Зарубежные Подборки', '@bylampa', 'inter_movie');
+                } else if (value === '2') {
+                    deletePlugin(pluginUrl);
+                }
+            },
+            onRender: (item) => {
+                const pluginUrl = 'https://bazzzilius.github.io/scripts/inter_movie.js';
+                const pluginsArray = Lampa.Storage.get('plugins') || [];
+                const plugin = pluginsArray.find(p => p.url === pluginUrl);
+                const pluginStatus = plugin ? plugin.status : null;
+
+                // Изменяем цвет текста заголовка и скрываем установку
+                $('.settings-param__name', item).css('color', '#f3d900');
+                hideInstall();
+
+                // Добавляем статус элемента
+                setTimeout(() => {
+                    const statusContainer = $('<div class="settings-param__status one"></div>');
+                    $('div[data-name="inter_movie"]').append(statusContainer);
+
+                    if (plugin && pluginStatus !== 0) {
+                        statusContainer.removeClass('active error').addClass('active');
+                    } else if (pluginStatus === 0) {
+                        statusContainer
+                            .removeClass('active error')
+                            .css('background-color', 'rgb(255, 165, 0)');
+                    } else {
+                        statusContainer.removeClass('active error').addClass('error');
+                    }
+                }, 100);
+            },
+        });
+
+
+        Lampa.SettingsApi.addParam({
+            component: 'add_online_plugin',
+            param: {
                 name: 'Онлайн_BWA_Cloud',
                 type: 'select',
                 values: {
