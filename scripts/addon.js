@@ -218,11 +218,7 @@
                 const pluginUrl = 'https://bazzzilius.github.io/scripts/notice.js';
         
                 if (value === '1') {
-                    if (Lampa.Platform.tv()) {
-                        itemON(pluginUrl, 'Уведомления', '@bylampa', 'notice');
-                    } else {
-                        Lampa.Noty.show('Этот плагин работает только на ТВ!');
-                    }
+                    itemON(pluginUrl, 'Уведомления', '@bylampa', 'notice');
                 } else if (value === '2') {
                     deletePlugin(pluginUrl);
                 }
