@@ -439,6 +439,63 @@
                 }, 100);
             }
         });
+
+        Lampa.SettingsApi.addParam({
+            component: 'add_interface_plugin',
+            param: {
+                name: 'back_menu_tv',
+                type: 'select',
+                values: {
+                    1: 'Установить',
+                    2: 'Удалить',
+                },
+            },
+            field: {
+                name: 'Фишки для ТВ',
+                description: 'Плагин добавляет новые функции в меню выхода (работает только на телевизоре)',
+            },
+            onChange: (value) => {
+                const pluginUrl = 'https://bazzzilius.github.io/scripts/back.js';
+
+                if (value === '1') {
+                    if (Lampa.Platform.tv()) {
+                        itemON(pluginUrl, 'Фишки для ТВ', '@bylampa', 'back_menu_tv');
+                    } else {
+                        Lampa.Noty.show('Этот плагин работает только на ТВ!');
+                    }
+                } else if (value === '2') {
+                    deletePlugin(pluginUrl);
+                }
+            },
+            onRender: (item) => {
+                const pluginUrl = 'https://bazzzilius.github.io/scripts/back.js';
+                const pluginsArray = Lampa.Storage.get('plugins') || [];
+                const plugin = pluginsArray.find(p => p.url === pluginUrl);
+                const pluginStatus = plugin ? plugin.status : null;
+
+                // Изменяем цвет текста заголовка
+                $('.settings-param__name', item).css('color', '#f3d900');
+                hideInstall();
+
+                // Добавляем статус элемента
+                setTimeout(() => {
+                    const statusContainer = $('<div class="settings-param__status one"></div>');
+                    $('div[data-name="back_menu_tv"]').append(statusContainer);
+
+                    if (plugin && pluginStatus !== 0) {
+                        statusContainer.removeClass('active error').addClass('active');
+                    } else if (pluginStatus === 0) {
+                        statusContainer
+                            .removeClass('active error')
+                            .css('background-color', 'rgb(255, 165, 0)');
+                    } else {
+                        statusContainer.removeClass('active error').addClass('error');
+                    }
+                }, 100);
+            },
+        });
+
+
         Lampa.SettingsApi.addParam({
             component: 'add_interface_plugin',
             param: {
