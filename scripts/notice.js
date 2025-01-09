@@ -27,7 +27,7 @@
       }
       function h() {
         var a = new XMLHttpRequest();
-        a.open("GET", "http://bazzzilius.github.io/notice/notice.json", true);
+        a.open("GET", "https://bazzzilius.github.io/notice/notice.json", true);
         a.onreadystatechange = function () {
           if (a.readyState === 4 && a.status === 200) {
             var b = JSON.parse(a.responseText);
@@ -60,7 +60,7 @@
       }
       function i() {
         var a = new XMLHttpRequest();
-        a.open("GET", "http://bazzzilius.github.io/notice/notice.json", true);
+        a.open("GET", "https://bazzzilius.github.io/notice/notice.json", true);
         a.onreadystatechange = function () {
           if (a.readyState === 4 && a.status === 200) {
             var c = JSON.parse(a.responseText);
