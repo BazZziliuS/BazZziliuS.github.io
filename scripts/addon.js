@@ -215,7 +215,7 @@
             },
             onChange: (value) => {
                 const pluginUrl = 'https://bazzzilius.github.io/scripts/notice.js';
-        
+
                 if (value === '1') {
                     itemON(pluginUrl, 'Уведомления', '@bylampa', 'notice');
                 } else if (value === '2') {
@@ -227,16 +227,16 @@
                 const pluginsArray = Lampa.Storage.get('plugins') || [];
                 const plugin = pluginsArray.find(p => p.url === pluginUrl);
                 const pluginStatus = plugin ? plugin.status : null;
-        
+
                 // Изменяем цвет текста заголовка
                 $('.settings-param__name', item).css('color', '#f3d900');
                 hideInstall();
-        
+
                 // Добавляем статус элемента
                 setTimeout(() => {
                     const statusContainer = $('<div class="settings-param__status one"></div>');
                     $('div[data-name="notice"]').append(statusContainer);
-        
+
                     if (plugin && pluginStatus !== 0) {
                         statusContainer.removeClass('active error').addClass('active');
                     } else if (pluginStatus === 0) {
@@ -509,11 +509,7 @@
                 const pluginUrl = 'https://bazzzilius.github.io/scripts/back.js';
 
                 if (value === '1') {
-                    if (Lampa.Platform.tv()) {
-                        itemON(pluginUrl, 'Фишки для ТВ', '@bylampa', 'back_menu_tv');
-                    } else {
-                        Lampa.Noty.show('Этот плагин работает только на ТВ!');
-                    }
+                    itemON(pluginUrl, 'Фишки для ТВ', '@bylampa', 'back_menu_tv');
                 } else if (value === '2') {
                     deletePlugin(pluginUrl);
                 }
