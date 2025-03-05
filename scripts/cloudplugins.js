@@ -1,13 +1,53 @@
 (function () {
     'use strict';
 
-    const PluginManager = {
-        icons: {
-            main: '<svg ...>',
-            interface: '<div class="settings-folder" ...>Интерфейс</div>',
-            // ... остальные иконки
-        },
-
+    // Конфигурация плагинов
+    const PluginConfig = {
+        categories: [
+            {
+                id: 'add_interface_plugin',
+                name: 'Интерфейс',
+                icon: '<div class="settings-folder" style="padding:0!important"><div style="width:1.8em;height:1.3em;padding-right:.5em"><svg ...>Интерфейс</svg></div><div style="font-size:1.3em">Интерфейс</div></div>',
+                plugins: [
+                    {
+                        id: 'TMDB',
+                        url: 'http://cub.red/plugin/tmdb-proxy',
+                        name: 'TMDB Proxy',
+                        author: '@lampa',
+                        description: 'Проксирование постеров для сайта TMDB'
+                    },
+                    {
+                        id: 'notice',
+                        url: 'https://bazzzilius.github.io/scripts/notice.js',
+                        name: 'Уведомления',
+                        author: '@bylampa',
+                        description: 'Плагин добавляет новости плагина'
+                    }
+                ]
+            },
+            {
+                id: 'add_tv_plugin',
+                name: 'ТВ',
+                icon: '<div class="settings-folder" style="padding:0!important"><div style="width:1.8em;height:1.3em;padding-right:.5em"><svg ...>ТВ</svg></div><div style="font-size:1.3em">ТВ</div></div>',
+                plugins: [
+                    {
+                        id: 'Hack_TV',
+                        url: 'https://bazzzilius.github.io/scripts/tv.js',
+                        name: 'Hack TV',
+                        author: '@scabrum',
+                        description: 'Плагин для просмотра IPTV каналов'
+                    }
+                ]
+            }
+            // Добавьте другие категории здесь, например:
+            // {
+            //     id: 'add_torrent_plugin',
+            //     name: 'Торренты',
+            //     icon: '...',
+            //     plugins: [...]
+            // }
+        ],
+        mainIcon: '<svg ...>', // Иконка главного раздела "Плагины"
         ads: `
             <div style="padding: 0.3em 0.3em; padding-top: 0;">
                 <div style="background: #3e3e3e; padding: 0.5em; border-radius: 1em;">
@@ -18,8 +58,11 @@
                     </div>
                 </div>
             </div>
-        `,
+        `
+    };
 
+    // Основной объект управления плагинами
+    const PluginManager = {
         init() {
             Lampa.Storage.set('needReboot', false);
             Lampa.Storage.set('needRebootSettingExit', false);
@@ -61,7 +104,7 @@
         },
 
         installPlugin(url, name, author, itemName) {
-            const $status = $(`DIV[data-name="${itemName}"] .settings-param__status`);
+            const $status = $(`div[data-name="${itemName}"] .settings-param__status`);
             if ($status.hasClass('active')) {
                 return Lampa.Noty.show('Плагин уже установлен!');
             }
@@ -106,76 +149,67 @@
             Lampa.SettingsApi.addComponent({
                 component: 'add_plugin',
                 name: 'Плагины',
-                icon: this.icons.main
+                icon: PluginConfig.mainIcon
             });
 
-            // Подкомпонент "Интерфейс"
-            Lampa.SettingsApi.addComponent({
-                component: 'add_interface_plugin',
-                name: 'Интерфейс',
-                icon: this.icons.interface
-            });
+            // Регистрация всех категорий и их плагинов
+            PluginConfig.categories.forEach(category => {
+                // Регистрируем категорию как компонент
+                Lampa.SettingsApi.addComponent({
+                    component: category.id,
+                    name: category.name,
+                    icon: category.icon
+                });
 
-            // Добавляем пункт меню для перехода в "Интерфейс" из главного раздела
-            Lampa.SettingsApi.addParam({
-                component: 'add_plugin',
-                param: {
-                    name: 'add_interface_plugin_link',
-                    type: 'static',
-                    default: true
-                },
-                field: {
-                    name: this.icons.interface
-                },
-                onRender: (item) => {
-                    item.on('hover:enter', () => {
-                        Lampa.Settings.create('add_interface_plugin');
-                        Lampa.Controller.enabled().controller.back = () => {
-                            Lampa.Settings.create('add_plugin');
-                        };
-                    });
-                }
-            });
+                // Добавляем ссылку на категорию в главный раздел
+                Lampa.SettingsApi.addParam({
+                    component: 'add_plugin',
+                    param: {
+                        name: `${category.id}_link`,
+                        type: 'static',
+                        default: true
+                    },
+                    field: {
+                        name: category.icon
+                    },
+                    onRender: (item) => {
+                        item.on('hover:enter', () => {
+                            Lampa.Settings.create(category.id);
+                            Lampa.Controller.enabled().controller.back = () => {
+                                Lampa.Settings.create('add_plugin');
+                            };
+                        });
+                    }
+                });
 
-            // Параметры для подкомпонента "Интерфейс"
-            this.addPluginParam('add_interface_plugin', {
-                name: 'TMDB',
-                url: 'http://cub.red/plugin/tmdb-proxy',
-                title: 'TMDB Proxy',
-                author: '@lampa',
-                description: 'Проксирование постеров для сайта TMDB'
-            });
-
-            this.addPluginParam('add_interface_plugin', {
-                name: 'notice',
-                url: 'https://bazzzilius.github.io/scripts/notice.js',
-                title: 'Уведомления',
-                author: '@bylampa',
-                description: 'Плагин добавляет новости плагина'
+                // Добавляем плагины для категории
+                category.plugins.forEach(plugin => {
+                    this.addPluginParam(category.id, plugin);
+                });
             });
 
             // Реклама
             Lampa.SettingsApi.addParam({
                 component: 'add_plugin',
                 param: { name: 'add_ads', type: 'title' },
-                field: { name: this.ads },
+                field: { name: PluginConfig.ads },
                 onRender: (item) => {
                     setTimeout(() => $('.settings-param-title').insertAfter($('.settings-param').last()), 0);
                 }
             });
         },
 
-        addPluginParam(component, { name, url, title, author, description }) {
+        addPluginParam(component, { id, url, name, author, description }) {
             Lampa.SettingsApi.addParam({
                 component,
                 param: {
-                    name,
+                    name: id,
                     type: 'select',
                     values: { 1: 'Установить', 2: 'Удалить' }
                 },
-                field: { name: title, description },
+                field: { name, description },
                 onChange: (value) => {
-                    if (value === '1') this.installPlugin(url, title, author, name);
+                    if (value === '1') this.installPlugin(url, name, author, id);
                     if (value === '2') this.deletePlugin(url);
                 },
                 onRender: (item) => {
@@ -183,7 +217,7 @@
                     this.hideInstall();
                     setTimeout(() => {
                         const $status = $('<div class="settings-param__status one"></div>');
-                        $(`div[data-name="${name}"]`).append($status);
+                        $(`div[data-name="${id}"]`).append($status);
                         $status.addClass(this.checkPlugin(url) ? 'active' : 'error');
                     }, 100);
                 }
