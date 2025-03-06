@@ -50,12 +50,10 @@
         mainIcon: '<svg ...>', // Иконка главного раздела "Плагины"
         ads: `
             <div style="padding: 0.3em 0.3em; padding-top: 0;">
-                <div style="background: #3e3e3e; padding: 0.5em; border-radius: 1em;">
-                    <div style="line-height: 1.2; text-align: center;">
-                        <span style="color: #ffffff">Тут могла быть<br>ваша</br>
-                            <span style="color: #f3d900">реклама</span>
-                        </span>
-                    </div>
+                <div style="background: #ffffff; padding: 0.5em; border-radius: 1em;">
+                    <a href="https://aeza.net/ru?ref=507375" target="_blank">
+                        <img src="https://i.imgur.com/yJCQucC.png" style="max-width: 100%; border-radius: 0.5em;" alt="Реклама">
+                    </a>
                 </div>
             </div>
         `
