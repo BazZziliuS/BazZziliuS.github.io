@@ -4,7 +4,7 @@
   Lampa.Platform.tv();
   (function () {
     "use strict";
-    window.lampa_settings = {
+    var c = {
       socket_use: false,
       socket_url: undefined,
       socket_methods: false,
@@ -21,10 +21,11 @@
       iptv: false,
       feed: false
     };
-    window.lampa_settings.disable_features = {
+    window.lampa_settings = c;
+    var d = {
       dmca: true,
       reactions: false,
-      discuss: true,
+      discuss: false,
       ai: true,
       subscribe: true,
       blacklist: true,
@@ -32,14 +33,17 @@
       ads: true,
       trailers: false
     };
-    var c = 0;
-    function d() {
+    window.lampa_settings.disable_features = d;
+    var e = 0;
+    function f() {
       Lampa.Controller.listener.follow("toggle", function (a) {
         if (a.name == "select") {
           // TOLOOK
           setTimeout(function () {
-            if (Lampa.Activity.active().component == "full" && document.querySelector(".ad-server") !== null) {
-              $(".ad-server").remove();
+            if (Lampa.Activity.active().component == "full") {
+              if (document.querySelector(".ad-server") !== null) {
+                $(".ad-server").remove();
+              }
             }
             if (Lampa.Activity.active().component === "modss_online") {
               $(".selectbox-item--icon").remove();
@@ -48,7 +52,7 @@
         }
       });
     }
-    function e() {
+    function g() {
       // TOLOOK
       setTimeout(function () {
         $(".selectbox-item__lock").parent().css("display", "none");
@@ -57,29 +61,36 @@
         }
       }, 10);
     }
-    function f() {
+    function h() {
       var a = new MutationObserver(function (a) {
         for (var b = 0; b < a.length; b++) {
-          var d = a[b];
-          if (d.type === "childList") {
-            var f = document.getElementsByClassName("card");
-            if (f.length > 0 && c === 0) {
-              c = 1;
-              e();
-              // TOLOOK
-              setTimeout(function () {
-                c = 0;
-              }, 500);
+          var c = a[b];
+          if (c.type === "childList") {
+            var d = document.getElementsByClassName("card");
+            if (d.length > 0) {
+              if (e === 0) {
+                e = 1;
+                g();
+                // TOLOOK
+                setTimeout(function () {
+                  e = 0;
+                }, 500);
+              }
             }
           }
         }
       });
-      a.observe(document.body, _0x3f7bb7);
+      var b = {
+        childList: true,
+        subtree: true
+      };
+      var c = b;
+      a.observe(document.body, c);
     }
-    function g() {
-      var g = document.createElement("style");
-      g.innerHTML = ".button--subscribe { display: none; }";
-      document.body.appendChild(g);
+    function i() {
+      var e = document.createElement("style");
+      e.innerHTML = ".button--subscribe { display: none; }";
+      document.body.appendChild(e);
       $(document).ready(function () {
         var a = new Date();
         var b = a.getTime();
@@ -113,7 +124,7 @@
       Lampa.Listener.follow("full", function (a) {
         if (a.type == "complite") {
           $(".button--book").on("hover:enter", function () {
-            e();
+            g();
           });
         }
       });
@@ -127,22 +138,21 @@
           }
           // TOLOOK
           setTimeout(function () {
-            f();
+            h();
           }, 200);
         }
       });
     }
     if (window.appready) {
-      g();
+      i();
+      h();
       f();
-      d();
     } else {
       Lampa.Listener.follow("app", function (a) {
         if (a.type == "ready") {
-          g();
+          i();
+          h();
           f();
-          d();
-          $("[data-action=timetable]").remove();
         }
       });
     }
