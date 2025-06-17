@@ -10,35 +10,35 @@
       var f = new Date().toISOString().substr(0, 10);
       var g = [{
         title: "Дорамы",
-        img: "https://bylampa.github.io/img/dorams.jpg",
+        img: "https://bazzzilius.github.io/img/dorams.jpg",
         request: "discover/tv?first_air_date.gte=2020-01-01&without_genres=16&with_original_language=ko&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "Турецкие сериалы",
-        img: "https://bylampa.github.io/img/tur_serials.jpg",
+        img: "https://bazzzilius.github.io/img/tur_serials.jpg",
         request: "discover/tv?first_air_date.gte=2020-01-01&without_genres=16&with_original_language=tr&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "Индийские фильмы",
-        img: "https://bylampa.github.io/img/ind_films.jpg",
+        img: "https://bazzzilius.github.io/img/ind_films.jpg",
         request: "discover/movie?primary_release_date.gte=2020-01-01&without_genres=16&with_original_language=hi&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "Netflix",
-        img: "https://bylampa.github.io/img/netflix.jpg",
+        img: "https://bazzzilius.github.io/img/netflix.jpg",
         request: "discover/tv?with_networks=213&first_air_date.gte=2020-01-01&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "Apple TV+",
-        img: "https://bylampa.github.io/img/apple_tv.jpg",
+        img: "https://bazzzilius.github.io/img/apple_tv.jpg",
         request: "discover/tv?with_networks=2552&first_air_date.gte=2020-01-01&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "Prime Video",
-        img: "https://bylampa.github.io/img/prime_video.jpg",
+        img: "https://bazzzilius.github.io/img/prime_video.jpg",
         request: "discover/tv?with_networks=1024&first_air_date.gte=2020-01-01&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "MGM+",
-        img: "https://bylampa.github.io/img/mgm.jpg",
+        img: "https://bazzzilius.github.io/img/mgm.jpg",
         request: "discover/tv?with_networks=6219&first_air_date.gte=2020-01-01&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }, {
         title: "HBO",
-        img: "https://bylampa.github.io/img/hbo.jpg",
+        img: "https://bazzzilius.github.io/img/hbo.jpg",
         request: "discover/tv?with_networks=49&first_air_date.gte=2020-01-01&vote_average.gte=6&vote_average.lte=10&first_air_date.lte=" + f
       }];
       function h(a, b, c) {

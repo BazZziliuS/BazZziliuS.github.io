@@ -16,51 +16,51 @@
       var e = new Date().toISOString().substr(0, 10);
       var f = [{
         title: "Русские фильмы",
-        img: "https://bylampa.github.io/img/rus_movie.jpg",
+        img: "https://bazzzilius.github.io/img/rus_movie.jpg",
         request: "discover/movie?sort_by=primary_release_date.desc&with_original_language=ru&vote_average.gte=5&vote_average.lte=9.5&primary_release_date.lte=" + e
       }, {
         title: "Русские сериалы",
-        img: "https://bylampa.github.io/img/rus_tv.jpg",
+        img: "https://bazzzilius.github.io/img/rus_tv.jpg",
         request: "discover/tv?sort_by=first_air_date.desc&with_original_language=ru&air_date.lte=" + e
       }, {
         title: "Русские мультфильмы",
-        img: "https://bylampa.github.io/img/rus_mult.jpg",
+        img: "https://bazzzilius.github.io/img/rus_mult.jpg",
         request: "discover/movie?sort_by=primary_release_date.desc&vote_average.gte=5&vote_average.lte=9.5&with_genres=16&with_original_language=ru&primary_release_date.lte=" + e
       }, {
         title: "Start",
-        img: "https://bylampa.github.io/img/start.jpg",
+        img: "https://bazzzilius.github.io/img/start.jpg",
         request: "discover/tv?with_networks=2493&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "Premier",
-        img: "https://bylampa.github.io/img/premier.jpg",
+        img: "https://bazzzilius.github.io/img/premier.jpg",
         request: "discover/tv?with_networks=2859&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "KION",
-        img: "https://bylampa.github.io/img/kion.jpg",
+        img: "https://bazzzilius.github.io/img/kion.jpg",
         request: "discover/tv?with_networks=4085&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "ИВИ",
-        img: "https://bylampa.github.io/img/ivi.jpg",
+        img: "https://bazzzilius.github.io/img/ivi.jpg",
         request: "discover/tv?with_networks=3923&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "Okko",
-        img: "https://bylampa.github.io/img/okko.jpg",
+        img: "https://bazzzilius.github.io/img/okko.jpg",
         request: "discover/tv?with_networks=3871&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "КиноПоиск",
-        img: "https://bylampa.github.io/img/kinopoisk.jpg",
+        img: "https://bazzzilius.github.io/img/kinopoisk.jpg",
         request: "discover/tv?with_networks=3827&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "Wink",
-        img: "https://bylampa.github.io/img/wink.jpg",
+        img: "https://bazzzilius.github.io/img/wink.jpg",
         request: "discover/tv?with_networks=5806&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "СТС",
-        img: "https://bylampa.github.io/img/sts.jpg",
+        img: "https://bazzzilius.github.io/img/sts.jpg",
         request: "discover/tv?with_networks=806&sort_by=first_air_date.desc&air_date.lte=" + e
       }, {
         title: "ТНТ",
-        img: "https://bylampa.github.io/img/tnt.jpg",
+        img: "https://bazzzilius.github.io/img/tnt.jpg",
         request: "discover/tv?with_networks=1191&sort_by=first_air_date.desc&air_date.lte=" + e
       }];
       function g(a, b, c) {
