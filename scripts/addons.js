@@ -207,20 +207,22 @@
 
     Lampa.Settings.listener.follow('open', (e) => {
         if (e.name === 'add_plugin') {
-            if (!adInited) {
-                Lampa.SettingsApi.addParam({
-                    component: 'add_plugin',
-                    param: { name: 'add_ads', type: 'title' },
-                    field: { name: ads }
-                });
-                adInited = true;
-            }
-
             setTimeout(() => {
-                Lampa.Settings.update('add_plugin'); // 👈 форсим ререндер
-                $('#settings_layer .settings-param[data-name="add_ads"]').insertAfter(
-                    $('#settings_layer .settings-param').last()
-                );
+                if (!adInited) {
+                    // добавляем рекламу как стандартный параметр
+                    Lampa.SettingsApi.addParam({
+                        component: 'add_plugin',
+                        param: { name: 'add_ads', type: 'title' },
+                        field: { name: ads }
+                    });
+                    adInited = true;
+                }
+
+                // переносим рекламный блок в конец (но он остаётся параметром Лампы!)
+                const $ads = $('#settings_layer .settings-param[data-name="add_ads"]');
+                if ($ads.length) {
+                    $ads.detach().appendTo('#settings_layer .settings-content');
+                }
             }, 100);
         }
     });
