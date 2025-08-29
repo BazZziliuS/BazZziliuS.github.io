@@ -103,7 +103,7 @@
         icon: icons.add_plugin
     });
 
-    // Саб-категории (иконки — это SVG-строки из icons.*)
+    // Сабкатегории
     const subcategories = [
         { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
         { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
@@ -114,67 +114,82 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
-    // Регистрируем экраны саб-категорий и ссылки на них внутри «Плагины»
-    subcategories.forEach(sc => {
-        // 1) Экран самой саб-категории (нужен, чтобы было куда перейти)
+    // Универсальная функция добавления сабкатегории
+    function addSubcategory(sc) {
+        // 1) Регистрируем сам экран
         Lampa.SettingsApi.addComponent({
             component: sc.c,
             name: sc.n,
             icon: sc.i
         });
 
-        // 2) Пункт внутри «Плагины» (стандартный вид)
+        // 2) Добавляем ссылку внутри «Плагинов»
         Lampa.SettingsApi.addParam({
             component: 'add_plugin',
             param: { name: sc.c, type: 'static', default: true },
-            field: { name: sc.n }, // <-- ИМЕННО name, иначе будет undefined
+            field: { name: sc.n },
             onRender: (item) => {
-                // Вставляем иконку слева (повторно не создаём)
+                // создаём контейнер для иконки если его нет
                 if (!item.find('.settings-param__icon').length) {
                     item.prepend('<div class="settings-param__icon"></div>');
                 }
+
+                // вставляем SVG
                 item.find('.settings-param__icon').html(sc.i);
 
-                // Переход в саб-категорию и корректный back
+                // убираем width/height у svg, чтобы оно подгонялось стилями
+                const svg = item.find('.settings-param__icon svg');
+                svg.removeAttr('width').removeAttr('height');
+
+                // переход в сабкатегорию
                 item.on('hover:enter', () => {
                     Lampa.Settings.create(sc.c);
-                    // Возврат в «Плагины»
                     const ctrl = Lampa.Controller.enabled();
                     if (ctrl && ctrl.controller) {
-                        ctrl.controller.back = function () {
-                            Lampa.Settings.create('add_plugin');
-                        };
+                        ctrl.controller.back = () => Lampa.Settings.create('add_plugin');
                     }
                 });
-            },
+            }
         });
-    });
+    }
 
-    // Убираем дубли саб-категорий из корневого меню настроек (после рендера)
+    // применяем для всех
+    subcategories.forEach(addSubcategory);
+
+    // 3) Убираем дубли из корня (после рендера)
     Lampa.Settings.listener.follow('open', (e) => {
         if (e.name === 'main') {
-            // Немного подождём, чтобы DOM успел построиться
             setTimeout(() => {
                 subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
             }, 50);
         }
     });
 
+    // 4) Добавляем CSS для иконок (один раз)
+    (function addIconsStyle() {
+        if (document.getElementById('plugin-icons-style')) return;
+        const style = document.createElement('style');
+        style.id = 'plugin-icons-style';
+        style.textContent = `
+            [data-component="add_plugin"] .settings-param__icon{
+            width:22px !important;
+            height:22px !important;
+            min-width:22px !important;
+            min-height:22px !important;
+            display:flex; align-items:center; justify-content:center;
+            margin-right:.6em; flex-shrink:0; overflow:hidden;
+            }
+            [data-component="add_plugin"] .settings-param__icon svg{
+            width:100% !important;
+            height:100% !important;
+            max-width:22px !important;
+            max-height:22px !important;
+            }
+    `;
+        document.head.appendChild(style);
+    })();
 
-    // Убираем дубли категорий из корневых настроек (после рендера)
-    Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name === 'main') {
-            setTimeout(() => {
-                subcategories.forEach(sc => $(`div[data-component=\"${sc.c}\"]`).remove());
-            }, 0);
-        }
-    });
 
-
-    // Убираем дубли категорий из общего списка настроек
-    setTimeout(() => {
-        subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
-    }, 0);
 
     // Сдвигаем раздел выше
     setTimeout(function () {
