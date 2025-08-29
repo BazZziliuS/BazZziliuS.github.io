@@ -223,18 +223,31 @@
      */
     const pluginsList = [
         // Интерфейс
-        { component: 'add_interface_plugin', key: 'notice', name: 'Уведомления', description: 'Плагин добавляет новости плагина', url: 'https://bazzzilius.github.io/scripts/notice.js', author: '@bylampa' },
-        { component: 'add_interface_plugin', key: 'Feedback', name: 'Отзывы', description: 'Кнопка с отзывами в карточке', url: 'http://newtv.mail66.org/o.js', author: '@elenatv99' },
-        { component: 'add_interface_plugin', key: 'Tricks', name: 'Приятные мелочи', description: 'Скринсейверы, стилизация кнопок, часы в плеере и т.п.', url: 'https://andreyurl54.github.io/diesel5/tricks.js', author: '@AndreyURL54' },
-        { component: 'add_interface_plugin', key: 'Rating', name: 'Рейтинг КиноПоиск и IMDB', description: 'Показ рейтинга КиноПоиск и IMDB', url: 'https://nb557.github.io/plugins/rating.js', author: '@t_anton' },
-        { component: 'add_interface_plugin', key: 'back_menu_tv', name: 'Фишки для ТВ', description: 'Новые функции в меню выхода для ТВ', url: 'https://bazzzilius.github.io/scripts/back.js', author: '@bylampa' },
-        { component: 'add_interface_plugin', key: 'Want', name: 'Старый стиль пунктов', description: 'Возвращает старый стиль меню Закладки/Нравится/Позже', url: 'http://github.freebie.tom.ru/want.js', author: '@VitalikPVA' },
-        { component: 'add_interface_plugin', key: 'Sub_reset', name: 'Сброс настроек субтитров', description: 'Плагин для сброса настроек субтитров', url: 'https://example.com/sub_reset.js', author: '@someone' },
+        { component: 'add_interface_plugin', key: 'tmdb-proxy', name: 'TMDB Proxy', description: 'Проксирование постеров для сайта TMDB', url: 'http://cub.red/plugin/tmdb-proxy', author: '@lampa' },
+
+        { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Добавляет в левое меню закладку с новинками в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
+        { component: 'add_interface_plugin', key: 'inter_movie', name: 'Зарубежные подборки', description: 'Плагин добавляет в левом меню пункт с зарубежными подборками', url: 'https://bazzzilius.github.io/scripts/inter_movie.js', author: '@bylampa' },
+        { component: 'add_interface_plugin', key: 'rus_movie', name: 'Русские новинки', description: 'Плагин добавляет в левом меню пункт с русскими новинками фильмов и сериалов общим списком и отсортированных по онлайн кинотеатрам', url: 'https://bazzzilius.github.io/scripts/rus_movie.js', author: '@bylampa' },
+        { component: 'add_interface_plugin', key: 'notice', name: 'Уведомления', description: 'Плагин добавляет новости плагина', url: 'https://bazzzilius.github.io/scripts/notice.js', author: '@BazZziliuS' },
+        { component: 'add_interface_plugin', key: 'interface', name: 'Стильный интерфейс', description: 'Новый стильный интерфейс для каталога TMDB и CUB. Понравится тем, кому нравится интерфейс в кинопоиске или netflix', url: 'https://bazzzilius.github.io/scripts/cub_off.js', author: '@lampa' },
+        { component: 'add_interface_plugin', key: 'cardify', name: 'Стильныe карточки', description: 'Расширение преобразует привычный вид карточек, предлагая обновленный интерфейс — более яркий, красочный и привлекательный.', url: 'https://bazzzilius.github.io/scripts/cardify.js', author: '@lampa' },
+        { component: 'add_interface_plugin', key: 'cub_off', name: 'Cub Off', description: 'Плагин убирает элементы, предлагающие оформить cub premium', url: 'https://bazzzilius.github.io/scripts/cub_off.js', author: '@scabrum' },
+        { component: 'add_interface_plugin', key: 'weather', name: 'Погода', description: 'Плагин будет поочередно показывать время и погоду, чередуя их показания', url: 'https://bazzzilius.github.io/scripts/weather.js', author: '@lampishe' },
+
+        { component: 'add_interface_plugin', key: 'feedback', name: 'Отзывы', description: 'Добавляет в карточке кнопку с отзывами', url: 'http://newtv.mail66.org/o.js', author: '@elenatv99' },
+        { component: 'add_interface_plugin', key: 'tricks', name: 'Tricks', description: 'Приятные Мелочи', url: 'https://andreyurl54.github.io/diesel5/tricks.js', author: '@AndreyURL54' },
+        { component: 'add_interface_plugin', key: 'rating', name: 'Рейтинг КиноПоиск и IMDB', description: 'Показ рейтинга КиноПоиск и IMDB в карточке. Функционал аналогичен части из MODSs, так что их не следует использовать вместе', url: 'https://nb557.github.io/plugins/rating.js', author: '@t_anton' },
+        { component: 'add_interface_plugin', key: 'back_menu_tv', name: 'Фишки для ТВ', description: 'Плагин добавляет новые функции в меню выхода (работает только на телевизоре)', url: 'https://nb557.github.io/plugins/back.js', author: '@bylampa' },
+        { component: 'add_interface_plugin', key: 'want', name: 'Старый стиль пунктов (Закладки, Нравится, Позже)', description: 'Плагин возвращает в главное меню старый стиль отображения пунктов (Закладки, Нравится, Позже)', url: 'http://github.freebie.tom.ru/want.js', author: '@VitalikPVA' },
+        { component: 'add_interface_plugin', key: 'sub_reset', name: 'Сброс настроек субтитров', description: 'Плагин сбрасывает настройки субтитров по умолчанию', url: 'https://nb557.github.io/plugins/reset_subs.js', author: '@t_anton' },
+
+
+
+        // Управление
+        { component: 'add_management_plugin', key: 'video_speed', name: 'Скорость видео', description: 'Плагин добавляет возможность менять скорость воспроизведения видео', url: 'https://bazzzilius.github.io/scripts/video_speed.js', author: '@BazZziliuS' },
 
         // Онлайн
         { component: 'add_online_plugin', key: 'rus_movie', name: 'Русские новинки', description: 'Русские новинки фильмов и сериалов', url: 'https://bazzzilius.github.io/scripts/rus_movie.js', author: '@bylampa' },
-        { component: 'add_online_plugin', key: 'inter_movie', name: 'Зарубежные подборки', description: 'Подборки зарубежных фильмов', url: 'https://bazzzilius.github.io/scripts/inter_movie.js', author: '@bylampa' },
-        { component: 'add_online_plugin', key: 'in_quality', name: 'В качестве', description: 'Новинки в высоком качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
 
         // Торренты
         { component: 'add_torrent_plugin', key: 'torrent_search', name: 'Торрент-поиск', description: 'Поиск торрентов прямо из Лампы', url: 'https://example.com/torrent_search.js', author: '@torrentDev' },
