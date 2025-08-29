@@ -109,8 +109,11 @@
         Lampa.SettingsApi.addParam({
             component: 'addons_root',
             param: { name: 'open_addons', type: 'button' },
-            field: { name: 'Открыть менеджер', description: 'Категории и управление плагинами' },
-            onSelect: () => {
+            field: {
+                name: 'Открыть менеджер',
+                description: 'Категории и управление плагинами'
+            },
+            onChange: () => {   // 👈 заменил onSelect → onChange
                 Lampa.Activity.push({ title: TITLE, component: ID })
             }
         })
