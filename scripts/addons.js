@@ -103,7 +103,6 @@
         icon: icons.add_plugin
     });
 
-    // Список сабкатегорий
     const subcategories = [
         { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
         { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
@@ -114,36 +113,46 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
-    // Добавляем сабкатегории только при открытии меню
+    // При открытии главного меню
     Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name === 'main') {
-            // регистрируем сабкатегории
-            subcategories.forEach(sc => {
-                Lampa.SettingsApi.addComponent({
-                    component: sc.c,
-                    name: sc.n,
-                    icon: sc.i
-                });
+        if (e.name !== 'main') return;
+
+        subcategories.forEach(sc => {
+            // создаём саму категорию (экран)
+            Lampa.SettingsApi.addComponent({
+                component: sc.c,
+                name: sc.n,
+                icon: sc.i
             });
 
-            // удаляем их плитки из корня
-            setTimeout(() => {
-                subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
-                $(`div[data-component="pirate_store"]`).remove();
-            }, 0);
+            // создаём ссылку внутри «Плагины»
+            Lampa.SettingsApi.addParam({
+                component: 'add_plugin',
+                param: { name: sc.c, type: 'static', default: true },
+                field: { name: sc.n, icon: sc.i },
+                onRender: (item) => {
+                    item.on('hover:enter', () => {
+                        Lampa.Settings.create(sc.c);
+                        const ctrl = Lampa.Controller.enabled();
+                        if (ctrl && ctrl.controller) {
+                            ctrl.controller.back = () => Lampa.Settings.create('add_plugin');
+                        }
+                    });
+                }
+            });
+        });
 
-            // двигаем раздел «Плагины» выше дефолтного
-            setTimeout(() => {
-                $('div[data-component=plugins]').before($('div[data-component=add_plugin]'));
-            }, 30);
-        }
+        // удаляем плитки сабкатегорий из корня
+        setTimeout(() => {
+            subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
+        }, 50);
+
+        // поднимаем «Плагины» выше стандартного блока
+        setTimeout(() => {
+            $('div[data-component=plugins]').before($('div[data-component=add_plugin]'));
+        }, 60);
     });
 
-
-    // Сдвигаем раздел выше
-    setTimeout(function () {
-        $('div[data-component=plugins]').before($('div[data-component=add_plugin]'))
-    }, 30)
 
 
     /**
