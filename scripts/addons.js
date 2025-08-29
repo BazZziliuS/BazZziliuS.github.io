@@ -96,26 +96,34 @@
     /**
     * Добавляем главную категорию и вложенные подкатегории
     */
-    // Главная
-    Lampa.SettingsApi.addComponent({ component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin });
+    // Главная категория
+    Lampa.SettingsApi.addComponent({
+        component: 'add_plugin',
+        name: 'Плагины',
+        icon: icons.add_plugin
+    });
 
-    // Добавляем подкатегории как пункты внутри
-    [
+    // Подкатегории
+    const subcategories = [
         { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
+        { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
         { c: 'add_online_plugin', n: 'Онлайн', i: icons.add_online_plugin },
         { c: 'add_torrent_plugin', n: 'Торренты', i: icons.add_torrent_plugin },
         { c: 'add_tv_plugin', n: 'ТВ', i: icons.add_tv_plugin },
         { c: 'add_radio_plugin', n: 'Радио', i: icons.add_radio_plugin },
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
-    ].forEach(sc => {
-        // создаём отдельную категорию
+    ];
+
+    // Регистрируем категории и ссылки на них внутри «Плагины»
+    subcategories.forEach(sc => {
+        // создаём саму категорию
         Lampa.SettingsApi.addComponent({
             component: sc.c,
             name: sc.n,
             icon: sc.i
         });
 
-        // и ссылку на неё внутри «Плагины»
+        // добавляем переход в «Плагины»
         Lampa.SettingsApi.addParam({
             component: 'add_plugin',
             param: { name: sc.c, type: 'static', default: true },
@@ -130,6 +138,12 @@
             },
         });
     });
+
+    // Убираем дубли категорий из общего списка настроек
+    setTimeout(() => {
+        subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
+    }, 0);
+
 
     /**
      * Список всех плагинов
