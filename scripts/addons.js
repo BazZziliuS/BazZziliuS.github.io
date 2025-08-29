@@ -236,7 +236,7 @@
         { component: 'add_interface_plugin', key: 'goldtheme', name: 'Золотая тема', description: 'Плагин включает золотую тему которая доступна для премиум пользователей', url: 'https://bazzzilius.github.io/scripts/gold_theme.js', author: '@lampa' },
         { component: 'add_interface_plugin', key: 'fcp', name: 'FCP', description: 'Улучшает вашу жизнь', url: 'https://bazzzilius.github.io/scripts/fp.js', author: '@Serega007' },
 
-        { component: 'add_interface_plugin', key: 'goldtheme', name: 'Дополнительные источники', description: 'Плагин добавляет дополнительные источники для получения информации о фильмах', url: 'https://bazzzilius.github.io/scripts/source.js', author: '@scabrum' },
+        { component: 'add_interface_plugin', key: 'source', name: 'Дополнительные источники', description: 'Плагин добавляет дополнительные источники для получения информации о фильмах', url: 'https://bazzzilius.github.io/scripts/source.js', author: '@scabrum' },
         { component: 'add_interface_plugin', key: 'feedback', name: 'Отзывы', description: 'Добавляет в карточке кнопку с отзывами', url: 'http://newtv.mail66.org/o.js', author: '@elenatv99' },
         { component: 'add_interface_plugin', key: 'tricks', name: 'Tricks', description: 'Приятные Мелочи', url: 'https://andreyurl54.github.io/diesel5/tricks.js', author: '@AndreyURL54' },
         { component: 'add_interface_plugin', key: 'rating', name: 'Рейтинг КиноПоиск и IMDB', description: 'Показ рейтинга КиноПоиск и IMDB в карточке. Функционал аналогичен части из MODSs, так что их не следует использовать вместе', url: 'https://nb557.github.io/plugins/rating.js', author: '@t_anton' },
@@ -244,7 +244,7 @@
         { component: 'add_interface_plugin', key: 'want', name: 'Старый стиль пунктов (Закладки, Нравится, Позже)', description: 'Плагин возвращает в главное меню старый стиль отображения пунктов (Закладки, Нравится, Позже)', url: 'http://github.freebie.tom.ru/want.js', author: '@VitalikPVA' },
         { component: 'add_interface_plugin', key: 'sub_reset', name: 'Сброс настроек субтитров', description: 'Плагин сбрасывает настройки субтитров по умолчанию', url: 'https://nb557.github.io/plugins/reset_subs.js', author: '@t_anton' },
         { component: 'add_interface_plugin', key: 'new_cat', name: 'Дополнительные категории', description: 'Плагин позволяет добавить на выбор в главное меню категории (Документалки, Концерты и Мультфильмы)', url: 'https://lampame.github.io/main/nc/nc.js', author: '@GwynnBleiidd' },
-        
+
 
         // Управление
         { component: 'add_management_plugin', key: 'exit_menu', name: 'Выход', description: 'Плагин добавляет пункт Выход в главное меню', url: 'https://tsynik.github.io/lampa/e.js', author: '@tsynik' },
