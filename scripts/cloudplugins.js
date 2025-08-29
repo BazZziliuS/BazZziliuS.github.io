@@ -47,12 +47,12 @@
         const scroll = new Lampa.Scroll({ mask: true, over: true })
         const html = $('<div class="addons_category"><div class="addons_category__body"></div></div>')
         const body = html.find('.addons_category__body')
+        let items = []
 
         this.create = () => {
             this.activity.loader(true)
             body.append(scroll.render(true))
 
-            // ⚡ берём category из object.url
             const list = pluginsList.filter(p => p.component === object.url)
 
             list.forEach(plugin => {
@@ -71,6 +71,7 @@
 
                 el.on('hover:focus', () => scroll.update(el))
                 scroll.append(el)
+                items.push(el)
             })
 
             this.activity.loader(false)
@@ -82,16 +83,15 @@
             Lampa.Controller.add('addons_category', {
                 toggle() {
                     Lampa.Controller.collectionSet(scroll.render())
-                    Lampa.Controller.collectionFocus(scroll.render().find('.selector')[0], scroll.render())
+                    Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
                 },
-                back: this.back,
+                back: this.back
             })
             Lampa.Controller.toggle('addons_category')
         }
 
         this.back = () => Lampa.Activity.backward()
         this.render = () => html
-        this.destroy = () => { scroll.destroy(); html.remove() }
     }
 
     /** Экран со списком категорий */
@@ -99,6 +99,7 @@
         const scroll = new Lampa.Scroll({ mask: true, over: true })
         const html = $('<div class="addons_root"><div class="addons_root__body"></div></div>')
         const body = html.find('.addons_root__body')
+        let items = []
 
         const categories = [
             { title: 'Интерфейс', component: 'add_interface_plugin' },
@@ -113,20 +114,22 @@
             body.append(scroll.render(true))
 
             categories.forEach(cat => {
+                const count = pluginsList.filter(p => p.component === cat.component).length
                 const el = $(`<div class="selector addons_root__item">
                     <span style="font-size:1.5em; margin-right:.5em">${icons[cat.component]}</span>
-                    <span>${cat.title}</span>
+                    <span>${cat.title} (${count})</span>
                 </div>`)
 
                 el.on('hover:enter', () => {
                     Lampa.Activity.push({
                         title: cat.title,
                         component: 'addons_category',
-                        url: cat.component   // 👈 передаём в object.url
+                        url: cat.component
                     })
                 })
                 el.on('hover:focus', () => scroll.update(el))
                 scroll.append(el)
+                items.push(el)
             })
 
             this.activity.loader(false)
@@ -138,32 +141,26 @@
             Lampa.Controller.add('addons_root', {
                 toggle() {
                     Lampa.Controller.collectionSet(scroll.render())
-                    Lampa.Controller.collectionFocus(scroll.render().find('.selector')[0], scroll.render())
+                    Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
                 },
-                back: this.back,
+                back: this.back
             })
             Lampa.Controller.toggle('addons_root')
         }
 
         this.back = () => Lampa.Activity.backward()
         this.render = () => html
-        this.destroy = () => { scroll.destroy(); html.remove() }
     }
 
     /** Регистрируем экраны */
     Lampa.Component.add('addons_root', AddonsRoot)
     Lampa.Component.add('addons_category', AddonsCategory)
 
-    /** Кнопка в Настройках (через SettingsApi) */
-    Lampa.SettingsApi.addComponent({
-        component: 'cloud_plugins',
-        name: 'Плагины',
-        onSelect: () => {
-            Lampa.Activity.push({
-                title: 'Плагины',
-                component: 'addons_root'
-            })
-        }
+    /** Кнопка в Настройках */
+    Lampa.Settings.add({
+        title: 'Плагины',
+        group: 'plugins',
+        onSelect: () => Lampa.Activity.push({ title: 'Плагины', component: 'addons_root' })
     })
 
 })()
