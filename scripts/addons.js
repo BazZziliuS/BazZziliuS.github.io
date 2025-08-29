@@ -221,8 +221,6 @@
      */
     const pluginsList = [
         // Интерфейс
-        { component: 'add_interface_plugin', key: 'tmdb-proxy', name: 'TMDB Proxy', description: 'Проксирование постеров для сайта TMDB', url: 'http://cub.red/plugin/tmdb-proxy', author: '@lampa' },
-
         { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Добавляет в левое меню закладку с новинками в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
         { component: 'add_interface_plugin', key: 'inter_movie', name: 'Зарубежные подборки', description: 'Плагин добавляет в левом меню пункт с зарубежными подборками', url: 'https://bazzzilius.github.io/scripts/inter_movie.js', author: '@bylampa' },
         { component: 'add_interface_plugin', key: 'rus_movie', name: 'Русские новинки', description: 'Плагин добавляет в левом меню пункт с русскими новинками фильмов и сериалов общим списком и отсортированных по онлайн кинотеатрам', url: 'https://bazzzilius.github.io/scripts/rus_movie.js', author: '@bylampa' },
