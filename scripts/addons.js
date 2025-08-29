@@ -142,6 +142,7 @@
     ];
 
     let pluginsInited = false; // 👈 флаг инициализации
+    let adInited = false; // 👈 флаг инициализации рекламы
 
     // При открытии главного меню
     Lampa.Settings.listener.follow('open', (e) => {
@@ -196,38 +197,25 @@
         setTimeout(() => {
             $('div[data-component=plugins]').before($('div[data-component=add_plugin]'));
         }, 60);
+
+        setTimeout(() => {
+            if (!adInited) {
+                // добавляем рекламу как стандартный параметр
+                Lampa.SettingsApi.addParam({
+                    component: 'add_plugin',
+                    param: { name: 'add_ads', type: 'title' },
+                    field: { name: ads }
+                });
+                adInited = true; // ⚡️ больше не добавляем повторно
+            }
+
+            // переносим рекламный блок в конец (но он остаётся параметром Лампы!)
+            const $ads = $('#settings_layer .settings-param[data-name="add_ads"]');
+            if ($ads.length) {
+                $ads.detach().appendTo('#settings_layer .settings-content');
+            }
+        }, 100);
     });
-
-
-
-
-
-
-    let adInited = false;
-
-    Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name === 'add_plugin') {
-            setTimeout(() => {
-                if (!adInited) {
-                    // добавляем рекламу как стандартный параметр
-                    Lampa.SettingsApi.addParam({
-                        component: 'add_plugin',
-                        param: { name: 'add_ads', type: 'title' },
-                        field: { name: ads }
-                    });
-                    adInited = true;
-                }
-
-                // переносим рекламный блок в конец (но он остаётся параметром Лампы!)
-                const $ads = $('#settings_layer .settings-param[data-name="add_ads"]');
-                if ($ads.length) {
-                    $ads.detach().appendTo('#settings_layer .settings-content');
-                }
-            }, 100);
-        }
-    });
-
-
 
 
     /**
