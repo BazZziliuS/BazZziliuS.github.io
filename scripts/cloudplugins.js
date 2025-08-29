@@ -1,103 +1,86 @@
 (function () {
     const ID = 'cloudplugins'
-    const TITLE = 'Плагины'
+    const TITLE = 'Менеджер плагинов'
 
-    /** Иконки категорий */
-    const icons = {
-        add_interface_plugin: '🖥️',
-        add_management_plugin: '⚙️',
-        add_online_plugin: '🌐',
-        add_torrent_plugin: '🌀',
-        add_tv_plugin: '📺',
-    }
-
-    /** Категории */
-    const categories = [
-        { component: 'add_interface_plugin', title: 'Интерфейс' },
-        { component: 'add_management_plugin', title: 'Управление' },
-        { component: 'add_online_plugin', title: 'Онлайн' },
-        { component: 'add_torrent_plugin', title: 'Торренты' },
-        { component: 'add_tv_plugin', title: 'ТВ' },
-    ]
-
-    /** Плагины (сокращённый список для примера) */
+    // список плагинов
     const pluginsList = [
-        { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Добавляет новинки в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
-        { component: 'add_online_plugin', key: 'modss', name: 'Modss', description: '17 балансеров, онлайн кино', url: 'http://lampa.stream/modss', author: '@Nikolai4' },
-        { component: 'add_tv_plugin', key: 'diesel', name: 'Дизель ТВ', description: 'Бесплатные телеканалы', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' }
+        { category: 'Интерфейс', name: 'В качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
+        { category: 'Интерфейс', name: 'Зарубежные подборки', url: 'https://bazzzilius.github.io/scripts/inter_movie.js', author: '@bylampa' },
+        { category: 'Онлайн', name: 'Online_Mod', url: 'https://nb557.github.io/plugins/online_mod.js', author: '@t_anton' },
+        { category: 'Онлайн', name: 'Showy', url: 'http://showwwy.com/m.js', author: '@showy' },
+        { category: 'ТВ', name: 'Дизель ТВ', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' },
+        { category: 'ТВ', name: 'Kulik', url: 'http://cdn.kulik.uz/cors', author: '@SawamuraRen' },
+        { category: 'Торренты', name: 'Переключение парсеров', url: 'https://bazzzilius.github.io/scripts/jackett.js', author: '@AndreyURL54' },
+        { category: 'Торренты', name: 'Tracks', url: 'http://cub.red/plugin/tracks', author: '@lampa' }
     ]
 
-    /** Экран */
+    // Экран менеджера
     function Screen() {
         const scroll = new Lampa.Scroll({ mask: true, over: true })
-        const html = $(`<div class="${ID}-screen"><div class="${ID}-screen__body"></div></div>`)
-        const body = html.find(`.${ID}-screen__body`)
+        const html = $('<div class="cloudplugins"><div class="cloudplugins__body"></div></div>')
+        const body = html.find('.cloudplugins__body')
         let items = []
 
         this.create = () => {
             body.append(scroll.render(true))
-            this.renderCategories()
+
+            // показываем категории
+            this.appendCategories()
+
             this.activity.toggle()
             return this.render()
         }
 
-        /** Рендер категорий */
-        this.renderCategories = () => {
-            scroll.clear()
-            items = []
+        this.appendCategories = () => {
+            const categories = [...new Set(pluginsList.map(p => p.category))]
 
-            categories.forEach(c => {
-                const count = pluginsList.filter(p => p.component === c.component).length
-                const el = $(`<div class="selector ${ID}__category">
-                  <span style="font-size:1.3em;margin-right:.5em">${icons[c.component] || '📦'}</span>
-                  <span>${c.title} (${count})</span>
-                </div>`)
-                el.on('hover:enter', () => this.openCategory(c))
-                el.on('hover:focus', () => scroll.update(el))
-                scroll.append(el)
-                items.push(el)
-            })
-
-            Lampa.Controller.collectionSet(scroll.render())
-            Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
-        }
-
-        /** Рендер плагинов в выбранной категории */
-        this.openCategory = (cat) => {
-            scroll.clear()
-            items = []
-
-            // Кнопка назад
-            const backEl = $(`<div class="selector ${ID}__back">⬅ Назад</div>`)
-            backEl.on('hover:enter', () => this.renderCategories())
-            backEl.on('hover:focus', () => scroll.update(backEl))
-            scroll.append(backEl)
-            items.push(backEl)
-
-            const list = pluginsList.filter(p => p.component === cat.component)
-            list.forEach(plugin => {
-                const el = $(`<div class="selector ${ID}__item">
-                    <div style="font-size:1.1em; color:#ff9800">${plugin.name}</div>
-                    <div style="font-size:0.9em; color:#ccc">${plugin.description}</div>
-                    <div style="font-size:0.8em; color:#666">Автор: ${plugin.author}</div>
-                </div>`)
+            categories.forEach((cat) => {
+                const el = $('<div class="selector cloudplugins__item"></div>').text('📂 ' + cat)
 
                 el.on('hover:enter', () => {
-                    Lampa.Noty.show(`Выбран плагин: ${plugin.name}`)
+                    this.showPlugins(cat)
                 })
+
                 el.on('hover:focus', () => scroll.update(el))
 
                 scroll.append(el)
                 items.push(el)
             })
+        }
 
-            Lampa.Controller.collectionSet(scroll.render())
-            Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
+        this.showPlugins = (category) => {
+            scroll.clear()
+            items = []
+
+            const backBtn = $('<div class="selector cloudplugins__back"></div>').text('← Назад')
+            backBtn.on('hover:enter', () => {
+                scroll.clear()
+                items = []
+                this.appendCategories()
+            })
+            backBtn.on('hover:focus', () => scroll.update(backBtn))
+            scroll.append(backBtn)
+            items.push(backBtn)
+
+            pluginsList.filter(p => p.category === category).forEach((pl) => {
+                const el = $('<div class="selector cloudplugins__item"></div>').html(`<b>${pl.name}</b> <span style="color:#999">(${pl.author})</span>`)
+
+                el.on('hover:enter', () => {
+                    Lampa.Noty.show(`Установка: ${pl.name}`)
+                    const script = document.createElement('script')
+                    script.src = pl.url
+                    document.head.appendChild(script)
+                })
+
+                el.on('hover:focus', () => scroll.update(el))
+                scroll.append(el)
+                items.push(el)
+            })
         }
 
         this.start = () => {
             Lampa.Controller.add(ID, {
-                toggle: () => {
+                toggle() {
                     Lampa.Controller.collectionSet(scroll.render())
                     Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
                 },
@@ -112,30 +95,30 @@
 
         this.back = () => Lampa.Activity.backward()
         this.render = () => html
-        this.destroy = () => { Lampa.Arrays.destroy(items); scroll.destroy(); html.remove() }
+        this.destroy = () => { scroll.destroy(); html.remove() }
     }
 
-    /** Добавляем пункт в меню */
+    // Добавляем категорию в настройки
     function addSettings() {
-        // создаём категорию "Плагины"
         Lampa.SettingsApi.addComponent({
             component: 'addons_root',
             name: 'Плагины',
             icon: '📦'
         })
 
-        // добавляем кнопку "Открыть"
         Lampa.SettingsApi.addParam({
             component: 'addons_root',
             param: { name: 'open_addons', type: 'button' },
             field: { name: 'Открыть менеджер', description: 'Категории и управление плагинами' },
-            onSelect: () => Lampa.Activity.push({ title: TITLE, component: ID })
+            onSelect: () => {
+                Lampa.Activity.push({ title: TITLE, component: ID })
+            }
         })
     }
 
-
     function init() {
-        if (!window.Lampa) return
+        if (!window.Lampa) return console.log('[cloudplugins] Lampa not ready')
+
         Lampa.Component.add(ID, Screen)
         addSettings()
     }
