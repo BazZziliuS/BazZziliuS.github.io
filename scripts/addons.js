@@ -94,10 +94,14 @@
     }
 
     /**
-     * Добавляем все категории
-     */
-    const categories = [
-        { component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin },
+    * Добавляем главную категорию и вложенные подкатегории
+    */
+    // Главная
+    Lampa.SettingsApi.addComponent({ component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin });
+
+
+    // Подкатегории, которые будут отображаться ВНУТРИ «Плагины»
+    const subcategories = [
         { component: 'add_interface_plugin', name: 'Интерфейс', icon: icons.add_interface_plugin },
         { component: 'add_management_plugin', name: 'Управление', icon: icons.add_management_plugin },
         { component: 'add_online_plugin', name: 'Онлайн', icon: icons.add_online_plugin },
@@ -107,7 +111,28 @@
         { component: 'add_sisi_plugin', name: '18+', icon: icons.add_sisi_plugin },
     ];
 
-    categories.forEach(c => Lampa.SettingsApi.addComponent(c));
+
+    // Регистрируем каждую подкатегорию как отдельный экран настроек
+    subcategories.forEach((c) => Lampa.SettingsApi.addComponent(c));
+
+
+    // Внутри «Плагины» рисуем плитки-переходы к подкатегориям
+    subcategories.forEach((c) => {
+        Lampa.SettingsApi.addParam({
+            component: 'add_plugin',
+            param: { name: c.component, type: 'static', default: true },
+            field: { name: c.icon }, // можно добавить текст рядом с иконкой, если нужно
+            onRender: (item) => {
+                item.on('hover:enter', () => {
+                    Lampa.Settings.create(c.component);
+                    // Кнопка «назад» возвращает к корневой категории «Плагины»
+                    Lampa.Controller.enabled().controller.back = function () {
+                        Lampa.Settings.create('add_plugin');
+                    };
+                });
+            },
+        });
+    });
 
     /**
      * Список всех плагинов
