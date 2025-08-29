@@ -171,49 +171,49 @@
     });
 
 
-    
+
 
     // HTML рекламы
     const ads = `
-        <div style="padding: 0.3em 0.3em; padding-top: 0;">
-            <div style="background: #3e3e3e; padding: 0.5em; border-radius: 1em; text-align: center;">
-            <a href="https://aeza.net/ru?ref=507375" target="_blank" style="display: inline-block;">
-                <img src="https://i.imgur.com/yJCQucC.png"
-                    style="max-width: 100%; border-radius: 0.5em; display: block; margin: 0 auto;"
-                    alt="Реклама">
-            </a>
+        <div style="padding: 0.5em;">
+            <div style="display:flex; align-items:center; background:#383838; border-radius:0.8em; padding:0.6em; gap:0.8em;">
+                <img src="https://i.imgur.com/yJCQucC.png" style="width:60px; border-radius:0.5em;">
+                <div style="flex:1;">
+                <div style="font-size:1.1em; font-weight:bold; color:#ff9800;">🔥 Наш партнёр</div>
+                <div style="font-size:0.9em; color:#ccc;">Переходи и получи бонус для пользователей</div>
+                </div>
+                <a href="https://aeza.net/ru?ref=507375" target="_blank"
+                style="background:#ff9800; color:#000; padding:0.4em 1em; border-radius:2em; font-weight:bold; text-decoration:none;">
+                Перейти
+                </a>
             </div>
         </div>
         `;
 
+    // Флаг чтобы не дублировалось
     let adInited = false;
-    function addSettingsAd() {
-        if (adInited) return;
 
-        Lampa.SettingsApi.addParam({
-            component: 'add_plugin',
-            param: {
-                name: 'add_ads',
-                type: 'title'
-            },
-            field: {
-                name: ads
-            },
-            onRender: function (item) {
-                // Ставим рекламу в конец списка «Плагины»
-                setTimeout(() => {
-                    item.insertAfter($('.settings-param').last());
-                }, 0);
-            }
-        });
-
-        adInited = true;
-    }
-
-    // вызываем при открытии «Плагины»
+    // Добавляем рекламу только при открытии «Плагины»
     Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name === 'add_plugin') {
-            addSettingsAd();
+        if (e.name === 'add_plugin' && !adInited) {
+            Lampa.SettingsApi.addParam({
+                component: 'add_plugin',
+                param: {
+                    name: 'add_ads',
+                    type: 'title'
+                },
+                field: {
+                    name: ads
+                },
+                onRender: function (item) {
+                    // вставляем рекламу в конец
+                    setTimeout(() => {
+                        item.insertAfter($('.settings-param').last());
+                    }, 0);
+                }
+            });
+
+            adInited = true;
         }
     });
 
