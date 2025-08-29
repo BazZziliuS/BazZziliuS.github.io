@@ -155,11 +155,21 @@
     /**
      * Регистрация
      */
-    Lampa.Component.add('addons_root', AddonsRoot);
-    Lampa.Settings.add({
-        title: 'Плагины',
-        group: 'plugins',
-        onSelect: () => Lampa.Activity.push({ title: 'Плагины', component: 'addons_root' })
+    // Регистрируем категорию «Плагины» в настройках
+    Lampa.SettingsApi.addComponent({
+        component: 'addons_root',
+        name: 'Плагины',
+        icon: icons.add_plugin
+    });
+
+    // При выборе — открываем экран с компонентом
+    Lampa.Settings.listener.follow('open', (e) => {
+        if (e.name === 'addons_root') {
+            Lampa.Activity.push({
+                title: 'Плагины',
+                component: 'addons_root'
+            });
+        }
     });
 
     // Реклама при открытии
