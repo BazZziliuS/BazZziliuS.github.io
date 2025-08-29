@@ -43,7 +43,7 @@
     }
 
     /** Экран категории */
-    function AddonsCategory(category) {
+    function AddonsCategory(object) {
         const scroll = new Lampa.Scroll({ mask: true, over: true })
         const html = $('<div class="addons_category"><div class="addons_category__body"></div></div>')
         const body = html.find('.addons_category__body')
@@ -52,7 +52,8 @@
             this.activity.loader(true)
             body.append(scroll.render(true))
 
-            const list = pluginsList.filter(p => p.component === category)
+            // ⚡ берём category из object.url
+            const list = pluginsList.filter(p => p.component === object.url)
 
             list.forEach(plugin => {
                 const el = $(`<div class="selector addon__item">
@@ -121,7 +122,7 @@
                     Lampa.Activity.push({
                         title: cat.title,
                         component: 'addons_category',
-                        url: cat.component
+                        url: cat.component   // 👈 передаём в object.url
                     })
                 })
                 el.on('hover:focus', () => scroll.update(el))
