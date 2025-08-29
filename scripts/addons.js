@@ -15,6 +15,23 @@
         add_sisi_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-rating-18-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M11.5 10.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" /><path d="M11.5 13.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" /><path d="M7 15v-6" /><path d="M15.5 12h3" /><path d="M17 10.5v3" /></svg>',
     };
 
+    // HTML рекламы
+    const ads = `
+        <div style="padding: 0.5em;">
+            <div style="display:flex; align-items:center; background:#383838; border-radius:0.8em; padding:0.6em; gap:0.8em;">
+                <img src="https://i.imgur.com/yJCQucC.png" style="width:60px; border-radius:0.5em;">
+                <div style="flex:1;">
+                <div style="font-size:1.1em; font-weight:bold; color:#ff9800;">🔥 Наш партнёр</div>
+                <div style="font-size:0.9em; color:#ccc;">Переходи и получи бонус для пользователей</div>
+                </div>
+                <a href="https://aeza.net/ru?ref=507375" target="_blank"
+                style="background:#ff9800; color:#000; padding:0.4em 1em; border-radius:2em; font-weight:bold; text-decoration:none;">
+                Перейти
+                </a>
+            </div>
+        </div>
+        `;
+
     /** Утилиты */
     function showReload(reloadText) {
         Lampa.Modal.open({
@@ -173,47 +190,29 @@
 
 
 
-    // HTML рекламы
-    const ads = `
-        <div style="padding: 0.5em;">
-            <div style="display:flex; align-items:center; background:#383838; border-radius:0.8em; padding:0.6em; gap:0.8em;">
-                <img src="https://i.imgur.com/yJCQucC.png" style="width:60px; border-radius:0.5em;">
-                <div style="flex:1;">
-                <div style="font-size:1.1em; font-weight:bold; color:#ff9800;">🔥 Наш партнёр</div>
-                <div style="font-size:0.9em; color:#ccc;">Переходи и получи бонус для пользователей</div>
-                </div>
-                <a href="https://aeza.net/ru?ref=507375" target="_blank"
-                style="background:#ff9800; color:#000; padding:0.4em 1em; border-radius:2em; font-weight:bold; text-decoration:none;">
-                Перейти
-                </a>
-            </div>
-        </div>
-        `;
 
-    // Флаг чтобы не дублировалось
+
     let adInited = false;
 
-    // Добавляем рекламу только при открытии «Плагины»
     Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name === 'add_plugin' && !adInited) {
-            Lampa.SettingsApi.addParam({
-                component: 'add_plugin',
-                param: {
-                    name: 'add_ads',
-                    type: 'title'
-                },
-                field: {
-                    name: ads
-                },
-                onRender: function (item) {
-                    // вставляем рекламу в конец
-                    setTimeout(() => {
-                        item.insertAfter($('.settings-param').last());
-                    }, 0);
-                }
-            });
+        if (e.name === 'add_plugin') {
+            setTimeout(() => {
+                if (!adInited) {
+                    // добавляем блок
+                    Lampa.SettingsApi.addParam({
+                        component: 'add_plugin',
+                        param: { name: 'add_ads', type: 'title' },
+                        field: { name: ads }
+                    });
 
-            adInited = true;
+                    adInited = true;
+                }
+
+                // переносим рекламу в самый низ каждый раз, чтобы точно оказалась в конце
+                $('#settings_layer .settings-param[data-name="add_ads"]').insertAfter(
+                    $('#settings_layer .settings-param').last()
+                );
+            }, 100); // ждём 100ms, чтобы DOM успел нарисоваться
         }
     });
 
