@@ -114,30 +114,31 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
-    // Регистрируем все сабкатегории (Лампа сама нарисует плитки с иконками)
-    subcategories.forEach(sc => {
-        Lampa.SettingsApi.addComponent({
-            component: sc.c,
-            name: sc.n,
-            icon: sc.i
-        });
-    });
-
-    // Когда открываются «Настройки»
+    // Добавляем сабкатегории только при открытии меню
     Lampa.Settings.listener.follow('open', (e) => {
         if (e.name === 'main') {
-            // Удаляем дубли категорий из корневого списка
+            // регистрируем сабкатегории
+            subcategories.forEach(sc => {
+                Lampa.SettingsApi.addComponent({
+                    component: sc.c,
+                    name: sc.n,
+                    icon: sc.i
+                });
+            });
+
+            // удаляем их плитки из корня
             setTimeout(() => {
                 subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
                 $(`div[data-component="pirate_store"]`).remove();
             }, 0);
 
-            // Перемещаем «Плагины» выше стандартного блока plugins
+            // двигаем раздел «Плагины» выше дефолтного
             setTimeout(() => {
                 $('div[data-component=plugins]').before($('div[data-component=add_plugin]'));
             }, 30);
         }
     });
+
 
     // Сдвигаем раздел выше
     setTimeout(function () {
