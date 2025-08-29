@@ -113,46 +113,51 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
+    let pluginsInited = false; // 👈 флаг инициализации
+
     // При открытии главного меню
     Lampa.Settings.listener.follow('open', (e) => {
         if (e.name !== 'main') return;
 
-        subcategories.forEach(sc => {
-            // создаём саму категорию (экран)
-            Lampa.SettingsApi.addComponent({
-                component: sc.c,
-                name: sc.n,
-                icon: sc.i
+        if (!pluginsInited) {
+            // создаём сабкатегории только один раз
+            subcategories.forEach(sc => {
+                // экран
+                Lampa.SettingsApi.addComponent({
+                    component: sc.c,
+                    name: sc.n,
+                    icon: sc.i
+                });
+
+                // пункт в «Плагинах»
+                Lampa.SettingsApi.addParam({
+                    component: 'add_plugin',
+                    param: { name: sc.c, type: 'static', default: true },
+                    field: { name: sc.n },
+                    onRender: (item) => {
+                        const html = `
+            <div class="settings-folder" style="padding:0!important;display:flex;align-items:center">
+              <div style="width:1.8em;height:1.3em;padding-right:.5em;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+                ${sc.i}
+              </div>
+              <div style="font-size:1.3em">${sc.n}</div>
+            </div>
+          `;
+                        item.find('.settings-param__name').html(html);
+
+                        item.on('hover:enter', () => {
+                            Lampa.Settings.create(sc.c);
+                            const ctrl = Lampa.Controller.enabled();
+                            if (ctrl && ctrl.controller) {
+                                ctrl.controller.back = () => Lampa.Settings.create('add_plugin');
+                            }
+                        });
+                    }
+                });
             });
 
-            // создаём ссылку внутри «Плагины»
-            Lampa.SettingsApi.addParam({
-                component: 'add_plugin',
-                param: { name: sc.c, type: 'static', default: true },
-                field: { name: sc.n },
-                onRender: (item) => {
-                    // заменяем стандартный текст на кастомный блок
-                    const html = `
-                        <div class="settings-folder" style="padding:0!important;display:flex;align-items:center">
-                        <div style="width:1.8em;height:1.3em;padding-right:.5em;flex-shrink:0;display:flex;align-items:center;justify-content:center">
-                            ${sc.i}
-                        </div>
-                        <div style="font-size:1.3em">${sc.n}</div>
-                        </div>
-                    `;
-                    item.find('.settings-param__name').html(html);
-
-                    // переход
-                    item.on('hover:enter', () => {
-                        Lampa.Settings.create(sc.c);
-                        const ctrl = Lampa.Controller.enabled();
-                        if (ctrl && ctrl.controller) {
-                            ctrl.controller.back = () => Lampa.Settings.create('add_plugin');
-                        }
-                    });
-                }
-            });
-        });
+            pluginsInited = true; // ⚡️ больше не добавляем повторно
+        }
 
         // удаляем плитки сабкатегорий из корня
         setTimeout(() => {
