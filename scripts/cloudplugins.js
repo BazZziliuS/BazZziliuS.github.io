@@ -74,25 +74,59 @@
         }
 
         this.openCategory = (cat) => {
+            scroll.clear()  // очищаем старый список
+            items = []
+
+            // Кнопка назад
+            const backEl = $(`<div class="selector ${ID}__back">⬅ Назад</div>`)
+            backEl.on('hover:enter', () => {
+                scroll.clear()
+                items = []
+                // возвращаем категории
+                categories.forEach(c => {
+                    const count = pluginsList.filter(p => p.component === c.component).length
+                    const el = $(`<div class="selector ${ID}__category">
+                <span style="font-size:1.3em;margin-right:.5em">${icons[c.component]}</span>
+                <span>${c.title} (${count})</span>
+                </div>`)
+                    el.on('hover:enter', () => this.openCategory(c))
+                    el.on('hover:focus', () => scroll.update(el))
+                    scroll.append(el)
+                    items.push(el)
+                })
+                Lampa.Controller.collectionSet(scroll.render())
+                Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
+            })
+            backEl.on('hover:focus', () => scroll.update(backEl))
+            scroll.append(backEl)
+            items.push(backEl)
+
+            // Сами плагины категории
             const list = pluginsList.filter(p => p.component === cat.component)
             list.forEach(plugin => {
                 const el = $(`<div class="selector ${ID}__item">
-            <div style="font-size:1.1em; color:#ff9800">${plugin.name}</div>
-            <div style="font-size:0.9em; color:#ccc">${plugin.description}</div>
-            <div style="font-size:0.8em; color:#666">Автор: ${plugin.author}</div>
-            <div style="margin-top:.5em;">
-              <button class="addon__btn install">Установить</button>
-              <button class="addon__btn remove">Удалить</button>
-            </div>
-        </div>`)
+                <div style="font-size:1.1em; color:#ff9800">${plugin.name}</div>
+                <div style="font-size:0.9em; color:#ccc">${plugin.description}</div>
+                <div style="font-size:0.8em; color:#666">Автор: ${plugin.author}</div>
+                <div style="margin-top:.5em;">
+                <button class="addon__btn install">Установить</button>
+                <button class="addon__btn remove">Удалить</button>
+                </div>
+            </div>`)
 
                 el.find('.install').on('click', () => installPlugin(plugin))
                 el.find('.remove').on('click', () => removePlugin(plugin))
                 el.on('hover:focus', () => scroll.update(el))
 
                 scroll.append(el)
+                items.push(el)
             })
+
+            // перефокус
+            Lampa.Controller.collectionSet(scroll.render())
+            Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
         }
+
 
         this.start = () => {
             Lampa.Controller.add(ID, {
