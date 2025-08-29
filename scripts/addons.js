@@ -99,26 +99,39 @@
     // Главная
     Lampa.SettingsApi.addComponent({ component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin });
 
-    // Подкатегории, которые будут отображаться ВНУТРИ «Плагины»
-    const subcategories = [
-        { component: 'add_interface_plugin', name: 'Интерфейс', icon: icons.add_interface_plugin },
-        { component: 'add_management_plugin', name: 'Управление', icon: icons.add_management_plugin },
-        { component: 'add_online_plugin', name: 'Онлайн', icon: icons.add_online_plugin },
-        { component: 'add_torrent_plugin', name: 'Торренты', icon: icons.add_torrent_plugin },
-        { component: 'add_tv_plugin', name: 'ТВ', icon: icons.add_tv_plugin },
-        { component: 'add_radio_plugin', name: 'Радио', icon: icons.add_radio_plugin },
-        { component: 'add_sisi_plugin', name: '18+', icon: icons.add_sisi_plugin },
-    ];
+    // При открытии настроек создаём подкатегории и убираем их из корня
+    Lampa.Settings.listener.follow('open', (e) => {
+        if (e.name !== 'main') return;
 
-    // Внутри «Плагины» рисуем плитки-переходы к подкатегориям
-    // Регистрируем каждую подкатегорию с parent: 'add_plugin'
-    subcategories.forEach((c) => {
-        Lampa.SettingsApi.addComponent({
-            component: c.component,
-            name: c.name,
-            parent: 'add_plugin',
-            icon: c.icon,
+        const subcategories = [
+            { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
+            { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
+            { c: 'add_online_plugin', n: 'Онлайн', i: icons.add_online_plugin },
+            { c: 'add_torrent_plugin', n: 'Торренты', i: icons.add_torrent_plugin },
+            { c: 'add_tv_plugin', n: 'ТВ', i: icons.add_tv_plugin },
+            { c: 'add_radio_plugin', n: 'Радио', i: icons.add_radio_plugin },
+            { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
+        ];
+
+        // Регистрируем каждую подкатегорию
+        subcategories.forEach(sc => {
+            Lampa.SettingsApi.addComponent({
+                component: sc.c,
+                name: sc.n,
+                icon: sc.i
+            });
         });
+
+        // Убираем дубли категорий из основного списка
+        setTimeout(() => {
+            subcategories.forEach(sc => $(`div[data-component=\"${sc.c}\"]`).remove());
+            $(`div[data-component=\"pirate_store\"]`).remove();
+        }, 0);
+
+        // Поднимаем раздел «Плагины» выше стандартного блока «plugins»
+        setTimeout(() => {
+            $('div[data-component=plugins]').before($('div[data-component=add_plugin]'));
+        }, 30);
     });
 
     /**
