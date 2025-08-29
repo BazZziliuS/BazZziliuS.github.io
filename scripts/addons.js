@@ -99,39 +99,36 @@
     // Главная
     Lampa.SettingsApi.addComponent({ component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin });
 
-    // При открытии настроек создаём подкатегории и убираем их из корня
-    Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name !== 'main') return;
-
-        const subcategories = [
-            { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
-            { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
-            { c: 'add_online_plugin', n: 'Онлайн', i: icons.add_online_plugin },
-            { c: 'add_torrent_plugin', n: 'Торренты', i: icons.add_torrent_plugin },
-            { c: 'add_tv_plugin', n: 'ТВ', i: icons.add_tv_plugin },
-            { c: 'add_radio_plugin', n: 'Радио', i: icons.add_radio_plugin },
-            { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
-        ];
-
-        // Регистрируем каждую подкатегорию
-        subcategories.forEach(sc => {
-            Lampa.SettingsApi.addComponent({
-                component: sc.c,
-                name: sc.n,
-                icon: sc.i
-            });
+    // Добавляем подкатегории как пункты внутри
+    [
+        { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
+        { c: 'add_online_plugin', n: 'Онлайн', i: icons.add_online_plugin },
+        { c: 'add_torrent_plugin', n: 'Торренты', i: icons.add_torrent_plugin },
+        { c: 'add_tv_plugin', n: 'ТВ', i: icons.add_tv_plugin },
+        { c: 'add_radio_plugin', n: 'Радио', i: icons.add_radio_plugin },
+        { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
+    ].forEach(sc => {
+        // создаём отдельную категорию
+        Lampa.SettingsApi.addComponent({
+            component: sc.c,
+            name: sc.n,
+            icon: sc.i
         });
 
-        // Убираем дубли категорий из основного списка
-        setTimeout(() => {
-            subcategories.forEach(sc => $(`div[data-component=\"${sc.c}\"]`).remove());
-            $(`div[data-component=\"pirate_store\"]`).remove();
-        }, 0);
-
-        // Поднимаем раздел «Плагины» выше стандартного блока «plugins»
-        setTimeout(() => {
-            $('div[data-component=plugins]').before($('div[data-component=add_plugin]'));
-        }, 30);
+        // и ссылку на неё внутри «Плагины»
+        Lampa.SettingsApi.addParam({
+            component: 'add_plugin',
+            param: { name: sc.c, type: 'static', default: true },
+            field: { name: sc.n, icon: sc.i },
+            onRender: (item) => {
+                item.on('hover:enter', () => {
+                    Lampa.Settings.create(sc.c);
+                    Lampa.Controller.enabled().controller.back = function () {
+                        Lampa.Settings.create('add_plugin');
+                    };
+                });
+            },
+        });
     });
 
     /**
