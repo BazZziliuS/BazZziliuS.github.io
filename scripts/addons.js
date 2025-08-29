@@ -164,13 +164,13 @@
                     field: { name: sc.n },
                     onRender: (item) => {
                         const html = `
-            <div class="settings-folder" style="padding:0!important;display:flex;align-items:center">
-              <div style="width:1.8em;height:1.3em;padding-right:.5em;flex-shrink:0;display:flex;align-items:center;justify-content:center">
-                ${sc.i}
-              </div>
-              <div style="font-size:1.3em">${sc.n}</div>
-            </div>
-          `;
+                            <div class="settings-folder" style="padding:0!important;display:flex;align-items:center">
+                            <div style="width:1.8em;height:1.3em;padding-right:.5em;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+                                ${sc.i}
+                            </div>
+                            <div style="font-size:1.3em">${sc.n}</div>
+                            </div>
+                        `;
                         item.find('.settings-param__name').html(html);
 
                         item.on('hover:enter', () => {
@@ -207,23 +207,21 @@
 
     Lampa.Settings.listener.follow('open', (e) => {
         if (e.name === 'add_plugin') {
+            if (!adInited) {
+                Lampa.SettingsApi.addParam({
+                    component: 'add_plugin',
+                    param: { name: 'add_ads', type: 'title' },
+                    field: { name: ads }
+                });
+                adInited = true;
+            }
+
             setTimeout(() => {
-                if (!adInited) {
-                    // добавляем блок
-                    Lampa.SettingsApi.addParam({
-                        component: 'add_plugin',
-                        param: { name: 'add_ads', type: 'title' },
-                        field: { name: ads }
-                    });
-
-                    adInited = true;
-                }
-
-                // переносим рекламу в самый низ каждый раз, чтобы точно оказалась в конце
+                Lampa.Settings.update('add_plugin'); // 👈 форсим ререндер
                 $('#settings_layer .settings-param[data-name="add_ads"]').insertAfter(
                     $('#settings_layer .settings-param').last()
                 );
-            }, 100); // ждём 100ms, чтобы DOM успел нарисоваться
+            }, 100);
         }
     });
 
