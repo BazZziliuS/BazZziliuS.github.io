@@ -171,46 +171,53 @@
     });
 
 
-    function addSettingsAd() {
-        // если уже вставлено – не дублируем
-        if ($('#addon-settings-ad').length) return;
+    
 
-        const html = `
-            <div id="addon-settings-ad" class="settings-param" style="margin-top:1em">
-            <div class="settings-param__name" style="display:flex;align-items:center;gap:.6em;font-size:1.2em;color:#ff9800">
-                <div style="width:1.4em;height:1.4em;display:flex;align-items:center;justify-content:center">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2l9 21H3L12 2z"></path>
-                </svg>
-                </div>
-                <span>Поддержи разработку</span>
+    // HTML рекламы
+    const ads = `
+        <div style="padding: 0.3em 0.3em; padding-top: 0;">
+            <div style="background: #3e3e3e; padding: 0.5em; border-radius: 1em; text-align: center;">
+            <a href="https://aeza.net/ru?ref=507375" target="_blank" style="display: inline-block;">
+                <img src="https://i.imgur.com/yJCQucC.png"
+                    style="max-width: 100%; border-radius: 0.5em; display: block; margin: 0 auto;"
+                    alt="Реклама">
+            </a>
             </div>
-            </div>
+        </div>
         `;
 
-        // вставляем в конец блока настроек
-        $('.settings-content').append(html);
+    let adInited = false;
+    function addSettingsAd() {
+        if (adInited) return;
 
-        // вешаем действие на клик
-        $('#addon-settings-ad').on('hover:enter', () => {
-            Lampa.Activity.push({
-                url: 'https://t.me/your_channel',  // 👈 сюда твоя ссылка
-                title: 'Наш проект',
-                component: 'browser',
-                page: 1
-            });
+        Lampa.SettingsApi.addParam({
+            component: 'add_plugin',
+            param: {
+                name: 'add_ads',
+                type: 'title'
+            },
+            field: {
+                name: ads
+            },
+            onRender: function (item) {
+                // Ставим рекламу в конец списка «Плагины»
+                setTimeout(() => {
+                    item.insertAfter($('.settings-param').last());
+                }, 0);
+            }
         });
+
+        adInited = true;
     }
 
-    // вызываем при открытии главного меню настроек
+    // вызываем при открытии «Плагины»
     Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name === 'main') {
-            setTimeout(() => {
-                addSettingsAd();
-            }, 50);
+        if (e.name === 'add_plugin') {
+            addSettingsAd();
         }
     });
+
+
 
 
     /**
