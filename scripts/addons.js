@@ -1,0 +1,134 @@
+(function () {
+  'use strict';
+
+  /**
+   * Иконки (вынесены в объект)
+   */
+  const icons = {
+    add_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-category"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4h6v6h-6z" /><path d="M14 4h6v6h-6z" /><path d="M4 14h6v6h-6z" /><path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg>',
+    add_interface_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-app-window"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M6 8h.01" /><path d="M9 8h.01" /></svg>',
+    add_management_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-layout-cards"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M14 4m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /></svg>',
+    add_online_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-google-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 9m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v9.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M17 3m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v15.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>',
+    add_torrent_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-current-location"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg>',
+    add_tv_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-tv"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M16 3l-4 4l-4 -4" /></svg>',
+    add_radio_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-radio"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3l-9.371 3.749a1 1 0 0 0 -.629 .928v11.323a1 1 0 0 0 1 1h14a1 1 0 0 0 1 -1v-11a1 1 0 0 0 -1 -1h-14.5" /><path d="M4 12h16" /><path d="M7 12v-2" /><path d="M17 16v.01" /><path d="M13 16v.01" /></svg>',
+    add_sisi_plugin: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-rating-18-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M11.5 10.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" /><path d="M11.5 13.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" /><path d="M7 15v-6" /><path d="M15.5 12h3" /><path d="M17 10.5v3" /></svg>',
+  };
+
+  /**
+   * Общие утилиты
+   */
+  function showReload(reloadText) {
+    Lampa.Modal.open({
+      title: '',
+      align: 'center',
+      zIndex: 300,
+      html: $('<div class="about">' + reloadText + '</div>'),
+      buttons: [
+        { name: 'Нет', onSelect: () => { Lampa.Modal.close(); $('.modal').remove(); Lampa.Controller.toggle('settings_component'); } },
+        { name: 'Да', onSelect: () => window.location.reload() },
+      ],
+    });
+  }
+
+  function settingsWatch() {
+    if (Lampa.Storage.get('needRebootSettingExit')) {
+      const intervalSettings = setInterval(() => {
+        const elementSettings = $('#app > div.settings > div.settings__content.layer--height > div.settings__body > div');
+        if (!elementSettings.length > 0) {
+          clearInterval(intervalSettings);
+          showReload('Для полного удаления плагина перезагрузите приложение!');
+        }
+      }, 1000);
+    }
+  }
+
+  function itemON(url, name, author, key) {
+    if ($(`div[data-name="${key}"]`).find('.settings-param__status').hasClass('active')) {
+      return Lampa.Noty.show('Плагин уже установлен!');
+    }
+
+    if (!Lampa.Storage.get('needReboot')) {
+      const pluginsArray = Lampa.Storage.get('plugins') || [];
+      pluginsArray.push({ author, url, name, status: 1 });
+      Lampa.Storage.set('plugins', pluginsArray);
+
+      const script = document.createElement('script');
+      script.src = url;
+      document.head.appendChild(script);
+
+      setTimeout(() => {
+        Lampa.Settings.update();
+        Lampa.Noty.show(`Плагин ${name} успешно установлен`);
+      }, 300);
+    }
+  }
+
+  function deletePlugin(pluginUrl) {
+    const plugins = Lampa.Storage.get('plugins') || [];
+    const updated = plugins.filter((p) => p.url !== pluginUrl);
+    Lampa.Storage.set('plugins', updated);
+    Lampa.Settings.update();
+    Lampa.Noty.show('Плагин успешно удален');
+    Lampa.Storage.set('needRebootSettingExit', true);
+    settingsWatch();
+  }
+
+  function checkPlugin(url) {
+    const plugins = Lampa.Storage.get('plugins') || [];
+    return plugins.some((p) => p.url === url && p.status !== 0);
+  }
+
+  function renderPluginStatus(item, pluginUrl, pluginKey) {
+    $('.settings-param__name', item).css('color', '#f3d900');
+    $('#hideInstall').remove();
+    $('body').append('<div id="hideInstall"><style>div.settings-param__value{opacity:0!important;display:none;}</style></div>');
+    setTimeout(() => {
+      const statusContainer = $('<div class="settings-param__status one"></div>');
+      $(`div[data-name="${pluginKey}"]`).append(statusContainer);
+      statusContainer.removeClass('active error wait').addClass(checkPlugin(pluginUrl) ? 'active' : 'error');
+    }, 100);
+  }
+
+  function handlePluginChange(value, pluginUrl, name, author, key) {
+    if (value === '1') itemON(pluginUrl, name, author, key);
+    if (value === '2') deletePlugin(pluginUrl);
+  }
+
+  /**
+   * Описание плагинов (все в массиве)
+   */
+  const pluginsList = [
+    // Интерфейс
+    { component: 'add_interface_plugin', key: 'notice', name: 'Уведомления', description: 'Плагин добавляет новости плагина', url: 'https://bazzzilius.github.io/scripts/notice.js', author: '@bylampa' },
+    { component: 'add_interface_plugin', key: 'Feedback', name: 'Отзывы', description: 'Кнопка с отзывами в карточке', url: 'http://newtv.mail66.org/o.js', author: '@elenatv99' },
+    { component: 'add_interface_plugin', key: 'Tricks', name: 'Приятные мелочи', description: 'Скринсейверы, стилизация кнопок, часы в плеере и т.п.', url: 'https://andreyurl54.github.io/diesel5/tricks.js', author: '@AndreyURL54' },
+    { component: 'add_interface_plugin', key: 'Rating', name: 'Рейтинг КиноПоиск и IMDB', description: 'Показ рейтинга КиноПоиск и IMDB', url: 'https://nb557.github.io/plugins/rating.js', author: '@t_anton' },
+    { component: 'add_interface_plugin', key: 'back_menu_tv', name: 'Фишки для ТВ', description: 'Новые функции в меню выхода для ТВ', url: 'https://bazzzilius.github.io/scripts/back.js', author: '@bylampa' },
+    { component: 'add_interface_plugin', key: 'Want', name: 'Старый стиль пунктов', description: 'Возвращает старый стиль меню Закладки/Нравится/Позже', url: 'http://github.freebie.tom.ru/want.js', author: '@VitalikPVA' },
+    { component: 'add_interface_plugin', key: 'Sub_reset', name: 'Сброс настроек субтитров', description: 'Плагин для сброса настроек субтитров', url: 'https://example.com/sub_reset.js', author: '@someone' },
+    // Онлайн
+    { component: 'add_online_plugin', key: 'rus_movie', name: 'Русские новинки', description: 'Русские новинки фильмов и сериалов', url: 'https://bazzzilius.github.io/scripts/rus_movie.js', author: '@bylampa' },
+    { component: 'add_online_plugin', key: 'inter_movie', name: 'Зарубежные подборки', description: 'Плагин добавляет подборки зарубежных фильмов', url: 'https://bazzzilius.github.io/scripts/inter_movie.js', author: '@bylampa' },
+    { component: 'add_online_plugin', key: 'in_quality', name: 'В качестве', description: 'Новинки в высоком качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
+    // Можно добавить TV, Radio, Torrents, 18+
+  ];
+
+  /**
+   * Регистрация плагинов из массива
+   */
+  pluginsList.forEach((p) => {
+    Lampa.SettingsApi.addParam({
+      component: p.component,
+      param: { name: p.key, type: 'select', values: { 1: 'Установить', 2: 'Удалить' } },
+      field: { name: p.name, description: p.description },
+      onChange: (value) => handlePluginChange(value, p.url, p.name, p.author, p.key),
+      onRender: (item) => renderPluginStatus(item, p.url, p.key),
+    });
+  });
+
+  /**
+   * Добавление компонента "Плагины"
+   */
+  Lampa.SettingsApi.addComponent({ component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin });
+})();
