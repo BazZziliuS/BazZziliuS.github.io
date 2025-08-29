@@ -2,7 +2,6 @@
     const ID = 'cloudplugins'
     const TITLE = 'Плагины'
 
-    /** Иконки категорий */
     const icons = {
         add_interface_plugin: '🖼️',
         add_management_plugin: '⚙️',
@@ -11,7 +10,6 @@
         add_tv_plugin: '📺'
     }
 
-    /** Список плагинов */
     const pluginsList = [
         { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Новинки в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
         { component: 'add_management_plugin', key: 'exit_menu', name: 'Выход', description: 'Кнопка выхода в меню', url: 'https://tsynik.github.io/lampa/e.js', author: '@tsynik' },
@@ -20,7 +18,6 @@
         { component: 'add_tv_plugin', key: 'diesel', name: 'Дизель ТВ', description: 'Бесплатные телеканалы', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' }
     ]
 
-    /** Установка/удаление */
     function installPlugin(plugin) {
         const plugins = Lampa.Storage.get('plugins') || []
         if (plugins.find(p => p.url === plugin.url)) return Lampa.Noty.show('Уже установлено')
@@ -60,7 +57,7 @@
             categories.forEach(cat => {
                 const count = pluginsList.filter(p => p.component === cat.component).length
                 const el = $(`<div class="selector ${ID}__category">
-          <span style="font-size:1.5em;margin-right:.5em">${icons[cat.component]}</span>
+          <span style="font-size:1.3em;margin-right:.5em">${icons[cat.component]}</span>
           <span>${cat.title} (${count})</span>
         </div>`)
 
@@ -78,10 +75,9 @@
 
         this.openCategory = (cat) => {
             const list = pluginsList.filter(p => p.component === cat.component)
-            const container = $('<div class="category__list"></div>')
             list.forEach(plugin => {
                 const el = $(`<div class="selector ${ID}__item">
-            <div style="font-size:1.2em; color:#ff9800">${plugin.name}</div>
+            <div style="font-size:1.1em; color:#ff9800">${plugin.name}</div>
             <div style="font-size:0.9em; color:#ccc">${plugin.description}</div>
             <div style="font-size:0.8em; color:#666">Автор: ${plugin.author}</div>
             <div style="margin-top:.5em;">
@@ -114,21 +110,18 @@
         this.destroy = () => { Lampa.Arrays.destroy(items); scroll.destroy(); html.remove() }
     }
 
-    /** Добавляем кнопку в настройки */
-    function addSettings() {
-        Lampa.Settings.add({
-            title: TITLE,
-            group: 'plugins',
-            subtitle: 'Управление плагинами',
-            onSelect: () => Lampa.Activity.push({ title: TITLE, component: ID })
-        })
-    }
-
-    /** Инициализация */
     function init() {
         if (!window.Lampa) return console.log('[cloudplugins] Lampa not ready')
+
+        // Регистрируем компонент
         Lampa.Component.add(ID, Screen)
-        addSettings()
+
+        // Добавляем в настройки кнопку-категорию
+        Lampa.SettingsApi.addComponent({
+            component: ID,
+            name: TITLE,
+            icon: '🧩'
+        })
     }
 
     if (window.appready) init()
