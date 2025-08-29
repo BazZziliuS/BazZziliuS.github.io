@@ -99,7 +99,6 @@
     // Главная
     Lampa.SettingsApi.addComponent({ component: 'add_plugin', name: 'Плагины', icon: icons.add_plugin });
 
-
     // Подкатегории, которые будут отображаться ВНУТРИ «Плагины»
     const subcategories = [
         { component: 'add_interface_plugin', name: 'Интерфейс', icon: icons.add_interface_plugin },
@@ -111,26 +110,14 @@
         { component: 'add_sisi_plugin', name: '18+', icon: icons.add_sisi_plugin },
     ];
 
-
-    // Регистрируем каждую подкатегорию как отдельный экран настроек
-    subcategories.forEach((c) => Lampa.SettingsApi.addComponent(c));
-
-
     // Внутри «Плагины» рисуем плитки-переходы к подкатегориям
+    // Регистрируем каждую подкатегорию с parent: 'add_plugin'
     subcategories.forEach((c) => {
-        Lampa.SettingsApi.addParam({
-            component: 'add_plugin',
-            param: { name: c.component, type: 'static', default: true },
-            field: { name: c.icon }, // можно добавить текст рядом с иконкой, если нужно
-            onRender: (item) => {
-                item.on('hover:enter', () => {
-                    Lampa.Settings.create(c.component);
-                    // Кнопка «назад» возвращает к корневой категории «Плагины»
-                    Lampa.Controller.enabled().controller.back = function () {
-                        Lampa.Settings.create('add_plugin');
-                    };
-                });
-            },
+        Lampa.SettingsApi.addComponent({
+            component: c.component,
+            name: c.name,
+            parent: 'add_plugin',
+            icon: c.icon,
         });
     });
 
