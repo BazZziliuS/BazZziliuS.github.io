@@ -13,16 +13,10 @@
     /** Список плагинов */
     const pluginsList = [
         { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Добавляет закладку с новинками в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
-        { component: 'add_interface_plugin', key: 'notice', name: 'Уведомления', description: 'Новости плагина', url: 'https://bazzzilius.github.io/scripts/notice.js', author: '@BazZziliuS' },
-
         { component: 'add_management_plugin', key: 'exit_menu', name: 'Выход', description: 'Пункт выхода в меню', url: 'https://tsynik.github.io/lampa/e.js', author: '@tsynik' },
-        { component: 'add_management_plugin', key: 'hot_buttons', name: 'Горячие кнопки', description: 'Кнопки пульта для плеера', url: 'https://nnmdd.github.io/lampa_hotkeys/hotkeys.js', author: '@nnmd' },
-
         { component: 'add_online_plugin', key: 'online_mod', name: 'Online_Mod', description: '7 балансеров для онлайн-просмотра', url: 'https://nb557.github.io/plugins/online_mod.js', author: '@t_anton' },
-
         { component: 'add_torrent_plugin', key: 'switch_parser', name: 'Переключение парсеров', description: 'Список jacketts для выбора', url: 'https://bazzzilius.github.io/scripts/jackett.js', author: '@AndreyURL54' },
-
-        { component: 'add_tv_plugin', key: 'diesel', name: 'Дизель ТВ', description: 'Бесплатные телеканалы с программой и архивом', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' }
+        { component: 'add_tv_plugin', key: 'diesel', name: 'Дизель ТВ', description: 'Бесплатные телеканалы', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' }
     ]
 
     /** Установка плагина */
@@ -31,7 +25,6 @@
         if (plugins.find(p => p.url === plugin.url)) {
             return Lampa.Noty.show('Уже установлено')
         }
-
         plugins.push({ author: plugin.author, url: plugin.url, name: plugin.name, status: 1 })
         Lampa.Storage.set('plugins', plugins)
 
@@ -42,7 +35,6 @@
         Lampa.Noty.show('Установлен: ' + plugin.name)
     }
 
-    /** Удаление плагина */
     function removePlugin(plugin) {
         const plugins = Lampa.Storage.get('plugins') || []
         const updated = plugins.filter(p => p.url !== plugin.url)
@@ -50,18 +42,11 @@
         Lampa.Noty.show('Удалён: ' + plugin.name)
     }
 
-    /** Проверка статуса */
-    function isInstalled(plugin) {
-        const plugins = Lampa.Storage.get('plugins') || []
-        return plugins.some(p => p.url === plugin.url && p.status !== 0)
-    }
-
     /** Экран категории */
     function AddonsCategory(category) {
         const scroll = new Lampa.Scroll({ mask: true, over: true })
         const html = $('<div class="addons_category"><div class="addons_category__body"></div></div>')
         const body = html.find('.addons_category__body')
-        let items = []
 
         this.create = () => {
             this.activity.loader(true)
@@ -85,7 +70,6 @@
 
                 el.on('hover:focus', () => scroll.update(el))
                 scroll.append(el)
-                items.push(el)
             })
 
             this.activity.loader(false)
@@ -97,13 +81,9 @@
             Lampa.Controller.add('addons_category', {
                 toggle() {
                     Lampa.Controller.collectionSet(scroll.render())
-                    Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
+                    Lampa.Controller.collectionFocus(scroll.render().find('.selector')[0], scroll.render())
                 },
                 back: this.back,
-                up() { Navigator.move('up') },
-                down() { Navigator.move('down') },
-                left() { if (Navigator.canmove('left')) Navigator.move('left'); else Lampa.Controller.toggle('menu') },
-                right() { Navigator.move('right') }
             })
             Lampa.Controller.toggle('addons_category')
         }
@@ -118,7 +98,6 @@
         const scroll = new Lampa.Scroll({ mask: true, over: true })
         const html = $('<div class="addons_root"><div class="addons_root__body"></div></div>')
         const body = html.find('.addons_root__body')
-        let items = []
 
         const categories = [
             { title: 'Интерфейс', component: 'add_interface_plugin' },
@@ -142,13 +121,11 @@
                     Lampa.Activity.push({
                         title: cat.title,
                         component: 'addons_category',
-                        page: 1,
                         url: cat.component
                     })
                 })
                 el.on('hover:focus', () => scroll.update(el))
                 scroll.append(el)
-                items.push(el)
             })
 
             this.activity.loader(false)
@@ -160,13 +137,9 @@
             Lampa.Controller.add('addons_root', {
                 toggle() {
                     Lampa.Controller.collectionSet(scroll.render())
-                    Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
+                    Lampa.Controller.collectionFocus(scroll.render().find('.selector')[0], scroll.render())
                 },
                 back: this.back,
-                up() { Navigator.move('up') },
-                down() { Navigator.move('down') },
-                left() { if (Navigator.canmove('left')) Navigator.move('left'); else Lampa.Controller.toggle('menu') },
-                right() { Navigator.move('right') }
             })
             Lampa.Controller.toggle('addons_root')
         }
@@ -180,14 +153,16 @@
     Lampa.Component.add('addons_root', AddonsRoot)
     Lampa.Component.add('addons_category', AddonsCategory)
 
-    /** Добавляем кнопку в меню настроек */
-    Lampa.Settings.add({
-        title: 'Плагины',
-        group: 'plugins',
-        onSelect: () => Lampa.Activity.push({
-            title: 'Плагины',
-            component: 'addons_root',
-            page: 1
-        })
+    /** Кнопка в Настройках (через SettingsApi) */
+    Lampa.SettingsApi.addComponent({
+        component: 'cloud_plugins',
+        name: 'Плагины',
+        onSelect: () => {
+            Lampa.Activity.push({
+                title: 'Плагины',
+                component: 'addons_root'
+            })
+        }
     })
+
 })()
