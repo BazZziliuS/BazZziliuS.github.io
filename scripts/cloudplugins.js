@@ -117,13 +117,22 @@
 
     /** Добавляем пункт в меню */
     function addSettings() {
+        // создаём категорию "Плагины"
+        Lampa.SettingsApi.addComponent({
+            component: 'addons_root',
+            name: 'Плагины',
+            icon: '📦'
+        })
+
+        // добавляем кнопку "Открыть"
         Lampa.SettingsApi.addParam({
-            component: 'plugins',
-            param: { name: ID, type: 'button' },
-            field: { name: TITLE, description: 'Управление плагинами' },
+            component: 'addons_root',
+            param: { name: 'open_addons', type: 'button' },
+            field: { name: 'Открыть менеджер', description: 'Категории и управление плагинами' },
             onSelect: () => Lampa.Activity.push({ title: TITLE, component: ID })
         })
     }
+
 
     function init() {
         if (!window.Lampa) return
