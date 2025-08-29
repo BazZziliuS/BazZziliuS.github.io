@@ -129,8 +129,20 @@
             Lampa.SettingsApi.addParam({
                 component: 'add_plugin',
                 param: { name: sc.c, type: 'static', default: true },
-                field: { name: sc.n, icon: sc.i },
+                field: { name: sc.n },
                 onRender: (item) => {
+                    // заменяем стандартный текст на кастомный блок
+                    const html = `
+                        <div class="settings-folder" style="padding:0!important;display:flex;align-items:center">
+                        <div style="width:1.8em;height:1.3em;padding-right:.5em;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+                            ${sc.i}
+                        </div>
+                        <div style="font-size:1.3em">${sc.n}</div>
+                        </div>
+                    `;
+                    item.find('.settings-param__name').html(html);
+
+                    // переход
                     item.on('hover:enter', () => {
                         Lampa.Settings.create(sc.c);
                         const ctrl = Lampa.Controller.enabled();
