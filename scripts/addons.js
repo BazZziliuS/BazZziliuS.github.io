@@ -103,7 +103,6 @@
         icon: icons.add_plugin
     });
 
-    // Подкатегории
     const subcategories = [
         { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
         { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
@@ -114,21 +113,23 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
-    // Регистрируем категории и ссылки на них внутри «Плагины»
+    // Регистрируем категории и ссылки внутри «Плагины»
     subcategories.forEach(sc => {
-        // создаём саму категорию
         Lampa.SettingsApi.addComponent({
             component: sc.c,
             name: sc.n,
             icon: sc.i
         });
 
-        // добавляем переход в «Плагины»
         Lampa.SettingsApi.addParam({
             component: 'add_plugin',
             param: { name: sc.c, type: 'static', default: true },
-            field: { name: sc.n, icon: sc.i },
+            field: { title: sc.n }, // текстовое название
             onRender: (item) => {
+                // Вставляем SVG иконку вручную
+                item.find('.settings-param__icon').html(sc.i);
+
+                // Переход
                 item.on('hover:enter', () => {
                     Lampa.Settings.create(sc.c);
                     Lampa.Controller.enabled().controller.back = function () {
@@ -138,6 +139,16 @@
             },
         });
     });
+
+    // Убираем дубли категорий из корневых настроек (после рендера)
+    Lampa.Settings.listener.follow('open', (e) => {
+        if (e.name === 'main') {
+            setTimeout(() => {
+                subcategories.forEach(sc => $(`div[data-component=\"${sc.c}\"]`).remove());
+            }, 0);
+        }
+    });
+
 
     // Убираем дубли категорий из общего списка настроек
     setTimeout(() => {
