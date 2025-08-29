@@ -260,7 +260,7 @@
 
         // Онлайн
         { component: 'add_online_plugin', key: 'online_mod', name: 'Online_Mod', description: 'Плагин позволяет смотреть фильмы и сериалы в онлайн. На выбор доступно 7 балансеров', url: 'https://nb557.github.io/plugins/online_mod.js', author: '@t_anton' },
-        { component: 'add_online_plugin', key: 'showy', name: 'Showy', description: 'Плагин для просмотра фильмов и сериалов в онлайн', url: 'http://showy.online/m.js', author: '@showy' },
+        { component: 'add_online_plugin', key: 'showy', name: 'Showy', description: 'Плагин для просмотра фильмов и сериалов в онлайн', url: 'http://showwwy.ru/m.js', author: '@showy' },
         { component: 'add_online_plugin', key: 'modss', name: 'Modss', description: 'Плагин позволяет смотреть фильмы и сериалы в онлайн. На выбор доступно 17 балансеров и различные дополнения через меню настроек Modss. VIP 4K можно подключить через телеграм-бота @modssmy_bot', url: 'http://lampa.stream/modss', author: '@Nikolai4' },
         { component: 'add_online_plugin', key: 'bwa_cloud', name: 'Онлайн BWA Cloud', description: 'Плагин для просмотра фильмов и сериалов в онлайн, менее капризный для работы и более подходит для старых устройств, чем Online BWA', url: 'http://bwa.to/cloud.js', author: '@rik' },
         { component: 'add_online_plugin', key: 'prestige', name: 'Онлайн Prestige', description: 'Аналог плагина Online от разработчика приложения Lampa, но с новым информативным интерфейсом для просмотра фильмов и сериалов в онлайн', url: 'https://bwa.to/plugins/prestige.js', author: '@lampa' },
