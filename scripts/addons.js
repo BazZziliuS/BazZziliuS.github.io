@@ -113,46 +113,6 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
-    let adInited = false;
-
-    function addSettingsAd() {
-        if (adInited) return;
-
-        Lampa.SettingsApi.addParam({
-            component: 'settings_main', // 👈 добавим в самый низ главных настроек
-            param: { name: 'addon_advert', type: 'static', default: true },
-            field: { name: '🔥 Наш проект' },
-            onRender: (item) => {
-                // кастомный блок (иконка + текст)
-                const html = `
-                    <div style="display:flex;align-items:center;gap:.6em;font-size:1.2em;color:#ff9800">
-                    <div style="width:1.4em;height:1.4em;display:flex;align-items:center;justify-content:center">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2l9 21H3L12 2z"></path>
-                        </svg>
-                    </div>
-                    <span>Поддержи разработку</span>
-                    </div>
-                `;
-                item.find('.settings-param__name').html(html);
-
-                // переход по клику
-                item.on('hover:enter', () => {
-                    Lampa.Activity.push({
-                        url: 'https://t.me/your_channel', // 👈 сюда ставишь свою ссылку
-                        title: 'Наш проект',
-                        component: 'browser',
-                        page: 1
-                    });
-                });
-            }
-        });
-
-        adInited = true;
-    }
-
-
     let pluginsInited = false; // 👈 флаг инициализации
 
     // При открытии главного меню
@@ -197,7 +157,6 @@
             });
 
             pluginsInited = true; // ⚡️ больше не добавляем повторно
-            addSettingsAd(); // добавляем рекламу
         }
 
         // удаляем плитки сабкатегорий из корня
@@ -211,6 +170,47 @@
         }, 60);
     });
 
+
+    function addSettingsAd() {
+        // если уже вставлено – не дублируем
+        if ($('#addon-settings-ad').length) return;
+
+        const html = `
+            <div id="addon-settings-ad" class="settings-param" style="margin-top:1em">
+            <div class="settings-param__name" style="display:flex;align-items:center;gap:.6em;font-size:1.2em;color:#ff9800">
+                <div style="width:1.4em;height:1.4em;display:flex;align-items:center;justify-content:center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2l9 21H3L12 2z"></path>
+                </svg>
+                </div>
+                <span>Поддержи разработку</span>
+            </div>
+            </div>
+        `;
+
+        // вставляем в конец блока настроек
+        $('.settings-content').append(html);
+
+        // вешаем действие на клик
+        $('#addon-settings-ad').on('hover:enter', () => {
+            Lampa.Activity.push({
+                url: 'https://t.me/your_channel',  // 👈 сюда твоя ссылка
+                title: 'Наш проект',
+                component: 'browser',
+                page: 1
+            });
+        });
+    }
+
+    // вызываем при открытии главного меню настроек
+    Lampa.Settings.listener.follow('open', (e) => {
+        if (e.name === 'main') {
+            setTimeout(() => {
+                addSettingsAd();
+            }, 50);
+        }
+    });
 
 
     /**
