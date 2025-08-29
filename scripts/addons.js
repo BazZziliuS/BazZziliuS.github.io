@@ -96,13 +96,14 @@
     /**
     * Добавляем главную категорию и вложенные подкатегории
     */
-    // Главная категория
+    // Главная категория «Плагины»
     Lampa.SettingsApi.addComponent({
         component: 'add_plugin',
         name: 'Плагины',
         icon: icons.add_plugin
     });
 
+    // Саб-категории (иконки — это SVG-строки из icons.*)
     const subcategories = [
         { c: 'add_interface_plugin', n: 'Интерфейс', i: icons.add_interface_plugin },
         { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
@@ -113,32 +114,52 @@
         { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
     ];
 
-    // Регистрируем категории и ссылки внутри «Плагины»
+    // Регистрируем экраны саб-категорий и ссылки на них внутри «Плагины»
     subcategories.forEach(sc => {
+        // 1) Экран самой саб-категории (нужен, чтобы было куда перейти)
         Lampa.SettingsApi.addComponent({
             component: sc.c,
             name: sc.n,
             icon: sc.i
         });
 
+        // 2) Пункт внутри «Плагины» (стандартный вид)
         Lampa.SettingsApi.addParam({
             component: 'add_plugin',
             param: { name: sc.c, type: 'static', default: true },
-            field: { title: sc.n }, // текстовое название
+            field: { name: sc.n }, // <-- ИМЕННО name, иначе будет undefined
             onRender: (item) => {
-                // Вставляем SVG иконку вручную
+                // Вставляем иконку слева (повторно не создаём)
+                if (!item.find('.settings-param__icon').length) {
+                    item.prepend('<div class="settings-param__icon"></div>');
+                }
                 item.find('.settings-param__icon').html(sc.i);
 
-                // Переход
+                // Переход в саб-категорию и корректный back
                 item.on('hover:enter', () => {
                     Lampa.Settings.create(sc.c);
-                    Lampa.Controller.enabled().controller.back = function () {
-                        Lampa.Settings.create('add_plugin');
-                    };
+                    // Возврат в «Плагины»
+                    const ctrl = Lampa.Controller.enabled();
+                    if (ctrl && ctrl.controller) {
+                        ctrl.controller.back = function () {
+                            Lampa.Settings.create('add_plugin');
+                        };
+                    }
                 });
             },
         });
     });
+
+    // Убираем дубли саб-категорий из корневого меню настроек (после рендера)
+    Lampa.Settings.listener.follow('open', (e) => {
+        if (e.name === 'main') {
+            // Немного подождём, чтобы DOM успел построиться
+            setTimeout(() => {
+                subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
+            }, 50);
+        }
+    });
+
 
     // Убираем дубли категорий из корневых настроек (после рендера)
     Lampa.Settings.listener.follow('open', (e) => {
@@ -154,6 +175,11 @@
     setTimeout(() => {
         subcategories.forEach(sc => $(`div[data-component="${sc.c}"]`).remove());
     }, 0);
+
+    // Сдвигаем раздел выше
+    setTimeout(function () {
+        $('div[data-component=plugins]').before($('div[data-component=add_plugin]'))
+    }, 30)
 
 
     /**
