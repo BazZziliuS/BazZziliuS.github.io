@@ -136,9 +136,7 @@
         { c: 'add_management_plugin', n: 'Управление', i: icons.add_management_plugin },
         { c: 'add_online_plugin', n: 'Онлайн', i: icons.add_online_plugin },
         { c: 'add_torrent_plugin', n: 'Торренты', i: icons.add_torrent_plugin },
-        { c: 'add_tv_plugin', n: 'ТВ', i: icons.add_tv_plugin },
-        { c: 'add_radio_plugin', n: 'Радио', i: icons.add_radio_plugin },
-        { c: 'add_sisi_plugin', n: '18+', i: icons.add_sisi_plugin },
+        { c: 'add_tv_plugin', n: 'ТВ', i: icons.add_tv_plugin }
     ];
 
     let pluginsInited = false; // 👈 флаг инициализации
@@ -233,33 +231,46 @@
         { component: 'add_interface_plugin', key: 'cardify', name: 'Стильныe карточки', description: 'Расширение преобразует привычный вид карточек, предлагая обновленный интерфейс — более яркий, красочный и привлекательный.', url: 'https://bazzzilius.github.io/scripts/cardify.js', author: '@lampa' },
         { component: 'add_interface_plugin', key: 'cub_off', name: 'Cub Off', description: 'Плагин убирает элементы, предлагающие оформить cub premium', url: 'https://bazzzilius.github.io/scripts/cub_off.js', author: '@scabrum' },
         { component: 'add_interface_plugin', key: 'weather', name: 'Погода', description: 'Плагин будет поочередно показывать время и погоду, чередуя их показания', url: 'https://bazzzilius.github.io/scripts/weather.js', author: '@lampishe' },
+        { component: 'add_interface_plugin', key: 'snow', name: 'Снег', description: 'Добавляет новогоднее настроение.', url: 'https://bazzzilius.github.io/scripts/snow.js', author: '@undefined' },
+        { component: 'add_interface_plugin', key: 'start', name: 'Start (NotWork)', description: 'Плагин позволяет заходить на заблокированные карточки', url: 'https://bazzzilius.github.io/scripts/start.js', author: '@undefined' },
+        { component: 'add_interface_plugin', key: 'goldtheme', name: 'Золотая тема', description: 'Плагин включает золотую тему которая доступна для премиум пользователей', url: 'https://bazzzilius.github.io/scripts/gold_theme.js', author: '@lampa' },
+        { component: 'add_interface_plugin', key: 'fcp', name: 'FCP', description: 'Улучшает вашу жизнь', url: 'https://bazzzilius.github.io/scripts/fp.js', author: '@Serega007' },
 
+        { component: 'add_interface_plugin', key: 'goldtheme', name: 'Дополнительные источники', description: 'Плагин добавляет дополнительные источники для получения информации о фильмах', url: 'https://bazzzilius.github.io/scripts/source.js', author: '@scabrum' },
         { component: 'add_interface_plugin', key: 'feedback', name: 'Отзывы', description: 'Добавляет в карточке кнопку с отзывами', url: 'http://newtv.mail66.org/o.js', author: '@elenatv99' },
         { component: 'add_interface_plugin', key: 'tricks', name: 'Tricks', description: 'Приятные Мелочи', url: 'https://andreyurl54.github.io/diesel5/tricks.js', author: '@AndreyURL54' },
         { component: 'add_interface_plugin', key: 'rating', name: 'Рейтинг КиноПоиск и IMDB', description: 'Показ рейтинга КиноПоиск и IMDB в карточке. Функционал аналогичен части из MODSs, так что их не следует использовать вместе', url: 'https://nb557.github.io/plugins/rating.js', author: '@t_anton' },
         { component: 'add_interface_plugin', key: 'back_menu_tv', name: 'Фишки для ТВ', description: 'Плагин добавляет новые функции в меню выхода (работает только на телевизоре)', url: 'https://nb557.github.io/plugins/back.js', author: '@bylampa' },
         { component: 'add_interface_plugin', key: 'want', name: 'Старый стиль пунктов (Закладки, Нравится, Позже)', description: 'Плагин возвращает в главное меню старый стиль отображения пунктов (Закладки, Нравится, Позже)', url: 'http://github.freebie.tom.ru/want.js', author: '@VitalikPVA' },
         { component: 'add_interface_plugin', key: 'sub_reset', name: 'Сброс настроек субтитров', description: 'Плагин сбрасывает настройки субтитров по умолчанию', url: 'https://nb557.github.io/plugins/reset_subs.js', author: '@t_anton' },
-
-
+        { component: 'add_interface_plugin', key: 'new_cat', name: 'Дополнительные категории', description: 'Плагин позволяет добавить на выбор в главное меню категории (Документалки, Концерты и Мультфильмы)', url: 'https://lampame.github.io/main/nc/nc.js', author: '@GwynnBleiidd' },
+        
 
         // Управление
-        { component: 'add_management_plugin', key: 'video_speed', name: 'Скорость видео', description: 'Плагин добавляет возможность менять скорость воспроизведения видео', url: 'https://bazzzilius.github.io/scripts/video_speed.js', author: '@BazZziliuS' },
+        { component: 'add_management_plugin', key: 'exit_menu', name: 'Выход', description: 'Плагин добавляет пункт Выход в главное меню', url: 'https://tsynik.github.io/lampa/e.js', author: '@tsynik' },
+        { component: 'add_management_plugin', key: 'new_version', name: 'Проверка новой версии', description: 'Проверяет наличие новой версии приложения на Android TV', url: 'https://nemiroff.github.io/lampa/updater.js', author: '@nemiroff' },
+        { component: 'add_management_plugin', key: 'hot_buttons', name: 'Горячие кнопки', description: 'Плагин вызывает меню плеера лампы по кнопкам пульта: 5 - плейлист, 8 - аудиодорожки, 0 - субтитры, channel+/- следующий/предыдущий файл в плейлисте', url: 'https://nnmdd.github.io/lampa_hotkeys/hotkeys.js', author: '@nnmd' },
+        { component: 'add_management_plugin', key: 'dlna', name: 'DLNA (Tizen, Orsay)', description: 'Плагин работает на устройстве Orsay, для Tizen необходимо обновить виджет до версии 1.9.1', url: 'http://cub.red/plugin/dlna', author: '@lampa' },
+        { component: 'add_management_plugin', key: 'wsoff', name: 'Wsoff', description: 'Плагин отключения ошибки (Request was denied for security) на старых версиях Android.Не устанавливать, если ошибки нет', url: 'http://plugin.rootu.top/wsoff.js', author: '@rootu' },
+        { component: 'add_management_plugin', key: 'redirect', name: 'Смена сервера', description: 'Плагин позволяет сменить сервер приложения', url: 'https://bazzzilius.github.io/scripts/redirect.js', author: '@scabrum' },
 
         // Онлайн
-        { component: 'add_online_plugin', key: 'rus_movie', name: 'Русские новинки', description: 'Русские новинки фильмов и сериалов', url: 'https://bazzzilius.github.io/scripts/rus_movie.js', author: '@bylampa' },
+        { component: 'add_online_plugin', key: 'online_mod', name: 'Online_Mod', description: 'Плагин позволяет смотреть фильмы и сериалы в онлайн. На выбор доступно 7 балансеров', url: 'https://nb557.github.io/plugins/online_mod.js', author: '@t_anton' },
+        { component: 'add_online_plugin', key: 'showy', name: 'Showy', description: 'Плагин для просмотра фильмов и сериалов в онлайн', url: 'http://showy.online/m.js', author: '@showy' },
+        { component: 'add_online_plugin', key: 'modss', name: 'Modss', description: 'Плагин позволяет смотреть фильмы и сериалы в онлайн. На выбор доступно 17 балансеров и различные дополнения через меню настроек Modss. VIP 4K можно подключить через телеграм-бота @modssmy_bot', url: 'http://lampa.stream/modss', author: '@Nikolai4' },
+        { component: 'add_online_plugin', key: 'bwa_cloud', name: 'Онлайн BWA Cloud', description: 'Плагин для просмотра фильмов и сериалов в онлайн, менее капризный для работы и более подходит для старых устройств, чем Online BWA', url: 'http://bwa.to/cloud.js', author: '@rik' },
+        { component: 'add_online_plugin', key: 'prestige', name: 'Онлайн Prestige', description: 'Аналог плагина Online от разработчика приложения Lampa, но с новым информативным интерфейсом для просмотра фильмов и сериалов в онлайн', url: 'https://bwa.to/plugins/prestige.js', author: '@lampa' },
 
         // Торренты
-        { component: 'add_torrent_plugin', key: 'torrent_search', name: 'Торрент-поиск', description: 'Поиск торрентов прямо из Лампы', url: 'https://example.com/torrent_search.js', author: '@torrentDev' },
+        { component: 'add_torrent_plugin', key: 'switch_parser', name: 'Переключение парсеров', description: 'Плагин позволяет переключаться между парсерами jackett из списка с уже забитыми правильными параметрами. В настройках парсера появится пункт со списком общедоступных jacketts', url: 'https://bazzzilius.github.io/scripts/jackett.js', author: '@AndreyURL54' },
+        { component: 'add_torrent_plugin', key: 'tracks', name: 'Tracks', description: 'Плагин заменяет название аудиодорожек и субтитров в плеере (работает только в торрентах)', url: 'http://cub.red/plugin/tracks', author: '@lampa' },
+        { component: 'add_torrent_plugin', key: 'etor', name: 'Настройка торрентов (Web OS, Tizen)', description: 'Плагин для ТВ, на которых Lampa установлена через официальные магазины LG Store и Tizen App Store. Включает в настройках отображение пунктов Парсер и Torrserver, необходимых для просмотра торрентов', url: 'http://cub.red/plugin/etor', author: '@lampa' },
 
         // ТВ
-        { component: 'add_tv_plugin', key: 'tv_online', name: 'Онлайн ТВ', description: 'Список онлайн-каналов ТВ', url: 'https://example.com/tv_online.js', author: '@tvDev' },
-
-        // Радио
-        { component: 'add_radio_plugin', key: 'radio_player', name: 'Радио', description: 'Онлайн радиостанции', url: 'https://example.com/radio.js', author: '@radioDev' },
-
-        // 18+
-        { component: 'add_sisi_plugin', key: 'adult_pack', name: '18+', description: 'Плагин с контентом 18+', url: 'https://example.com/adult.js', author: '@adultDev' },
+        { component: 'add_tv_plugin', key: 'diesel', name: 'Дизель ТВ', description: 'Плагин для бесплатного просмотра телеканалов и коммерческих плейлистов с телепрограммой и записью архива', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' },
+        { component: 'add_tv_plugin', key: 'kulik', name: 'Kulik', description: 'Плагин для просмотра IPTV каналов, отсортированных по различным категориям. Есть возможность поменять стиль плагина, сервер вещания, а также добавить каналы в избранное', url: 'http://cdn.kulik.uz/cors', author: '@SawamuraRen' },
+        { component: 'add_tv_plugin', key: 'iptv', name: 'IPTV', description: 'Плагин для просмотра IPTV каналов. Сортировка каналов по группам и возможность добавить каналы в избранное. Работает только со своим плейлистом, добавленным на сайте https://cub.watch/iptv', url: 'http://cub.red/plugin/iptv', author: '@lampa' },
+        { component: 'add_tv_plugin', key: 'hacktv', name: 'Hack TV', description: 'Плагин для просмотра IPTV каналов', url: 'https://bazzzilius.github.io/scripts/tv.js', author: '@scabrum' },
     ];
 
 
