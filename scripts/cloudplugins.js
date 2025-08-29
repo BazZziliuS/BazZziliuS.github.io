@@ -2,139 +2,110 @@
     const ID = 'cloudplugins'
     const TITLE = 'Плагины'
 
+    /** Иконки категорий */
     const icons = {
-        add_interface_plugin: '🖼️',
+        add_interface_plugin: '🖥️',
         add_management_plugin: '⚙️',
         add_online_plugin: '🌐',
         add_torrent_plugin: '🌀',
-        add_tv_plugin: '📺'
+        add_tv_plugin: '📺',
     }
 
+    /** Категории */
+    const categories = [
+        { component: 'add_interface_plugin', title: 'Интерфейс' },
+        { component: 'add_management_plugin', title: 'Управление' },
+        { component: 'add_online_plugin', title: 'Онлайн' },
+        { component: 'add_torrent_plugin', title: 'Торренты' },
+        { component: 'add_tv_plugin', title: 'ТВ' },
+    ]
+
+    /** Плагины (сокращённый список для примера) */
     const pluginsList = [
-        { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Новинки в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
-        { component: 'add_management_plugin', key: 'exit_menu', name: 'Выход', description: 'Кнопка выхода в меню', url: 'https://tsynik.github.io/lampa/e.js', author: '@tsynik' },
-        { component: 'add_online_plugin', key: 'online_mod', name: 'Online_Mod', description: '7 балансеров для онлайн-просмотра', url: 'https://nb557.github.io/plugins/online_mod.js', author: '@t_anton' },
-        { component: 'add_torrent_plugin', key: 'switch_parser', name: 'Переключение парсеров', description: 'Список jacketts для выбора', url: 'https://bazzzilius.github.io/scripts/jackett.js', author: '@AndreyURL54' },
+        { component: 'add_interface_plugin', key: 'in_quality', name: 'В качестве', description: 'Добавляет новинки в качестве', url: 'https://bazzzilius.github.io/scripts/in_quality.js', author: '@bylampa' },
+        { component: 'add_online_plugin', key: 'modss', name: 'Modss', description: '17 балансеров, онлайн кино', url: 'http://lampa.stream/modss', author: '@Nikolai4' },
         { component: 'add_tv_plugin', key: 'diesel', name: 'Дизель ТВ', description: 'Бесплатные телеканалы', url: 'https://andreyurl54.github.io/diesel5/diesel.js', author: '@AndreyURL54' }
     ]
 
-    function installPlugin(plugin) {
-        const plugins = Lampa.Storage.get('plugins') || []
-        if (plugins.find(p => p.url === plugin.url)) return Lampa.Noty.show('Уже установлено')
-        plugins.push({ author: plugin.author, url: plugin.url, name: plugin.name, status: 1 })
-        Lampa.Storage.set('plugins', plugins)
-        const script = document.createElement('script')
-        script.src = plugin.url
-        document.head.appendChild(script)
-        Lampa.Noty.show('Установлен: ' + plugin.name)
-    }
-
-    function removePlugin(plugin) {
-        const plugins = Lampa.Storage.get('plugins') || []
-        Lampa.Storage.set('plugins', plugins.filter(p => p.url !== plugin.url))
-        Lampa.Noty.show('Удалён: ' + plugin.name)
-    }
-
-    /** Экран категорий */
+    /** Экран */
     function Screen() {
         const scroll = new Lampa.Scroll({ mask: true, over: true })
         const html = $(`<div class="${ID}-screen"><div class="${ID}-screen__body"></div></div>`)
         const body = html.find(`.${ID}-screen__body`)
         let items = []
 
-        const categories = [
-            { title: 'Интерфейс', component: 'add_interface_plugin' },
-            { title: 'Управление', component: 'add_management_plugin' },
-            { title: 'Онлайн', component: 'add_online_plugin' },
-            { title: 'Торренты', component: 'add_torrent_plugin' },
-            { title: 'ТВ', component: 'add_tv_plugin' }
-        ]
-
         this.create = () => {
-            this.activity.loader(true)
             body.append(scroll.render(true))
-
-            categories.forEach(cat => {
-                const count = pluginsList.filter(p => p.component === cat.component).length
-                const el = $(`<div class="selector ${ID}__category">
-          <span style="font-size:1.3em;margin-right:.5em">${icons[cat.component]}</span>
-          <span>${cat.title} (${count})</span>
-        </div>`)
-
-                el.on('hover:enter', () => this.openCategory(cat))
-                el.on('hover:focus', () => scroll.update(el))
-
-                scroll.append(el)
-                items.push(el)
-            })
-
-            this.activity.loader(false)
+            this.renderCategories()
             this.activity.toggle()
             return this.render()
         }
 
+        /** Рендер категорий */
+        this.renderCategories = () => {
+            scroll.clear()
+            items = []
+
+            categories.forEach(c => {
+                const count = pluginsList.filter(p => p.component === c.component).length
+                const el = $(`<div class="selector ${ID}__category">
+                  <span style="font-size:1.3em;margin-right:.5em">${icons[c.component] || '📦'}</span>
+                  <span>${c.title} (${count})</span>
+                </div>`)
+                el.on('hover:enter', () => this.openCategory(c))
+                el.on('hover:focus', () => scroll.update(el))
+                scroll.append(el)
+                items.push(el)
+            })
+
+            Lampa.Controller.collectionSet(scroll.render())
+            Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
+        }
+
+        /** Рендер плагинов в выбранной категории */
         this.openCategory = (cat) => {
-            scroll.clear()  // очищаем старый список
+            scroll.clear()
             items = []
 
             // Кнопка назад
             const backEl = $(`<div class="selector ${ID}__back">⬅ Назад</div>`)
-            backEl.on('hover:enter', () => {
-                scroll.clear()
-                items = []
-                // возвращаем категории
-                categories.forEach(c => {
-                    const count = pluginsList.filter(p => p.component === c.component).length
-                    const el = $(`<div class="selector ${ID}__category">
-                <span style="font-size:1.3em;margin-right:.5em">${icons[c.component]}</span>
-                <span>${c.title} (${count})</span>
-                </div>`)
-                    el.on('hover:enter', () => this.openCategory(c))
-                    el.on('hover:focus', () => scroll.update(el))
-                    scroll.append(el)
-                    items.push(el)
-                })
-                Lampa.Controller.collectionSet(scroll.render())
-                Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
-            })
+            backEl.on('hover:enter', () => this.renderCategories())
             backEl.on('hover:focus', () => scroll.update(backEl))
             scroll.append(backEl)
             items.push(backEl)
 
-            // Сами плагины категории
             const list = pluginsList.filter(p => p.component === cat.component)
             list.forEach(plugin => {
                 const el = $(`<div class="selector ${ID}__item">
-                <div style="font-size:1.1em; color:#ff9800">${plugin.name}</div>
-                <div style="font-size:0.9em; color:#ccc">${plugin.description}</div>
-                <div style="font-size:0.8em; color:#666">Автор: ${plugin.author}</div>
-                <div style="margin-top:.5em;">
-                <button class="addon__btn install">Установить</button>
-                <button class="addon__btn remove">Удалить</button>
-                </div>
-            </div>`)
+                    <div style="font-size:1.1em; color:#ff9800">${plugin.name}</div>
+                    <div style="font-size:0.9em; color:#ccc">${plugin.description}</div>
+                    <div style="font-size:0.8em; color:#666">Автор: ${plugin.author}</div>
+                </div>`)
 
-                el.find('.install').on('click', () => installPlugin(plugin))
-                el.find('.remove').on('click', () => removePlugin(plugin))
+                el.on('hover:enter', () => {
+                    Lampa.Noty.show(`Выбран плагин: ${plugin.name}`)
+                })
                 el.on('hover:focus', () => scroll.update(el))
 
                 scroll.append(el)
                 items.push(el)
             })
 
-            // перефокус
             Lampa.Controller.collectionSet(scroll.render())
             Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
         }
 
-
         this.start = () => {
             Lampa.Controller.add(ID, {
-                toggle() {
+                toggle: () => {
                     Lampa.Controller.collectionSet(scroll.render())
                     Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
                 },
-                back: this.back
+                back: this.back,
+                up() { Navigator.move('up') },
+                down() { Navigator.move('down') },
+                left() { if (Navigator.canmove('left')) Navigator.move('left'); else Lampa.Controller.toggle('menu') },
+                right() { Navigator.move('right') }
             })
             Lampa.Controller.toggle(ID)
         }
@@ -144,18 +115,20 @@
         this.destroy = () => { Lampa.Arrays.destroy(items); scroll.destroy(); html.remove() }
     }
 
-    function init() {
-        if (!window.Lampa) return console.log('[cloudplugins] Lampa not ready')
-
-        // Регистрируем компонент
-        Lampa.Component.add(ID, Screen)
-
-        // Добавляем в настройки кнопку-категорию
-        Lampa.SettingsApi.addComponent({
-            component: ID,
-            name: TITLE,
-            icon: '🧩'
+    /** Добавляем пункт в меню */
+    function addSettings() {
+        Lampa.SettingsApi.addParam({
+            component: 'plugins',
+            param: { name: ID, type: 'button' },
+            field: { name: TITLE, description: 'Управление плагинами' },
+            onSelect: () => Lampa.Activity.push({ title: TITLE, component: ID })
         })
+    }
+
+    function init() {
+        if (!window.Lampa) return
+        Lampa.Component.add(ID, Screen)
+        addSettings()
     }
 
     if (window.appready) init()
