@@ -168,26 +168,32 @@
     // 4) Добавляем CSS для иконок (один раз)
     (function addIconsStyle() {
         if (document.getElementById('plugin-icons-style')) return;
+
         const style = document.createElement('style');
         style.id = 'plugin-icons-style';
         style.textContent = `
             [data-component="add_plugin"] .settings-param__icon{
-            width:22px !important;
-            height:22px !important;
-            min-width:22px !important;
-            min-height:22px !important;
-            display:flex; align-items:center; justify-content:center;
-            margin-right:.6em; flex-shrink:0; overflow:hidden;
+            width:16px !important;
+            height:16px !important;
+            min-width:16px !important;
+            min-height:16px !important;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-right:.5em;
+            flex-shrink:0;
+            overflow:hidden;
             }
             [data-component="add_plugin"] .settings-param__icon svg{
             width:100% !important;
             height:100% !important;
-            max-width:22px !important;
-            max-height:22px !important;
-            }
+            max-width:16px !important;
+            max-height:16px !important;
+        }
     `;
         document.head.appendChild(style);
     })();
+
 
 
 
