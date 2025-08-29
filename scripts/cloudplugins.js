@@ -1,18 +1,25 @@
 (function () {
     const ID = 'cloudplugins'
     const TITLE = 'Менеджер плагинов'
+    const STORAGE_KEY = 'cloud_plugins_list'
 
-    /** Работа с плагинами в Storage */
+    const CATEGORIES = [
+        { id: 'interface', name: 'Интерфейс', icon: '🖥️' },
+        { id: 'management', name: 'Управление', icon: '⚙️' },
+        { id: 'online', name: 'Онлайн', icon: '🌐' },
+        { id: 'torrent', name: 'Торренты', icon: '📦' },
+        { id: 'tv', name: 'ТВ', icon: '📺' },
+        { id: 'radio', name: 'Радио', icon: '📻' },
+        { id: 'adult', name: '18+', icon: '🔞' }
+    ]
+
+    // ---------------- STORAGE ----------------
     function getPlugins() {
-        return Lampa.Storage.get('plugins', [])
+        return Lampa.Storage.get(STORAGE_KEY, [])
     }
 
     function savePlugins(list) {
-        Lampa.Storage.set('plugins', list)
-    }
-
-    function isInstalled(url) {
-        return getPlugins().some(p => p.url === url && p.status === 1)
+        Lampa.Storage.set(STORAGE_KEY, list)
     }
 
     function installPlugin(url) {
@@ -21,50 +28,68 @@
         if (idx === -1) list.push({ url, status: 1 })
         else list[idx].status = 1
         savePlugins(list)
-        Lampa.Utils.putScript(url, () => Lampa.Noty.show('✅ Плагин установлен'))
+
+        Lampa.Utils.putScript(
+            url,
+            () => Lampa.Noty.show('✅ Плагин установлен'),
+            () => Lampa.Noty.show('❌ Ошибка загрузки плагина')
+        )
     }
 
     function removePlugin(url) {
-        let list = getPlugins()
-        const idx = list.findIndex(p => p.url === url)
-        if (idx !== -1) list[idx].status = 0
+        let list = getPlugins().filter(p => p.url !== url)
         savePlugins(list)
-        Lampa.Noty.show('❌ Плагин удалён')
+        Lampa.Noty.show('🗑️ Плагин удалён')
     }
 
-    /** Экран категорий */
-    function RootScreen(object) {
+    // ---------------- ROOT SCREEN ----------------
+    function RootScreen() {
         const scroll = new Lampa.Scroll({ mask: true, over: true })
-        const html = $('<div class="cloudplugins-root"><div class="cloudplugins-body"></div></div>')
-        const body = html.find('.cloudplugins-body')
+        const html = $(`<div class="cloudplugins"><div class="cloudplugins__body"></div></div>`)
+        const body = html.find('.cloudplugins__body')
         let items = []
-
-        const categories = [
-            { id: 'interface', name: 'Интерфейс', icon: '🖥️' },
-            { id: 'online', name: 'Онлайн', icon: '🌐' },
-            { id: 'tv', name: 'ТВ', icon: '📺' },
-            { id: 'torrent', name: 'Торренты', icon: '📥' },
-            { id: 'radio', name: 'Радио', icon: '📻' },
-            { id: 'adult', name: '18+', icon: '🔞' }
-        ]
 
         this.create = () => {
             body.append(scroll.render(true))
 
-            categories.forEach(cat => {
-                const el = $(`
-          <div class="selector" style="padding:1em; margin:0.5em; background:#383838; border-radius:0.6em; display:flex; gap:0.6em; align-items:center;">
-            <div style="font-size:1.3em">${cat.icon}</div>
-            <div style="font-size:1.1em; color:#fff">${cat.name}</div>
-          </div>
-        `)
+            // блок категорий
+            const catBlock = $('<div class="cloudplugins__categories"></div>')
+            CATEGORIES.forEach(cat => {
+                const el = $(
+                    `<div class="selector cloudplugins__cat">
+             <div class="cloudplugins__cat-icon">${cat.icon}</div>
+             <div class="cloudplugins__cat-name">${cat.name}</div>
+           </div>`
+                )
                 el.on('hover:enter', () => {
-                    Lampa.Activity.push({ title: cat.name, component: ID + '_category', category: cat.id })
+                    Lampa.Activity.push({ title: cat.name, component: 'cloudplugins_category', id: cat.id })
                 })
                 el.on('hover:focus', () => scroll.update(el))
-                scroll.append(el)
+                catBlock.append(el)
                 items.push(el)
             })
+            scroll.append(catBlock)
+
+            // блок установленных плагинов
+            const pluginBlock = $('<div class="cloudplugins__plugins"><div class="cloudplugins__title">Установленные плагины</div></div>')
+            const plugins = getPlugins()
+            if (plugins.length === 0) {
+                pluginBlock.append('<div class="cloudplugins__empty">Нет установленных плагинов</div>')
+            } else {
+                plugins.forEach(p => {
+                    const row = $(
+                        `<div class="selector cloudplugins__plugin">
+               <div class="cloudplugins__plugin-url">${p.url}</div>
+               <div class="cloudplugins__plugin-action">Удалить</div>
+             </div>`
+                    )
+                    row.on('hover:enter', () => removePlugin(p.url))
+                    row.on('hover:focus', () => scroll.update(row))
+                    pluginBlock.append(row)
+                    items.push(row)
+                })
+            }
+            scroll.append(pluginBlock)
 
             this.activity.toggle()
             return this.render()
@@ -87,47 +112,37 @@
 
         this.back = () => Lampa.Activity.backward()
         this.render = () => html
-        this.destroy = () => { scroll.destroy(); html.remove(); }
+        this.pause = () => { }
+        this.resume = () => { }
+        this.destroy = () => { scroll.destroy(); html.remove() }
     }
 
-    /** Экран плагинов в категории */
+    // ---------------- CATEGORY SCREEN ----------------
     function CategoryScreen(object) {
         const scroll = new Lampa.Scroll({ mask: true, over: true })
-        const html = $('<div class="cloudplugins-category"><div class="cloudplugins-body"></div></div>')
-        const body = html.find('.cloudplugins-body')
+        const html = $(`<div class="cloudplugins-category"><div class="cloudplugins-category__body"></div></div>`)
+        const body = html.find('.cloudplugins-category__body')
         let items = []
-
-        // Пример плагинов (замени своими)
-        const plugins = [
-            { name: 'Plugin A', url: 'https://example.com/pluginA.js' },
-            { name: 'Plugin B', url: 'https://example.com/pluginB.js' }
-        ]
 
         this.create = () => {
             body.append(scroll.render(true))
 
-            plugins.forEach(pl => {
-                const el = $(`
-          <div class="selector" style="padding:1em; margin:0.5em; background:#2e2e2e; border-radius:0.6em;">
-            <div style="font-size:1.1em; color:#fff; margin-bottom:0.5em">${pl.name}</div>
-            <div style="display:flex; gap:1em;">
-              <div class="cloudplugins-btn" style="background:#ff9800; color:#000; padding:0.4em 1em; border-radius:0.5em; font-weight:bold; cursor:pointer;">
-                ${isInstalled(pl.url) ? 'Удалить' : 'Установить'}
-              </div>
-            </div>
-          </div>
-        `)
+            const urls = [
+                `https://example.com/${object.id}/plugin1.js`,
+                `https://example.com/${object.id}/plugin2.js`
+            ]
 
-                const btn = el.find('.cloudplugins-btn')
-                btn.on('hover:enter', () => {
-                    if (isInstalled(pl.url)) removePlugin(pl.url)
-                    else installPlugin(pl.url)
-                    btn.text(isInstalled(pl.url) ? 'Удалить' : 'Установить')
-                })
-
-                el.on('hover:focus', () => scroll.update(el))
-                scroll.append(el)
-                items.push(el)
+            urls.forEach(url => {
+                const row = $(
+                    `<div class="selector cloudplugins__plugin cloudplugins__plugin--install">
+             <div class="cloudplugins__plugin-url">${url}</div>
+             <div class="cloudplugins__plugin-action">Установить</div>
+           </div>`
+                )
+                row.on('hover:enter', () => installPlugin(url))
+                row.on('hover:focus', () => scroll.update(row))
+                scroll.append(row)
+                items.push(row)
             })
 
             this.activity.toggle()
@@ -135,7 +150,7 @@
         }
 
         this.start = () => {
-            Lampa.Controller.add(ID + '_cat', {
+            Lampa.Controller.add(`${ID}_${object.id}`, {
                 toggle() {
                     Lampa.Controller.collectionSet(scroll.render())
                     Lampa.Controller.collectionFocus(items[0]?.[0] || false, scroll.render())
@@ -146,41 +161,48 @@
                 left() { if (Navigator.canmove('left')) Navigator.move('left'); else Lampa.Controller.toggle('menu') },
                 right() { Navigator.move('right') }
             })
-            Lampa.Controller.toggle(ID + '_cat')
+            Lampa.Controller.toggle(`${ID}_${object.id}`)
         }
 
         this.back = () => Lampa.Activity.backward()
         this.render = () => html
-        this.destroy = () => { scroll.destroy(); html.remove(); }
+        this.pause = () => { }
+        this.resume = () => { }
+        this.destroy = () => { scroll.destroy(); html.remove() }
     }
 
-    /** Добавляем пункт в настройки */
-    function addSettings() {
-        Lampa.SettingsApi.addComponent({
-            component: ID,
-            name: TITLE,
-            icon: '🧩'
-        })
-
-        Lampa.SettingsApi.addParam({
-            component: ID,
-            param: { name: 'open', type: 'button' },
-            field: { name: 'Открыть менеджер' },
-            onChange: () => {
-                Lampa.Activity.push({ title: TITLE, component: ID })
-            }
-        })
-    }
-
+    // ---------------- INIT ----------------
     function init() {
         if (!window.Lampa) return
-        Lampa.Component.add(ID, RootScreen)
-        Lampa.Component.add(ID + '_category', CategoryScreen)
-        addSettings()
 
-        // загружаем установленные плагины при старте
-        getPlugins().forEach(p => {
-            if (p.status) Lampa.Utils.putScript(p.url)
+        // добавляем стили
+        const style = document.createElement('style')
+        style.textContent = `
+      .cloudplugins__categories { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 1em; margin-bottom: 1.5em; }
+      .cloudplugins__cat { background:#2a2a2a; border-radius:1em; padding:1em; text-align:center; font-size:1.1em; }
+      .cloudplugins__cat-icon { font-size:2em; margin-bottom:0.5em; }
+      .cloudplugins__cat.focus { background:#ff9800; color:#000; }
+      .cloudplugins__plugins { margin-top:1em; }
+      .cloudplugins__title { font-size:1.2em; margin-bottom:0.5em; }
+      .cloudplugins__plugin { display:flex; justify-content:space-between; align-items:center; background:#333; padding:0.7em 1em; border-radius:0.8em; margin-bottom:0.5em; }
+      .cloudplugins__plugin-action { color:#ff9800; font-weight:bold; }
+      .cloudplugins__plugin.focus { background:#ff9800; color:#000; }
+      .cloudplugins__plugin.focus .cloudplugins__plugin-action { color:#000; }
+      .cloudplugins__empty { opacity:0.6; font-size:0.9em; }
+    `
+        document.head.appendChild(style)
+
+        // регистрируем экраны
+        Lampa.Component.add(ID, RootScreen)
+        Lampa.Component.add('cloudplugins_category', CategoryScreen)
+
+        // кнопка в настройках
+        Lampa.SettingsApi.addComponent({
+            component: 'addons_root',
+            name: 'Плагины',
+            onSelect: () => {
+                Lampa.Activity.push({ title: TITLE, component: ID })
+            }
         })
     }
 
