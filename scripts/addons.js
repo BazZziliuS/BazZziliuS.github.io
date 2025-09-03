@@ -226,7 +226,7 @@
         { component: 'add_interface_plugin', key: 'interface', name: 'Стильный интерфейс', description: 'Новый стильный интерфейс для каталога TMDB и CUB. Понравится тем, кому нравится интерфейс в кинопоиске или netflix', url: 'https://bazzzilius.github.io/scripts/cub_off.js', author: '@lampa' },
         { component: 'add_interface_plugin', key: 'cardify', name: 'Стильныe карточки', description: 'Расширение преобразует привычный вид карточек, предлагая обновленный интерфейс — более яркий, красочный и привлекательный.', url: 'https://bazzzilius.github.io/scripts/cardify.js', author: '@lampa' },
         { component: 'add_interface_plugin', key: 'cub_off', name: 'Cub Off', description: 'Плагин убирает элементы, предлагающие оформить cub premium', url: 'https://bazzzilius.github.io/scripts/cub_off.js', author: '@scabrum' },
-        { component: 'add_interface_plugin', key: 'weather', name: 'Погода', description: 'Плагин будет поочередно показывать время и погоду, чередуя их показания', url: 'https://bazzzilius.github.io/scripts/weather.js', author: '@lampishe' },
+        { component: 'add_interface_plugin', key: 'weather', name: 'Погода', description: 'Плагин будет поочередно показывать время и погоду, чередуя их показания', url: 'https://bazzzilius.github.io/scripts/weather.js', author: '@scabrum' },
         { component: 'add_interface_plugin', key: 'snow', name: 'Снег', description: 'Добавляет новогоднее настроение.', url: 'https://bazzzilius.github.io/scripts/snow.js', author: '@undefined' },
         { component: 'add_interface_plugin', key: 'goldtheme', name: 'Золотая тема', description: 'Плагин включает золотую тему которая доступна для премиум пользователей', url: 'https://bazzzilius.github.io/scripts/gold_theme.js', author: '@lampa' },
         { component: 'add_interface_plugin', key: 'fcp', name: 'FCP', description: 'Улучшает вашу жизнь', url: 'https://bazzzilius.github.io/scripts/fp.js', author: '@Serega007' },
@@ -255,6 +255,7 @@
         { component: 'add_management_plugin', key: 'dlna', name: 'DLNA (Tizen, Orsay)', description: 'Плагин работает на устройстве Orsay, для Tizen необходимо обновить виджет до версии 1.9.1', url: 'http://cub.red/plugin/dlna', author: '@lampa' },
         { component: 'add_management_plugin', key: 'wsoff', name: 'Wsoff', description: 'Плагин отключения ошибки (Request was denied for security) на старых версиях Android.Не устанавливать, если ошибки нет', url: 'http://plugin.rootu.top/wsoff.js', author: '@rootu' },
         { component: 'add_management_plugin', key: 'redirect', name: 'Смена сервера', description: 'Плагин позволяет сменить сервер приложения', url: 'https://bazzzilius.github.io/scripts/redirect.js', author: '@scabrum' },
+        { component: 'add_management_plugin', key: 'cub_sync', name: 'CUB Sync', description: 'Синхронизация закладок и истории с CUB в локальное хранилище приложения', url: 'https://bazzzilius.github.io/scripts/cub_sync.js', author: '@levende' },
 
         // Онлайн
         { component: 'add_online_plugin', key: 'online_mod', name: 'Online_Mod', description: 'Плагин позволяет смотреть фильмы и сериалы в онлайн. На выбор доступно 7 балансеров', url: 'https://nb557.github.io/plugins/online_mod.js', author: '@t_anton' },
