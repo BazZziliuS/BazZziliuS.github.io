@@ -3,20 +3,20 @@
 
   Lampa.Platform.tv();
   (function () {
-    "use strict";
-    var c = {
+    'use strict';
+
+    var a = {
       asian_filter_enabled: false,
       language_filter_enabled: false,
-      quality_filter_enabled: false,
       rating_filter_enabled: false,
       history_filter_enabled: false
     };
-    var d = {
-      filters: [function (a) {
-        if (!c.asian_filter_enabled) {
-          return a;
+    var b = {
+      filters: [function (b) {
+        if (!a.asian_filter_enabled) {
+          return b;
         }
-        return a.filter(function (a) {
+        return b.filter(function (a) {
           if (!a || !a.original_language) {
             return true;
           }
@@ -24,11 +24,11 @@
           var c = ["ja", "ko", "zh", "th", "vi", "hi", "ta", "te", "ml", "kn", "bn", "ur", "pa", "gu", "mr", "ne", "si", "my", "km", "lo", "mn", "ka", "hy", "az", "kk", "ky", "tg", "tk", "uz"];
           return c.indexOf(b) === -1;
         });
-      }, function (a) {
-        if (!c.language_filter_enabled) {
-          return a;
+      }, function (b) {
+        if (!a.language_filter_enabled) {
+          return b;
         }
-        return a.filter(function (a) {
+        return b.filter(function (a) {
           if (!a) {
             return true;
           }
@@ -43,46 +43,46 @@
           }
           return false;
         });
-      }, function (a) {
-        if (!c.rating_filter_enabled) {
-          return a;
+      }, function (b) {
+        if (!a.rating_filter_enabled) {
+          return b;
         }
-        return a.filter(function (a) {
+        return b.filter(function (a) {
           if (!a) {
             return true;
           }
           return a.vote_average && a.vote_average >= 6;
         });
-      }, function (a) {
-        if (!c.history_filter_enabled) {
-          return a;
+      }, function (b) {
+        if (!a.history_filter_enabled) {
+          return b;
         }
-        var b = Lampa.Storage.get("favorite", "{}");
-        var d = Lampa.Storage.cache("timetable", 300, []);
-        return a.filter(function (a) {
+        var c = Lampa.Storage.get("favorite", "{}");
+        var h = Lampa.Storage.cache("timetable", 300, []);
+        return b.filter(function (a) {
           if (!a || !a.original_language) {
             return true;
           }
-          var c = a.media_type;
-          if (!c) {
-            c = !!a.first_air_date ? "tv" : "movie";
+          var b = a.media_type;
+          if (!b) {
+            b = !!a.first_air_date ? "tv" : "movie";
           }
-          var e = Lampa.Favorite.check(a);
-          var j = !!e && !!e.history;
-          var k = !!e && e.thrown;
+          var i = Lampa.Favorite.check(a);
+          var j = !!i && !!i.history;
+          var k = !!i && i.thrown;
           if (k) {
             return false;
           }
           if (!j) {
             return true;
           }
-          if (j && c === "movie") {
+          if (j && b === "movie") {
             return false;
           }
-          var l = f(a.id, b);
-          var m = g(a.id, d);
-          var n = h(l, m);
-          var o = i(a.original_title || a.original_name, n);
+          var l = d(a.id, c);
+          var m = e(a.id, h);
+          var n = f(l, m);
+          var o = g(a.original_title || a.original_name, n);
           return !o;
         });
       }],
@@ -94,7 +94,7 @@
         return b;
       }
     };
-    function e() {
+    function c() {
       if (window.lampa_listener_extensions) {
         return;
       }
@@ -114,7 +114,7 @@
         }
       });
     }
-    function f(a, b) {
+    function d(a, b) {
       var c = b.card.filter(function (b) {
         return b.id === a && Array.isArray(b.seasons) && b.seasons.length > 0;
       })[0];
@@ -139,7 +139,7 @@
       }
       return e;
     }
-    function g(a, b) {
+    function e(a, b) {
       var c = b.filter(function (b) {
         return b.id === a;
       })[0] || {};
@@ -150,7 +150,7 @@
         return a.season_number > 0 && a.air_date && new Date(a.air_date) < new Date();
       });
     }
-    function h(a, b) {
+    function f(a, b) {
       var c = a.concat(b);
       var d = [];
       for (var e = 0; e < c.length; e++) {
@@ -168,7 +168,7 @@
       }
       return d;
     }
-    function i(a, b) {
+    function g(a, b) {
       if (!b || b.length === 0) {
         return false;
       }
@@ -182,7 +182,7 @@
       }
       return true;
     }
-    function j() {
+    function h() {
       Lampa.Lang.add({
         content_filters: {
           ru: "Фильтр контента",
@@ -209,16 +209,6 @@
           en: "Hide cards not translated to the default language",
           uk: "Сховати картки, які не перекладені на мову за замовчуванням"
         },
-        quality_filter: {
-          ru: "Убрать контент с качеством TS",
-          en: "Remove TS Quality Content",
-          uk: "Прибрати контент з якістю TS"
-        },
-        quality_filter_desc: {
-          ru: "Скрываем карточки, на которых есть отметки качества TS",
-          en: "Hide cards marked as TS quality",
-          uk: "Сховати картки, позначені як TS"
-        },
         rating_filter: {
           ru: "Убрать низкорейтинговый контент",
           en: "Remove Low-Rated Content",
@@ -241,7 +231,7 @@
         }
       });
     }
-    function k() {
+    function i() {
       Lampa.Settings.listener.follow("open", function (a) {
         if (a.name == "main") {
           if (Lampa.Settings.main().render().find("[data-component=\"content_filters\"]").length == 0) {
@@ -290,9 +280,9 @@
           name: Lampa.Lang.translate("asian_filter"),
           description: Lampa.Lang.translate("asian_filter_desc")
         },
-        onChange: function (a) {
-          c.asian_filter_enabled = a;
-          Lampa.Storage.set("asian_filter_enabled", a);
+        onChange: function (b) {
+          a.asian_filter_enabled = b;
+          Lampa.Storage.set("asian_filter_enabled", b);
         }
       });
       Lampa.SettingsApi.addParam({
@@ -306,25 +296,9 @@
           name: Lampa.Lang.translate("language_filter"),
           description: Lampa.Lang.translate("language_filter_desc")
         },
-        onChange: function (a) {
-          c.language_filter_enabled = a;
-          Lampa.Storage.set("language_filter_enabled", a);
-        }
-      });
-      Lampa.SettingsApi.addParam({
-        component: "content_filters",
-        param: {
-          name: "quality_filter_enabled",
-          type: "trigger",
-          default: false
-        },
-        field: {
-          name: Lampa.Lang.translate("quality_filter"),
-          description: Lampa.Lang.translate("quality_filter_desc")
-        },
-        onChange: function (a) {
-          c.quality_filter_enabled = a;
-          Lampa.Storage.set("quality_filter_enabled", a);
+        onChange: function (b) {
+          a.language_filter_enabled = b;
+          Lampa.Storage.set("language_filter_enabled", b);
         }
       });
       Lampa.SettingsApi.addParam({
@@ -338,9 +312,9 @@
           name: Lampa.Lang.translate("rating_filter"),
           description: Lampa.Lang.translate("rating_filter_desc")
         },
-        onChange: function (a) {
-          c.rating_filter_enabled = a;
-          Lampa.Storage.set("rating_filter_enabled", a);
+        onChange: function (b) {
+          a.rating_filter_enabled = b;
+          Lampa.Storage.set("rating_filter_enabled", b);
         }
       });
       Lampa.SettingsApi.addParam({
@@ -354,26 +328,25 @@
           name: Lampa.Lang.translate("history_filter"),
           description: Lampa.Lang.translate("history_filter_desc")
         },
-        onChange: function (a) {
-          c.history_filter_enabled = a;
-          Lampa.Storage.set("history_filter_enabled", a);
+        onChange: function (b) {
+          a.history_filter_enabled = b;
+          Lampa.Storage.set("history_filter_enabled", b);
         }
       });
     }
-    function l() {
-      c.asian_filter_enabled = Lampa.Storage.get("asian_filter_enabled", false);
-      c.language_filter_enabled = Lampa.Storage.get("language_filter_enabled", false);
-      c.quality_filter_enabled = Lampa.Storage.get("quality_filter_enabled", false);
-      c.rating_filter_enabled = Lampa.Storage.get("rating_filter_enabled", false);
-      c.history_filter_enabled = Lampa.Storage.get("history_filter_enabled", false);
+    function j() {
+      a.asian_filter_enabled = Lampa.Storage.get("asian_filter_enabled", false);
+      a.language_filter_enabled = Lampa.Storage.get("language_filter_enabled", false);
+      a.rating_filter_enabled = Lampa.Storage.get("rating_filter_enabled", false);
+      a.history_filter_enabled = Lampa.Storage.get("history_filter_enabled", false);
     }
-    function m(a) {
+    function k(a) {
       return a.indexOf(Lampa.TMDB.api("")) > -1 && a.indexOf("/search") === -1 && a.indexOf("/person/") === -1;
     }
-    function n(a) {
+    function l(a) {
       return !!a && Array.isArray(a.results) && a.original_length !== a.results.length && a.page === 1 && !!a.total_pages && a.total_pages > 1;
     }
-    function o(a, b) {
+    function m(a, b) {
       if (a && a.closest) {
         return a.closest(b);
       }
@@ -406,35 +379,20 @@
       }
       return null;
     }
-    function p() {
+    function n() {
       if (window.content_filter_plugin) {
         return;
       }
       window.content_filter_plugin = true;
-      e();
-      l();
+      c();
       j();
-      k();
-      Lampa.Listener.follow("card", function (a) {
-        if (a.type !== "build" || !c.quality_filter_enabled) {
-          return;
-        }
-        // TOLOOK
-        setTimeout(function () {
-          if (!a.object || !a.object.card) {
-            return;
-          }
-          var b = a.object.card.querySelector(".card__quality div");
-          if (b && b.textContent.trim().toUpperCase() === "TS") {
-            a.object.card.style.display = "none";
-          }
-        }, 0);
-      });
+      h();
+      i();
       Lampa.Listener.follow("line", function (a) {
-        if (a.type !== "visible" || !n(a.data)) {
+        if (a.type !== "visible" || !l(a.data)) {
           return;
         }
-        var b = $(o(a.body, ".items-line")).find(".items-line__head");
+        var b = $(m(a.body, ".items-line")).find(".items-line__head");
         var c = b.find(".items-line__more").length !== 0;
         if (c) {
           return;
@@ -457,7 +415,7 @@
         b.append(d);
       });
       Lampa.Listener.follow("line", function (a) {
-        if (a.type !== "append" || !n(a.data)) {
+        if (a.type !== "append" || !l(a.data)) {
           return;
         }
         if (a.items.length === a.data.results.length && Lampa.Controller.own(a.line)) {
@@ -465,18 +423,18 @@
         }
       });
       Lampa.Listener.follow("request_secuses", function (a) {
-        if (m(a.params.url) && a.data && Array.isArray(a.data.results)) {
+        if (k(a.params.url) && a.data && Array.isArray(a.data.results)) {
           a.data.original_length = a.data.results.length;
-          a.data.results = d.apply(a.data.results);
+          a.data.results = b.apply(a.data.results);
         }
       });
     }
     if (window.appready) {
-      p();
+      n();
     } else {
       Lampa.Listener.follow("app", function (a) {
         if (a.type === "ready") {
-          p();
+          n();
         }
       });
     }
