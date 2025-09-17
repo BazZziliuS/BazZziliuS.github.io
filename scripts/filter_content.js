@@ -3,20 +3,19 @@
 
   Lampa.Platform.tv();
   (function () {
-    'use strict';
-
-    var a = {
+    "use strict";
+    var c = {
       asian_filter_enabled: false,
       language_filter_enabled: false,
       rating_filter_enabled: false,
       history_filter_enabled: false
     };
-    var b = {
-      filters: [function (b) {
-        if (!a.asian_filter_enabled) {
-          return b;
+    var d = {
+      filters: [function (a) {
+        if (!c.asian_filter_enabled) {
+          return a;
         }
-        return b.filter(function (a) {
+        return a.filter(function (a) {
           if (!a || !a.original_language) {
             return true;
           }
@@ -24,11 +23,11 @@
           var c = ["ja", "ko", "zh", "th", "vi", "hi", "ta", "te", "ml", "kn", "bn", "ur", "pa", "gu", "mr", "ne", "si", "my", "km", "lo", "mn", "ka", "hy", "az", "kk", "ky", "tg", "tk", "uz"];
           return c.indexOf(b) === -1;
         });
-      }, function (b) {
-        if (!a.language_filter_enabled) {
-          return b;
+      }, function (a) {
+        if (!c.language_filter_enabled) {
+          return a;
         }
-        return b.filter(function (a) {
+        return a.filter(function (a) {
           if (!a) {
             return true;
           }
@@ -43,46 +42,53 @@
           }
           return false;
         });
-      }, function (b) {
-        if (!a.rating_filter_enabled) {
-          return b;
+      }, function (a) {
+        if (!c.rating_filter_enabled) {
+          return a;
         }
-        return b.filter(function (a) {
+        return a.filter(function (a) {
           if (!a) {
             return true;
           }
-          return a.vote_average && a.vote_average >= 6;
+          var b = a.media_type === "video" || a.type === "Trailer" || a.site === "YouTube" || a.key && a.name && a.name.toLowerCase().indexOf("trailer") !== -1;
+          if (b) {
+            return true;
+          }
+          if (!a.vote_average || a.vote_average === 0) {
+            return false;
+          }
+          return a.vote_average >= 6;
         });
-      }, function (b) {
-        if (!a.history_filter_enabled) {
-          return b;
+      }, function (a) {
+        if (!c.history_filter_enabled) {
+          return a;
         }
-        var c = Lampa.Storage.get("favorite", "{}");
-        var h = Lampa.Storage.cache("timetable", 300, []);
-        return b.filter(function (a) {
+        var b = Lampa.Storage.get("favorite", "{}");
+        var d = Lampa.Storage.cache("timetable", 300, []);
+        return a.filter(function (a) {
           if (!a || !a.original_language) {
             return true;
           }
-          var b = a.media_type;
-          if (!b) {
-            b = !!a.first_air_date ? "tv" : "movie";
+          var c = a.media_type;
+          if (!c) {
+            c = !!a.first_air_date ? "tv" : "movie";
           }
-          var i = Lampa.Favorite.check(a);
-          var j = !!i && !!i.history;
-          var k = !!i && i.thrown;
+          var e = Lampa.Favorite.check(a);
+          var j = !!e && !!e.history;
+          var k = !!e && e.thrown;
           if (k) {
             return false;
           }
           if (!j) {
             return true;
           }
-          if (j && b === "movie") {
+          if (j && c === "movie") {
             return false;
           }
-          var l = d(a.id, c);
-          var m = e(a.id, h);
-          var n = f(l, m);
-          var o = g(a.original_title || a.original_name, n);
+          var l = f(a.id, b);
+          var m = g(a.id, d);
+          var n = h(l, m);
+          var o = i(a.original_title || a.original_name, n);
           return !o;
         });
       }],
@@ -94,7 +100,7 @@
         return b;
       }
     };
-    function c() {
+    function e() {
       if (window.lampa_listener_extensions) {
         return;
       }
@@ -114,7 +120,7 @@
         }
       });
     }
-    function d(a, b) {
+    function f(a, b) {
       var c = b.card.filter(function (b) {
         return b.id === a && Array.isArray(b.seasons) && b.seasons.length > 0;
       })[0];
@@ -139,7 +145,7 @@
       }
       return e;
     }
-    function e(a, b) {
+    function g(a, b) {
       var c = b.filter(function (b) {
         return b.id === a;
       })[0] || {};
@@ -150,7 +156,7 @@
         return a.season_number > 0 && a.air_date && new Date(a.air_date) < new Date();
       });
     }
-    function f(a, b) {
+    function h(a, b) {
       var c = a.concat(b);
       var d = [];
       for (var e = 0; e < c.length; e++) {
@@ -168,7 +174,7 @@
       }
       return d;
     }
-    function g(a, b) {
+    function i(a, b) {
       if (!b || b.length === 0) {
         return false;
       }
@@ -182,7 +188,7 @@
       }
       return true;
     }
-    function h() {
+    function j() {
       Lampa.Lang.add({
         content_filters: {
           ru: "Фильтр контента",
@@ -215,7 +221,7 @@
           uk: "Прибрати низько рейтинговий контент"
         },
         rating_filter_desc: {
-          ru: "Скрываем карточкм с рейтингом ниже 6.0",
+          ru: "Скрываем карточки с рейтингом ниже 6.0",
           en: "Hide cards with a rating below 6.0",
           uk: "Сховати картки з рейтингом нижче 6.0"
         },
@@ -231,7 +237,7 @@
         }
       });
     }
-    function i() {
+    function k() {
       Lampa.Settings.listener.follow("open", function (a) {
         if (a.name == "main") {
           if (Lampa.Settings.main().render().find("[data-component=\"content_filters\"]").length == 0) {
@@ -280,9 +286,9 @@
           name: Lampa.Lang.translate("asian_filter"),
           description: Lampa.Lang.translate("asian_filter_desc")
         },
-        onChange: function (b) {
-          a.asian_filter_enabled = b;
-          Lampa.Storage.set("asian_filter_enabled", b);
+        onChange: function (a) {
+          c.asian_filter_enabled = a;
+          Lampa.Storage.set("asian_filter_enabled", a);
         }
       });
       Lampa.SettingsApi.addParam({
@@ -296,9 +302,9 @@
           name: Lampa.Lang.translate("language_filter"),
           description: Lampa.Lang.translate("language_filter_desc")
         },
-        onChange: function (b) {
-          a.language_filter_enabled = b;
-          Lampa.Storage.set("language_filter_enabled", b);
+        onChange: function (a) {
+          c.language_filter_enabled = a;
+          Lampa.Storage.set("language_filter_enabled", a);
         }
       });
       Lampa.SettingsApi.addParam({
@@ -312,9 +318,9 @@
           name: Lampa.Lang.translate("rating_filter"),
           description: Lampa.Lang.translate("rating_filter_desc")
         },
-        onChange: function (b) {
-          a.rating_filter_enabled = b;
-          Lampa.Storage.set("rating_filter_enabled", b);
+        onChange: function (a) {
+          c.rating_filter_enabled = a;
+          Lampa.Storage.set("rating_filter_enabled", a);
         }
       });
       Lampa.SettingsApi.addParam({
@@ -328,25 +334,25 @@
           name: Lampa.Lang.translate("history_filter"),
           description: Lampa.Lang.translate("history_filter_desc")
         },
-        onChange: function (b) {
-          a.history_filter_enabled = b;
-          Lampa.Storage.set("history_filter_enabled", b);
+        onChange: function (a) {
+          c.history_filter_enabled = a;
+          Lampa.Storage.set("history_filter_enabled", a);
         }
       });
     }
-    function j() {
-      a.asian_filter_enabled = Lampa.Storage.get("asian_filter_enabled", false);
-      a.language_filter_enabled = Lampa.Storage.get("language_filter_enabled", false);
-      a.rating_filter_enabled = Lampa.Storage.get("rating_filter_enabled", false);
-      a.history_filter_enabled = Lampa.Storage.get("history_filter_enabled", false);
+    function l() {
+      c.asian_filter_enabled = Lampa.Storage.get("asian_filter_enabled", false);
+      c.language_filter_enabled = Lampa.Storage.get("language_filter_enabled", false);
+      c.rating_filter_enabled = Lampa.Storage.get("rating_filter_enabled", false);
+      c.history_filter_enabled = Lampa.Storage.get("history_filter_enabled", false);
     }
-    function k(a) {
+    function m(a) {
       return a.indexOf(Lampa.TMDB.api("")) > -1 && a.indexOf("/search") === -1 && a.indexOf("/person/") === -1;
     }
-    function l(a) {
+    function n(a) {
       return !!a && Array.isArray(a.results) && a.original_length !== a.results.length && a.page === 1 && !!a.total_pages && a.total_pages > 1;
     }
-    function m(a, b) {
+    function o(a, b) {
       if (a && a.closest) {
         return a.closest(b);
       }
@@ -379,20 +385,20 @@
       }
       return null;
     }
-    function n() {
+    function p() {
       if (window.content_filter_plugin) {
         return;
       }
       window.content_filter_plugin = true;
-      c();
+      e();
+      l();
       j();
-      h();
-      i();
+      k();
       Lampa.Listener.follow("line", function (a) {
-        if (a.type !== "visible" || !l(a.data)) {
+        if (a.type !== "visible" || !n(a.data)) {
           return;
         }
-        var b = $(m(a.body, ".items-line")).find(".items-line__head");
+        var b = $(o(a.body, ".items-line")).find(".items-line__head");
         var c = b.find(".items-line__more").length !== 0;
         if (c) {
           return;
@@ -415,7 +421,7 @@
         b.append(d);
       });
       Lampa.Listener.follow("line", function (a) {
-        if (a.type !== "append" || !l(a.data)) {
+        if (a.type !== "append" || !n(a.data)) {
           return;
         }
         if (a.items.length === a.data.results.length && Lampa.Controller.own(a.line)) {
@@ -423,18 +429,18 @@
         }
       });
       Lampa.Listener.follow("request_secuses", function (a) {
-        if (k(a.params.url) && a.data && Array.isArray(a.data.results)) {
+        if (m(a.params.url) && a.data && Array.isArray(a.data.results)) {
           a.data.original_length = a.data.results.length;
-          a.data.results = b.apply(a.data.results);
+          a.data.results = d.apply(a.data.results);
         }
       });
     }
     if (window.appready) {
-      n();
+      p();
     } else {
       Lampa.Listener.follow("app", function (a) {
         if (a.type === "ready") {
-          n();
+          p();
         }
       });
     }
