@@ -17,27 +17,32 @@
     // HTML рекламы
     const ads = `
         <div style="padding: 0.5em;">
-            <div style="background:#383838; border-radius:0.8em; overflow:hidden; text-align:center;">
-            <!-- картинка сверху -->
-            <img src="https://i.imgur.com/yJCQucC.png" 
-                style="width:100%; display:block; border-top-left-radius:0.8em; border-top-right-radius:0.8em;" 
-                alt="AEZA Hosting">
+            <div 
+                style="background:#383838; border-radius:0.8em; overflow:hidden; text-align:center; outline: none;" 
+                tabindex="0" <!-- делаем блок фокусируемым -->
+                onfocus="this.style.boxShadow='0 0 10px 3px #ff9800'; this.style.transform='scale(1.02)';" 
+                onblur="this.style.boxShadow='none'; this.style.transform='scale(1)';"
+            >
+                <!-- картинка сверху -->
+                <!-- <img src="https://i.imgur.com/yJCQucC.png" 
+                    style="width:100%; display:block; border-top-left-radius:0.8em; border-top-right-radius:0.8em;" 
+                    alt="AEZA Hosting"> -->
 
-            <!-- текстовый блок -->
-            <div style="padding:0.8em;">
-                <div style="font-size:1.2em; font-weight:bold; color:#ff9800; margin-bottom:0.3em;">
-                🔥 AEZA Hosting — свой торрент-сервер
-                </div>
-                <div style="font-size:0.95em; color:#ccc; margin-bottom:0.8em;">
-                Развёрни личный торрент-сервер на мощном и недорогом хостинге.
-                </div>
+                <!-- текстовый блок -->
+                <div style="padding:0.8em;">
+                    <div style="font-size:1.2em; font-weight:bold; color:#ff9800; margin-bottom:0.3em;">
+                        🔥 VEESP VPS — свой виртуальный сервер
+                    </div>
+                    <div style="font-size:0.95em; color:#ccc; margin-bottom:0.8em;">
+                        Развёрни личный VPS на мощном и недорогом хостинге.
+                    </div>
 
-                <!-- кнопка -->
-                <a href="https://aeza.net/ru?ref=507375" target="_blank"
-                style="display:inline-block; background:#ff9800; color:#000; padding:0.5em 1.2em; border-radius:2em; font-weight:bold; text-decoration:none;">
-                Перейти →
-                </a>
-            </div>
+                    <!-- кнопка -->
+                    <a href="https://cloudea.org/vps" target="_blank"
+                    style="display:inline-block; background:#ff9800; color:#000; padding:0.5em 1.2em; border-radius:2em; font-weight:bold; text-decoration:none;">
+                        Перейти →
+                    </a>
+                </div>
             </div>
         </div>
         `;
