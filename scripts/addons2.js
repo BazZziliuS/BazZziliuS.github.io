@@ -412,23 +412,30 @@
 
     // При открытии главного меню настроек
     Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name !== 'main') return;
+        if (e.name === 'main') {
+            try {
+                // Инициализация подкатегорий (только один раз)
+                if (!Lampa.Storage.get(CONSTANTS.STORAGE_KEYS.PLUGINS_INITED)) {
+                    initSubcategories();
+                }
 
-        try {
-            // Инициализация подкатегорий (только один раз)
-            if (!Lampa.Storage.get(CONSTANTS.STORAGE_KEYS.PLUGINS_INITED)) {
-                initSubcategories();
+                // Реорганизация DOM
+                reorganizeSettings();
+            } catch (error) {
+                console.error('[Addons] Ошибка инициализации настроек:', error);
             }
+        }
 
-            // Инициализация рекламы (только один раз)
-            if (!Lampa.Storage.get(CONSTANTS.STORAGE_KEYS.AD_INITED)) {
-                setTimeout(() => initAdvertisement(), CONSTANTS.TIMEOUTS.AD_INJECT);
+        // При открытии категории "Плагины"
+        if (e.name === 'add_plugin') {
+            try {
+                // Инициализация рекламы (только один раз)
+                if (!Lampa.Storage.get(CONSTANTS.STORAGE_KEYS.AD_INITED)) {
+                    setTimeout(() => initAdvertisement(), CONSTANTS.TIMEOUTS.AD_INJECT);
+                }
+            } catch (error) {
+                console.error('[Addons] Ошибка инициализации рекламы:', error);
             }
-
-            // Реорганизация DOM
-            reorganizeSettings();
-        } catch (error) {
-            console.error('[Addons] Ошибка инициализации настроек:', error);
         }
     });
 
