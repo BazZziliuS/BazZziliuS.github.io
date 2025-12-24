@@ -410,9 +410,9 @@
         icon: icons.add_plugin
     });
 
-    // При открытии категории Плагины
+    // При открытии главного меню настроек
     Lampa.Settings.listener.follow('open', (e) => {
-        if (e.name !== 'add_plugin') return;
+        if (e.name !== 'main') return;
 
         try {
             // Инициализация подкатегорий (только один раз)
