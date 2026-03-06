@@ -12,11 +12,13 @@
     // Ключи Lampa Storage для синхронизации
     var SYNC_KEYS = [
         'favorite',             // Закладки
-        'history',              // История просмотров
-        'file_view',            // Отметки просмотра (что смотрел)
+        'online_view',          // История просмотров (онлайн)
+        'torrents_view',        // История просмотров (торренты)
+        'file_view',            // Отметки просмотра файлов
         'search_history',       // История поиска
         'timeline',             // Тайм-коды
         'filter',               // Фильтры
+        'online_last_balanser', // Последний балансер
         'my_bookmarks',         // Пользовательские папки закладок
         'online_choice',        // Выбор источника для фильмов
         'torrserver_url',       // Адрес TorrServer
