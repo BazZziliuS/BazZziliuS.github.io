@@ -291,30 +291,59 @@
     }
 
     // =========================================================================
-    //  Рекламный баннер (навигация пультом + клик)
+    //  Рекламный баннер (загрузка из JSON, ротация при каждом открытии)
     // =========================================================================
 
-    var AD_URL  = 'https://cloudea.org/vps';
-    var AD_DATA = {
-        title: 'VEESP VPS — свой виртуальный сервер',
-        text:  'Разверни личный VPS на мощном и недорогом хостинге.',
-        btn:   'Перейти'
-    };
+    var ADS_URL = 'https://bazzzilius.github.io/market/ads.json';
+    var adsCache = null;
+    var adsLastIndex = -1;
 
-    function createAdBanner() {
-        var ad = $(
+    function loadAds(callback) {
+        if (adsCache) return callback(adsCache);
+
+        var network = new Lampa.Reguest();
+        network.timeout(5000);
+        network.silent(ADS_URL, function (data) {
+            if (data && data.length) {
+                adsCache = data;
+                callback(data);
+            }
+        }, function () {
+            // при ошибке загрузки — не показываем баннер
+        });
+    }
+
+    function pickAd(ads) {
+        if (ads.length === 1) return ads[0];
+
+        var index;
+        do {
+            index = Math.floor(Math.random() * ads.length);
+        } while (index === adsLastIndex && ads.length > 1);
+
+        adsLastIndex = index;
+        return ads[index];
+    }
+
+    function createAdBanner(ad) {
+        var color = ad.color || '#ff9800';
+        var el = $(
             '<div class="market-ad selector">' +
-                '<div class="market-ad__title">' + AD_DATA.title + '</div>' +
-                '<div class="market-ad__text">' + AD_DATA.text + '</div>' +
-                '<div class="market-ad__btn">' + AD_DATA.btn + '</div>' +
+                '<div class="market-ad__title"></div>' +
+                '<div class="market-ad__text"></div>' +
+                '<div class="market-ad__btn"></div>' +
             '</div>'
         );
 
-        ad.on('hover:enter', function () {
-            window.open(AD_URL, '_blank');
+        el.find('.market-ad__title').text(ad.title).css('color', color);
+        el.find('.market-ad__text').text(ad.text);
+        el.find('.market-ad__btn').text(ad.btn).css('background', color);
+
+        el.on('hover:enter', function () {
+            window.open(ad.url, '_blank');
         });
 
-        return ad;
+        return el;
     }
 
     // =========================================================================
@@ -337,11 +366,16 @@
                 }
             }
 
-            // Баннер внизу главного экрана маркета
+            // Баннер внизу главного экрана маркета — новый при каждом открытии
             if (e.name === PLUGIN_ID) {
                 var scroll = e.body.find('.scroll__content');
-                if (scroll.length && !scroll.find('.market-ad').length) {
-                    scroll.append(createAdBanner());
+                if (scroll.length) {
+                    scroll.find('.market-ad').remove();
+
+                    loadAds(function (ads) {
+                        var ad = pickAd(ads);
+                        scroll.append(createAdBanner(ad));
+                    });
                 }
             }
         });
