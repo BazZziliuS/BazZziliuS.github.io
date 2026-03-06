@@ -203,17 +203,40 @@
         var html = $('<div></div>');
         var active = 0;
 
+        var self = this;
+
         this.create = function () {
-            this.activity = object.activity;
+            return this.render();
         };
 
         this.start = function () {
+            Lampa.Loading.start(function () {
+                Lampa.Activity.backward();
+            });
+
+            loadRecommendations(function (recResults) {
+                loadByGenres(function (genreResults) {
+                    Lampa.Loading.stop();
+
+                    var all = recResults.slice();
+                    genreResults.forEach(function (item) {
+                        if (!cardInList(all, item.id)) all.push(item);
+                    });
+
+                    self.build(all);
+                    self.activity.loader(false);
+                    self.activity.toggle();
+                });
+            });
+        };
+
+        this.startController = function () {
             Lampa.Controller.add('content', {
                 toggle: function () {
                     Lampa.Controller.collectionSet(scroll.render());
                     Lampa.Controller.collectionFocus(items.length ? items[active] : false, scroll.render());
                 },
-                back: this.back
+                back: self.back
             });
 
             Lampa.Controller.toggle('content');
@@ -271,6 +294,8 @@
                 scroll.append(elem.render());
                 items.push(elem);
             });
+
+            self.startController();
         };
 
         this.pause = function () {};
@@ -299,31 +324,7 @@
     function initComponent() {
         Lampa.Component.add(PLUGIN_NAME, function (object) {
             var comp = new component(object);
-
             comp.create();
-
-            Lampa.Loading.start(function () {
-                Lampa.Activity.backward();
-            });
-
-            loadRecommendations(function (recResults) {
-                loadByGenres(function (genreResults) {
-                    Lampa.Loading.stop();
-
-                    // Объединяем и убираем дубли
-                    var all = recResults.slice();
-                    genreResults.forEach(function (item) {
-                        if (!cardInList(all, item.id)) all.push(item);
-                    });
-
-                    comp.build(all);
-                    comp.start();
-
-                    comp.activity.loader(false);
-                    comp.activity.toggle();
-                });
-            });
-
             return comp;
         });
     }
