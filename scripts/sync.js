@@ -46,7 +46,9 @@
         '.sync-status { font-size: 0.85em; color: #999; margin-top: 0.3em; }',
         '.sync-status--ok { color: #4caf50; }',
         '.sync-status--error { color: #f44336; }',
-        '.sync-status--progress { color: #ff9800; }'
+        '.sync-status--progress { color: #ff9800; }',
+        '.sync-qr { text-align: center; padding: 1em 0; }',
+        '.sync-qr svg { width: 200px; height: 200px; }'
     ].join('\n');
     document.head.appendChild(css);
 
@@ -229,6 +231,58 @@
     }
 
     // =========================================================================
+    //  QR-код
+    // =========================================================================
+
+    function renderQR(element, text) {
+        if (Lampa.Utils && Lampa.Utils.qrcode) {
+            Lampa.Utils.qrcode(text, element, function () {
+                element.innerHTML = '<div style="color:#999;padding:1em">QR недоступен</div>';
+            });
+        } else if (window.qrcode) {
+            try {
+                var qr = window.qrcode(0, 'H');
+                qr.addData(text, 'Byte');
+                qr.make();
+                if (element instanceof $) element = element[0];
+                element.innerHTML = qr.createSvgTag({ cellSize: 8, margin: 10 });
+            } catch (e) {
+                element.innerHTML = '<div style="color:#999;padding:1em">QR недоступен</div>';
+            }
+        }
+    }
+
+    function showQR(token) {
+        var html = $(
+            '<div style="text-align:center;padding:1em">' +
+                '<div class="sync-qr"></div>' +
+                '<div class="sync-token-display">' + token + '</div>' +
+                '<div class="sync-status">Отсканируйте QR-код на другом устройстве и введите код</div>' +
+            '</div>'
+        );
+
+        renderQR(html.find('.sync-qr')[0], token);
+
+        Lampa.Modal.open({
+            title: 'QR-код синхронизации',
+            html: html,
+            buttons: [
+                {
+                    name: 'Закрыть',
+                    onSelect: function () {
+                        Lampa.Modal.close();
+                        Lampa.Controller.toggle('settings_component');
+                    }
+                }
+            ],
+            onBack: function () {
+                Lampa.Modal.close();
+                Lampa.Controller.toggle('settings_component');
+            }
+        });
+    }
+
+    // =========================================================================
     //  Обновление кэша Lampa после синхронизации
     // =========================================================================
 
@@ -395,6 +449,21 @@
             }
         });
 
+        // Показать QR-код
+        Lampa.SettingsApi.addParam({
+            component: PLUGIN_ID,
+            param: { name: 'sync_show_qr', type: 'button' },
+            field: { name: 'Показать QR-код', description: 'Отсканируйте на другом устройстве для ввода кода' },
+            onChange: function () {
+                var token = getToken();
+                if (!token) {
+                    Lampa.Noty.show('Сначала создайте код синхронизации');
+                    return;
+                }
+                showQR(token);
+            }
+        });
+
         // Создать новый код
         Lampa.SettingsApi.addParam({
             component: PLUGIN_ID,
@@ -402,14 +471,18 @@
             field: { name: 'Создать новый код' },
             onChange: function () {
                 var token = generateToken();
+                var modalHtml = $(
+                    '<div style="text-align:center;padding:1em">' +
+                        '<div class="sync-qr"></div>' +
+                        '<div class="sync-token-display">' + token + '</div>' +
+                        '<div class="sync-status">Отсканируйте QR или запишите код для других устройств</div>' +
+                    '</div>'
+                );
+                renderQR(modalHtml.find('.sync-qr')[0], token);
+
                 Lampa.Modal.open({
                     title: 'Новый код синхронизации',
-                    html: $(
-                        '<div style="text-align:center;padding:1em">' +
-                            '<div class="sync-token-display">' + token + '</div>' +
-                            '<div class="sync-status">Запомните или запишите этот код для других устройств</div>' +
-                        '</div>'
-                    ),
+                    html: modalHtml,
                     buttons: [
                         {
                             name: 'Сохранить',
