@@ -17,7 +17,6 @@
         'search_history',       // История поиска
         'timeline',             // Тайм-коды
         'filter',               // Фильтры
-        'plugins',              // Установленные плагины
         'my_bookmarks',         // Пользовательские папки закладок
         'online_choice',        // Выбор источника для фильмов
         'torrserver_url',       // Адрес TorrServer
@@ -533,7 +532,7 @@
         Lampa.SettingsApi.addParam({
             component: PLUGIN_ID,
             param: { name: 'sync_info', type: 'title' },
-            field: { name: 'Синхронизируются: закладки, история просмотра, история поиска, тайм-коды, фильтры, плагины, папки закладок, выбор источника, TorrServer, Jackett' }
+            field: { name: 'Синхронизируются: закладки, история просмотров, отметки просмотра, история поиска, тайм-коды, фильтры, папки закладок, выбор источника, TorrServer, Jackett' }
         });
     }
 
