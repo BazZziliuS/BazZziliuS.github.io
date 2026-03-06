@@ -204,6 +204,14 @@
     }
 
     // =========================================================================
+    //  Обновление кэша Lampa после синхронизации
+    // =========================================================================
+
+    function refreshApp() {
+        if (Lampa.Favorite && Lampa.Favorite.read) Lampa.Favorite.read();
+    }
+
+    // =========================================================================
     //  Скачивание данных С сервера (с заменой)
     // =========================================================================
 
@@ -233,6 +241,7 @@
                 }
             });
 
+            refreshApp();
             Lampa.Noty.show('Загружено: ' + count + ' разделов');
 
             if (callback) callback();
@@ -294,6 +303,7 @@
             if (rows.length) {
                 supabaseRequest('POST', TABLE + '?on_conflict=token,data_key', rows, function () {
                     syncInProgress = false;
+                    refreshApp();
                     Lampa.Noty.show('Синхронизация завершена');
                     if (callback) callback();
                 }, function () {
