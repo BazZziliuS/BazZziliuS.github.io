@@ -138,7 +138,71 @@
     }
 
     // =========================================================================
-    //  Скачивание данных С сервера
+    //  Слияние данных (без потерь)
+    // =========================================================================
+
+    function parseJSON(str) {
+        if (typeof str !== 'string') return str;
+        try { return JSON.parse(str); } catch (e) { return str; }
+    }
+
+    function uniqueById(arr) {
+        var seen = {};
+        var result = [];
+        for (var i = 0; i < arr.length; i++) {
+            var item = arr[i];
+            var id = item.id || (item.title + '_' + (item.original_title || ''));
+            if (!seen[id]) {
+                seen[id] = true;
+                result.push(item);
+            }
+        }
+        return result;
+    }
+
+    function mergeValue(localRaw, serverRaw) {
+        var local = parseJSON(localRaw);
+        var server = parseJSON(serverRaw);
+
+        // Оба массива — мержим по уникальным элементам
+        if (Array.isArray(local) && Array.isArray(server)) {
+            if (!local.length) return server;
+            if (!server.length) return local;
+
+            // Если элементы — объекты с id, мержим по id
+            if (typeof local[0] === 'object' && local[0] !== null) {
+                return uniqueById(server.concat(local));
+            }
+
+            // Примитивы — уникальные значения
+            var set = {};
+            var merged = [];
+            server.concat(local).forEach(function (v) {
+                var key = typeof v === 'string' ? v : JSON.stringify(v);
+                if (!set[key]) {
+                    set[key] = true;
+                    merged.push(v);
+                }
+            });
+            return merged;
+        }
+
+        // Объекты — мержим ключи (локальные имеют приоритет)
+        if (local && server && typeof local === 'object' && typeof server === 'object'
+            && !Array.isArray(local) && !Array.isArray(server)) {
+            var result = {};
+            for (var k in server) result[k] = server[k];
+            for (var k2 in local) result[k2] = local[k2];
+            return result;
+        }
+
+        // Строки (url, ключи) — локальное значение в приоритете, если не пустое
+        if (local && local !== '[]' && local !== '""') return local;
+        return server || local;
+    }
+
+    // =========================================================================
+    //  Скачивание данных С сервера (с заменой)
     // =========================================================================
 
     function downloadData(callback) {
@@ -177,6 +241,74 @@
     }
 
     // =========================================================================
+    //  Двусторонняя синхронизация (слияние без потерь)
+    // =========================================================================
+
+    function syncData(callback) {
+        var token = getToken();
+        if (!token) {
+            Lampa.Noty.show('Сначала создайте или введите код синхронизации');
+            return;
+        }
+
+        if (syncInProgress) return;
+        syncInProgress = true;
+
+        // 1. Скачиваем данные с сервера
+        supabaseRequest('GET', TABLE + '?token=eq.' + encodeURIComponent(token) + '&select=data_key,data_value', null, function (data) {
+            var serverMap = {};
+            if (data && data.length) {
+                data.forEach(function (row) {
+                    if (SYNC_KEYS.indexOf(row.data_key) >= 0) {
+                        serverMap[row.data_key] = row.data_value;
+                    }
+                });
+            }
+
+            // 2. Мержим и сохраняем локально
+            var rows = [];
+            SYNC_KEYS.forEach(function (key) {
+                var localValue = Lampa.Storage.get(key, '[]');
+                var serverValue = serverMap[key];
+
+                if (serverValue) {
+                    var merged = mergeValue(localValue, serverValue);
+                    Lampa.Storage.set(key, typeof merged === 'string' ? merged : JSON.stringify(merged));
+                }
+
+                var finalValue = Lampa.Storage.get(key, '[]');
+                var str = typeof finalValue === 'string' ? finalValue : JSON.stringify(finalValue);
+                if (str === '[]' || str === '' || str === '""') return;
+
+                rows.push({
+                    token: token,
+                    data_key: key,
+                    data_value: str,
+                    updated_at: new Date().toISOString()
+                });
+            });
+
+            // 3. Загружаем объединённые данные на сервер
+            if (rows.length) {
+                supabaseRequest('POST', TABLE + '?on_conflict=token,data_key', rows, function () {
+                    syncInProgress = false;
+                    Lampa.Noty.show('Синхронизация завершена');
+                    if (callback) callback();
+                }, function () {
+                    syncInProgress = false;
+                    Lampa.Noty.show('Ошибка загрузки данных');
+                });
+            } else {
+                syncInProgress = false;
+                Lampa.Noty.show('Нет данных для синхронизации');
+            }
+        }, function () {
+            syncInProgress = false;
+            Lampa.Noty.show('Ошибка получения данных');
+        });
+    }
+
+    // =========================================================================
     //  Автосинхронизация
     // =========================================================================
 
@@ -186,9 +318,9 @@
         stopAutoSync();
 
         if (Lampa.Storage.get(SYNC_ENABLED, false) && getToken()) {
-            // Синхронизация каждые 5 минут
+            // Двусторонняя синхронизация каждые 5 минут
             autoSyncTimer = setInterval(function () {
-                uploadData();
+                syncData();
             }, 5 * 60 * 1000);
         }
     }
@@ -301,11 +433,23 @@
             field: { name: 'Действия' }
         });
 
+        // Синхронизировать (двусторонняя, без потерь)
+        Lampa.SettingsApi.addParam({
+            component: PLUGIN_ID,
+            param: { name: 'sync_merge', type: 'button' },
+            field: { name: 'Синхронизировать', description: 'Объединить данные с сервером без потерь' },
+            onChange: function () {
+                syncData(function () {
+                    Lampa.Settings.update();
+                });
+            }
+        });
+
         // Загрузить на сервер
         Lampa.SettingsApi.addParam({
             component: PLUGIN_ID,
             param: { name: 'sync_upload', type: 'button' },
-            field: { name: 'Загрузить на сервер', description: 'Отправить текущие данные в облако' },
+            field: { name: 'Загрузить на сервер', description: 'Перезаписать данные на сервере текущими' },
             onChange: function () {
                 uploadData(function () {
                     Lampa.Settings.update();
@@ -317,7 +461,7 @@
         Lampa.SettingsApi.addParam({
             component: PLUGIN_ID,
             param: { name: 'sync_download', type: 'button' },
-            field: { name: 'Скачать с сервера', description: 'Загрузить данные из облака на это устройство' },
+            field: { name: 'Скачать с сервера', description: 'Заменить локальные данные серверными' },
             onChange: function () {
                 Lampa.Modal.open({
                     title: 'Подтверждение',
@@ -364,8 +508,8 @@
                 default: false
             },
             field: {
-                name: 'Авто-загрузка на сервер',
-                description: 'Автоматически отправлять данные каждые 5 минут'
+                name: 'Авто-синхронизация',
+                description: 'Автоматически синхронизировать данные каждые 5 минут (без потерь)'
             },
             onChange: function (value) {
                 if (value === 'true') {
