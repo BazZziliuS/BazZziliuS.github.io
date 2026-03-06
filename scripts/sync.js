@@ -252,16 +252,22 @@
         }
     }
 
+    function getSyncUrl(token) {
+        var origin = window.location.origin + window.location.pathname;
+        return origin + '?sync_token=' + encodeURIComponent(token);
+    }
+
     function showQR(token) {
+        var url = getSyncUrl(token);
         var html = $(
             '<div style="text-align:center;padding:1em">' +
                 '<div class="sync-qr"></div>' +
                 '<div class="sync-token-display">' + token + '</div>' +
-                '<div class="sync-status">Отсканируйте QR-код на другом устройстве и введите код</div>' +
+                '<div class="sync-status">Отсканируйте — код сохранится автоматически</div>' +
             '</div>'
         );
 
-        renderQR(html.find('.sync-qr')[0], token);
+        renderQR(html.find('.sync-qr')[0], url);
 
         Lampa.Modal.open({
             title: 'QR-код синхронизации',
@@ -478,7 +484,7 @@
                         '<div class="sync-status">Отсканируйте QR или запишите код для других устройств</div>' +
                     '</div>'
                 );
-                renderQR(modalHtml.find('.sync-qr')[0], token);
+                renderQR(modalHtml.find('.sync-qr')[0], getSyncUrl(token));
 
                 Lampa.Modal.open({
                     title: 'Новый код синхронизации',
@@ -650,8 +656,26 @@
     //  Инициализация
     // =========================================================================
 
+    function checkUrlToken() {
+        try {
+            var params = new URLSearchParams(window.location.search);
+            var token = params.get('sync_token');
+            if (token && token.length >= 16) {
+                setToken(token.toUpperCase());
+                Lampa.Noty.show('Код синхронизации установлен: ' + token.toUpperCase());
+                startAutoSync();
+
+                // Убираем параметр из URL чтобы не применялся повторно
+                params.delete('sync_token');
+                var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
+                window.history.replaceState(null, '', newUrl);
+            }
+        } catch (e) {}
+    }
+
     function init() {
         register();
+        checkUrlToken();
         startAutoSync();
     }
 
