@@ -1,112 +1,166 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  Lampa.Platform.tv();
-  (function () {
-    "use strict";
-    function c() {
-      var c = ".notice-unread { position: relative; }.red-dot { position: absolute; top: 0; right: 0; width: 8px; height: 8px; border-radius: 50%; background-color: red; }.notification-item { margin-bottom: 4em; border: 2px solid #d99821; border-radius: 0.8em; padding: 1.5em; background-color: transparent;}.notification-header { display: flex; justify-content: space-between; align-items: center; }.notification-title { flex-grow: 1; margin: 0; font-size: 1.5em; font-style: italic; }.notification-date { background: #d99821; padding: 0.2em; border-radius: 0.4em; color: white; display: inline-block; margin-left: 10px; font-size: 1.3em; text-align: center; }.notification-message { line-height: 1.3em; margin-top: 1.2em; margin-bottom: 0; font-size: 1.3em; padding-left: 1em; }";
-      var d = document.createElement("style");
-      d.type = "text/css";
-      d.innerHTML = c;
-      document.head.appendChild(d);
-      var e = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1.2em\" height=\"1.2em\" viewBox=\"0 0 20 20\"><path fill=\"currentColor\" d=\"M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0m1 16H9v-2h2zm0-4H9V4h2z\"/></svg>";
-      var f = "<div id=\"NOTICE\" class=\"head__action selector notice-screen notice-unread\">" + e + "</div>";
-      $("#app > div.head > div > div.head__actions").append(f);
-      $("#NOTICE").insertAfter("div[class=\"head__action selector open--settings\"]");
-      g();
-      h();
-      $("#NOTICE").on("hover:enter hover:click hover:touch", function () {
-        i();
-      });
-      function g() {
-        var e = localStorage.getItem("hasNewNotifications");
-        if (e === "true") {
-          $("#NOTICE").append("<div class=\"red-dot\"></div>");
+    var NOTICE_URL = 'https://bazzzilius.github.io/notice/notice.json';
+    var STORAGE_KEY = 'notice_last_seen_id';
+
+    var ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 20 20"><path fill="currentColor" d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0m1 16H9v-2h2zm0-4H9V4h2z"/></svg>';
+
+    var CSS = '\
+        .notice-btn .red-dot {\
+            position: absolute;\
+            top: 0;\
+            right: 0;\
+            width: 8px;\
+            height: 8px;\
+            border-radius: 50%;\
+            background-color: red;\
+        }\
+        .notice-item {\
+            margin-bottom: 4em;\
+            border: 2px solid #d99821;\
+            border-radius: 0.8em;\
+            padding: 1.5em;\
+        }\
+        .notice-item__header {\
+            display: flex;\
+            justify-content: space-between;\
+            align-items: center;\
+        }\
+        .notice-item__title {\
+            flex-grow: 1;\
+            margin: 0;\
+            font-size: 1.5em;\
+            font-style: italic;\
+        }\
+        .notice-item__date {\
+            background: #d99821;\
+            padding: 0.2em;\
+            border-radius: 0.4em;\
+            color: white;\
+            display: inline-block;\
+            margin-left: 10px;\
+            font-size: 1.3em;\
+            text-align: center;\
+        }\
+        .notice-item__message {\
+            line-height: 1.3em;\
+            margin-top: 1.2em;\
+            margin-bottom: 0;\
+            font-size: 1.3em;\
+            padding-left: 1em;\
+        }\
+        .notice-modal .modal__title {\
+            text-align: center;\
+            background: linear-gradient(180deg, #ffffff, #d99821);\
+            -webkit-background-clip: text;\
+            -webkit-text-fill-color: transparent;\
+            font-weight: bold;\
+        }\
+    ';
+
+    var notices = [];
+    var button;
+
+    function injectStyles() {
+        var style = document.createElement('style');
+        style.textContent = CSS;
+        document.head.appendChild(style);
+    }
+
+    function createButton() {
+        button = $('<div class="head__action selector notice-btn" style="position:relative">' + ICON_SVG + '</div>');
+        button.insertAfter('.head__action.open--settings');
+
+        button.on('hover:enter hover:click hover:touch', function () {
+            openModal();
+        });
+    }
+
+    function getLastSeenId() {
+        return parseInt(Lampa.Storage.get(STORAGE_KEY, '0'), 10);
+    }
+
+    function setLastSeenId(id) {
+        Lampa.Storage.set(STORAGE_KEY, String(id));
+    }
+
+    function getMaxId(items) {
+        var max = 0;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].id > max) max = items[i].id;
         }
-      }
-      function h() {
-        var a = new XMLHttpRequest();
-        a.open("GET", "https://bazzzilius.github.io/notice/notice.json", true);
-        a.onreadystatechange = function () {
-          if (a.readyState === 4 && a.status === 200) {
-            var b = JSON.parse(a.responseText);
-            var c = localStorage.getItem("lastNotices");
-            c = c ? JSON.parse(c) : [];
-            var d = c.map(function (a) {
-              return a.date;
-            });
-            var e = false;
-            for (var f = 0; f < b.length; f++) {
-              var g = b[f].date;
-              if (d.indexOf(g) === -1) {
-                e = true;
-                break;
-              }
+        return max;
+    }
+
+    function updateDot() {
+        button.find('.red-dot').remove();
+
+        var maxId = getMaxId(notices);
+        if (maxId > getLastSeenId()) {
+            button.append('<div class="red-dot"></div>');
+        }
+    }
+
+    function loadNotices() {
+        $.getJSON(NOTICE_URL).done(function (data) {
+            if (Array.isArray(data)) {
+                notices = data;
+                updateDot();
             }
-            if (e) {
-              localStorage.setItem("hasNewNotifications", "true");
-              if ($("#NOTICE .red-dot").length === 0) {
-                $("#NOTICE").append("<div class=\"red-dot\"></div>");
-              }
-            }
-            localStorage.setItem("lastNotices", JSON.stringify(b));
-          } else if (a.readyState === 4) {
-            console.log("Ошибка при загрузке уведомлений с сервера");
-            Lampa.Noty.show("Ошибка при загрузке уведомлений с сервера");
-          }
-        };
-        a.send();
-      }
-      function i() {
-        var a = new XMLHttpRequest();
-        a.open("GET", "https://bazzzilius.github.io/notice/notice.json", true);
-        a.onreadystatechange = function () {
-          if (a.readyState === 4 && a.status === 200) {
-            var c = JSON.parse(a.responseText);
-            b(c);
-            $("#NOTICE .red-dot").remove();
-            localStorage.setItem("hasNewNotifications", "false");
-          } else if (a.readyState === 4) {
-            console.log("Ошибка при загрузке уведомлений с сервера");
-            Lampa.Noty.show("Ошибка при загрузке уведомлений с сервера");
-          }
-        };
-        a.send();
-        function b(a) {
-          var b = $("<div style=\"padding: 0.1em;\">");
-          for (var c = 0; c < a.length; c++) {
-            b.append("<div class=\"notification-item\"><div class=\"notification-header\"><h3 class=\"notification-title\">" + a[c].title + "</h3><span class=\"notification-date\">" + a[c].date + "</span></div><p class=\"notification-message\">" + a[c].message + "</p></div>");
-          }
-          Lampa.Modal.open({
-            title: "Уведомления",
-            html: b,
-            size: "medium",
+        }).fail(function () {
+            console.log('Notice: ошибка загрузки уведомлений');
+        });
+    }
+
+    function renderNotices() {
+        var container = $('<div style="padding: 0.1em"></div>');
+
+        for (var i = notices.length - 1; i >= 0; i--) {
+            var item = notices[i];
+            container.append(
+                '<div class="notice-item">' +
+                    '<div class="notice-item__header">' +
+                        '<h3 class="notice-item__title">' + item.title + '</h3>' +
+                        '<span class="notice-item__date">' + item.date + '</span>' +
+                    '</div>' +
+                    '<p class="notice-item__message">' + item.message + '</p>' +
+                '</div>'
+            );
+        }
+
+        return container;
+    }
+
+    function openModal() {
+        Lampa.Modal.open({
+            title: 'Уведомления',
+            html: renderNotices(),
+            size: 'medium',
             mask: true,
             onBack: function () {
-              $(".modal").remove();
-              Lampa.Controller.toggle("head");
-            },
-            onSelect: function () {}
-          });
-          $(".modal__title").css({
-            "text-align": "center",
-            background: "linear-gradient(180deg, #ffffff, #d99821)",
-            "-webkit-background-clip": "text",
-            "-webkit-text-fill-color": "transparent",
-            "font-weight": "bold"
-          });
-        }
-      }
+                Lampa.Modal.close();
+                Lampa.Controller.toggle('head');
+            }
+        });
+
+        $('.modal').addClass('notice-modal');
+
+        setLastSeenId(getMaxId(notices));
+        button.find('.red-dot').remove();
     }
+
+    function start() {
+        injectStyles();
+        createButton();
+        loadNotices();
+    }
+
     if (window.appready) {
-      c();
+        start();
     } else {
-      Lampa.Listener.follow("app", function (a) {
-        if (a.type == "ready") {
-          c();
-        }
-      });
+        Lampa.Listener.follow('app', function (e) {
+            if (e.type === 'ready') start();
+        });
     }
-  })();
 })();
