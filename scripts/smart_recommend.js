@@ -105,7 +105,6 @@
             return;
         }
 
-        // Берём до 10 случайных карточек для анализа
         var sample = shuffleArray(cards.slice()).slice(0, 10);
         var watchedIds = {};
         cards.forEach(function (c) { watchedIds[c.id] = true; });
@@ -123,8 +122,7 @@
             var network = new Lampa.Reguest();
             network.timeout(10000);
 
-            var api = Lampa.TMDB.api;
-            var url = api + '/' + mediaType + '/' + card.id + '/recommendations?api_key=' + Lampa.TMDB.key + '&language=' + Lampa.Storage.get('language', 'ru') + '&page=1';
+            var url = Lampa.TMDB.api + '/' + mediaType + '/' + card.id + '/recommendations?api_key=' + Lampa.TMDB.key + '&language=' + Lampa.Storage.get('language', 'ru') + '&page=1';
 
             network.silent(url, function (data) {
                 if (data && data.results) {
@@ -144,7 +142,6 @@
         });
 
         function finish() {
-            // Сортируем по рейтингу
             results.sort(function (a, b) {
                 return (b.vote_average || 0) - (a.vote_average || 0);
             });
@@ -173,9 +170,8 @@
         var network = new Lampa.Reguest();
         network.timeout(10000);
 
-        var api = Lampa.TMDB.api;
         var lang = Lampa.Storage.get('language', 'ru');
-        var url = api + '/discover/movie?api_key=' + Lampa.TMDB.key + '&language=' + lang + '&sort_by=vote_average.desc&vote_count.gte=100&with_genres=' + topGenres.join(',') + '&page=' + (Math.floor(Math.random() * 5) + 1);
+        var url = Lampa.TMDB.api + '/discover/movie?api_key=' + Lampa.TMDB.key + '&language=' + lang + '&sort_by=vote_average.desc&vote_count.gte=100&with_genres=' + topGenres.join(',') + '&page=' + (Math.floor(Math.random() * 5) + 1);
 
         network.silent(url, function (data) {
             var results = [];
@@ -194,139 +190,39 @@
     }
 
     // =========================================================================
-    //  Компонент — страница рекомендаций
+    //  Загрузка всех данных
     // =========================================================================
 
-    function component(object) {
-        var scroll = new Lampa.Scroll({ mask: true, over: true });
-        var items = [];
-        var html = $('<div></div>');
-        var active = 0;
-
-        var self = this;
-
-        this.create = function () {
-            return this.render();
-        };
-
-        this.start = function () {
-            Lampa.Loading.start(function () {
-                Lampa.Activity.backward();
-            });
-
-            loadRecommendations(function (recResults) {
-                loadByGenres(function (genreResults) {
-                    Lampa.Loading.stop();
-
-                    var all = recResults.slice();
-                    genreResults.forEach(function (item) {
-                        if (!cardInList(all, item.id)) all.push(item);
-                    });
-
-                    self.build(all);
-                    self.activity.loader(false);
-                    self.activity.toggle();
-                });
-            });
-        };
-
-        this.startController = function () {
-            Lampa.Controller.add('content', {
-                toggle: function () {
-                    Lampa.Controller.collectionSet(scroll.render());
-                    Lampa.Controller.collectionFocus(items.length ? items[active] : false, scroll.render());
-                },
-                back: self.back
-            });
-
-            Lampa.Controller.toggle('content');
-        };
-
-        this.back = function () {
-            Lampa.Activity.backward();
-        };
-
-        this.render = function (add) {
-            if (add) return scroll.render();
-            return html;
-        };
-
-        this.build = function (results) {
-            scroll.clear();
-            items = [];
-            active = 0;
-
-            if (!results.length) {
-                var empty = new Lampa.Empty();
-                html.append(empty.render());
-                return;
-            }
-
-            results.forEach(function (card) {
-                var elem = new Lampa.Card(card, { object: object });
-
-                elem.onFocus = function (target) {
-                    active = items.indexOf(target);
-                    scroll.update(target.render());
-                };
-
-                elem.onEnter = function (target) {
-                    var cardData = target.card;
-                    Lampa.Activity.push({
-                        url: '',
-                        component: 'full',
-                        id: cardData.id,
-                        method: cardData.media_type === 'tv' ? 'tv' : 'movie',
-                        card: cardData,
-                        source: 'tmdb'
-                    });
-                };
-
-                elem.render().on('hover:focus', function () {
-                    if (elem.onFocus) elem.onFocus(elem);
+    function loadAll(onSuccess, onError) {
+        loadRecommendations(function (recResults) {
+            loadByGenres(function (genreResults) {
+                var all = recResults.slice();
+                genreResults.forEach(function (item) {
+                    if (!cardInList(all, item.id)) all.push(item);
                 });
 
-                elem.render().on('hover:enter', function () {
-                    if (elem.onEnter) elem.onEnter(elem);
-                });
-
-                elem.card = card;
-                scroll.append(elem.render());
-                items.push(elem);
+                onSuccess({ results: all, total_pages: 1 });
             });
-
-            self.startController();
-        };
-
-        this.pause = function () {};
-        this.stop = function () {};
-        this.destroy = function () {
-            scroll.destroy();
-        };
-    }
-
-    // =========================================================================
-    //  Активности
-    // =========================================================================
-
-    function openRecommendations() {
-        Lampa.Activity.push({
-            title: 'Рекомендации',
-            component: PLUGIN_NAME,
-            page: 1
         });
     }
 
     // =========================================================================
-    //  Регистрация компонента
+    //  Компонент на базе InteractionCategory
     // =========================================================================
 
-    function initComponent() {
-        Lampa.Component.add(PLUGIN_NAME, function (object) {
-            var comp = new component(object);
-            comp.create();
-            return comp;
-        });
+    function createComponent(object) {
+        var comp = new Lampa.InteractionCategory(object);
+
+        comp.create = function () {
+            loadAll(this.build.bind(this), this.empty.bind(this));
+        };
+
+        comp.nextPageReuest = function (object, resolve, reject) {
+            // Одностраничный результат — пагинации нет
+            reject();
+        };
+
+        return comp;
     }
 
     // =========================================================================
@@ -334,17 +230,20 @@
     // =========================================================================
 
     function addMenuItem() {
-        // Добавляем пункт в левое меню
         var item = $('<li class="menu__item selector" data-action="' + PLUGIN_NAME + '">' +
             '<div class="menu__ico">' + icon + '</div>' +
             '<div class="menu__text">Рекомендации</div>' +
         '</li>');
 
         item.on('hover:enter', function () {
-            openRecommendations();
+            Lampa.Activity.push({
+                url: '',
+                title: 'Рекомендации',
+                component: PLUGIN_NAME,
+                page: 1
+            });
         });
 
-        // Вставляем после "Избранное"
         var menu = $('.menu .menu__list');
         if (menu.length) {
             var inserted = false;
@@ -393,7 +292,7 @@
     // =========================================================================
 
     function init() {
-        initComponent();
+        Lampa.Component.add(PLUGIN_NAME, createComponent);
         addSettings();
         addMenuItem();
     }
