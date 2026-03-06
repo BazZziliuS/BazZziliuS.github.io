@@ -189,12 +189,21 @@
             return merged;
         }
 
-        // Объекты — мержим ключи (локальные имеют приоритет)
+        // Объекты — глубокий мерж (вложенные массивы тоже мержатся)
         if (local && server && typeof local === 'object' && typeof server === 'object'
             && !Array.isArray(local) && !Array.isArray(server)) {
             var result = {};
-            for (var k in server) result[k] = server[k];
-            for (var k2 in local) result[k2] = local[k2];
+            var allKeys = {};
+            for (var k in server) allKeys[k] = true;
+            for (var k2 in local) allKeys[k2] = true;
+
+            for (var key in allKeys) {
+                if (local[key] !== undefined && server[key] !== undefined) {
+                    result[key] = mergeValue(local[key], server[key]);
+                } else {
+                    result[key] = local[key] !== undefined ? local[key] : server[key];
+                }
+            }
             return result;
         }
 
