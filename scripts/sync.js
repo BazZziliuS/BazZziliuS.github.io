@@ -111,13 +111,21 @@
         var rows = [];
         SYNC_KEYS.forEach(function (key) {
             var value = Lampa.Storage.get(key, '[]');
+            var str = typeof value === 'string' ? value : JSON.stringify(value);
+            if (str === '[]' || str === '' || str === '""') return;
             rows.push({
                 token: token,
                 data_key: key,
-                data_value: typeof value === 'string' ? value : JSON.stringify(value),
+                data_value: str,
                 updated_at: new Date().toISOString()
             });
         });
+
+        if (!rows.length) {
+            syncInProgress = false;
+            Lampa.Noty.show('Нет данных для загрузки');
+            return;
+        }
 
         supabaseRequest('POST', TABLE + '?on_conflict=token,data_key', rows, function () {
             syncInProgress = false;
