@@ -11,12 +11,19 @@
 
     // Ключи Lampa Storage для синхронизации
     var SYNC_KEYS = [
-        'favorite',         // Закладки
-        'file_view',        // Отметки просмотра (что смотрел)
-        'search_history',   // История поиска
-        'timeline',         // Тайм-коды
-        'filter',           // Фильтры
-        'plugins'           // Установленные плагины
+        'favorite',             // Закладки
+        'file_view',            // Отметки просмотра (что смотрел)
+        'search_history',       // История поиска
+        'timeline',             // Тайм-коды
+        'filter',               // Фильтры
+        'plugins',              // Установленные плагины
+        'my_bookmarks',         // Пользовательские папки закладок
+        'online_choice',        // Выбор источника для фильмов
+        'torrserver_url',       // Адрес TorrServer
+        'torrserver_url_two',   // Второй TorrServer
+        'parser_torrent_type',  // Тип парсера
+        'jackett_url',          // Адрес Jackett
+        'jackett_key'           // API-ключ Jackett
     ];
 
     var PLUGIN_ID    = 'lampa_sync';
@@ -373,7 +380,7 @@
         Lampa.SettingsApi.addParam({
             component: PLUGIN_ID,
             param: { name: 'sync_info', type: 'title' },
-            field: { name: 'Синхронизируются: закладки, история просмотра, история поиска, тайм-коды, фильтры, плагины' }
+            field: { name: 'Синхронизируются: закладки, история просмотра, история поиска, тайм-коды, фильтры, плагины, папки закладок, выбор источника, TorrServer, Jackett' }
         });
     }
 
