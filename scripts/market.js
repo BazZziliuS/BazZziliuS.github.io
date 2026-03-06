@@ -105,7 +105,12 @@
         '.market-cat-row { display: flex; align-items: center; padding: 0 !important; }',
         '.market-cat-row__icon { width: 1.8em; height: 1.3em; padding-right: 0.5em; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }',
         '.market-cat-row__name { font-size: 1.3em; }',
-        '.market-author { font-size: 0.8em; color: #999; margin-top: 0.2em; }'
+        '.market-author { font-size: 0.8em; color: #999; margin-top: 0.2em; }',
+        '.market-ad { background: #383838; border-radius: 0.8em; overflow: hidden; text-align: center; margin: 0.5em 0; padding: 0.8em; cursor: pointer; }',
+        '.market-ad.focus { box-shadow: 0 0 0 2px #fff; transform: scale(1.02); }',
+        '.market-ad__title { font-size: 1.1em; font-weight: bold; color: #ff9800; margin-bottom: 0.3em; }',
+        '.market-ad__text { font-size: 0.9em; color: #ccc; margin-bottom: 0.5em; }',
+        '.market-ad__btn { display: inline-block; background: #ff9800; color: #000; padding: 0.4em 1em; border-radius: 2em; font-weight: bold; font-size: 0.9em; }'
     ].join('\n');
     document.head.appendChild(css);
 
@@ -286,6 +291,33 @@
     }
 
     // =========================================================================
+    //  Рекламный баннер (навигация пультом + клик)
+    // =========================================================================
+
+    var AD_URL  = 'https://cloudea.org/vps';
+    var AD_DATA = {
+        title: 'VEESP VPS — свой виртуальный сервер',
+        text:  'Разверни личный VPS на мощном и недорогом хостинге.',
+        btn:   'Перейти'
+    };
+
+    function createAdBanner() {
+        var ad = $(
+            '<div class="market-ad selector">' +
+                '<div class="market-ad__title">' + AD_DATA.title + '</div>' +
+                '<div class="market-ad__text">' + AD_DATA.text + '</div>' +
+                '<div class="market-ad__btn">' + AD_DATA.btn + '</div>' +
+            '</div>'
+        );
+
+        ad.on('hover:enter', function () {
+            window.open(AD_URL, '_blank');
+        });
+
+        return ad;
+    }
+
+    // =========================================================================
     //  Позиционирование в меню настроек
     // =========================================================================
 
@@ -304,7 +336,46 @@
                     standard.before(market);
                 }
             }
+
+            // Баннер внизу главного экрана маркета
+            if (e.name === PLUGIN_ID) {
+                var scroll = e.body.find('.scroll__content');
+                if (scroll.length && !scroll.find('.market-ad').length) {
+                    scroll.append(createAdBanner());
+                }
+            }
         });
+    }
+
+    // =========================================================================
+    //  Яндекс.Метрика
+    // =========================================================================
+
+    function initMetrika() {
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments);
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) return;
+            }
+            k = e.createElement(t);
+            a = e.getElementsByTagName(t)[0];
+            k.async = 1;
+            k.src = r;
+            a.parentNode.insertBefore(k, a);
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+        ym(87238418, 'init', {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true
+        });
+
+        $('body').append(
+            '<noscript><div><img src="https://mc.yandex.ru/watch/87238418" style="position:absolute;left:-9999px;" alt=""></div></noscript>'
+        );
     }
 
     // =========================================================================
@@ -314,6 +385,7 @@
     function init() {
         register();
         reposition();
+        initMetrika();
     }
 
     if (window.appready) init();
