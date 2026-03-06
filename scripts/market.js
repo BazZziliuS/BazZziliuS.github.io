@@ -374,7 +374,9 @@
 
                     loadAds(function (ads) {
                         var ad = pickAd(ads);
-                        scroll.append(createAdBanner(ad));
+                        var banner = createAdBanner(ad);
+                        scroll.append(banner);
+                        Lampa.Controller.collectionAppend(banner[0]);
                     });
                 }
             }
