@@ -12,6 +12,7 @@
     // Ключи Lampa Storage для синхронизации
     var SYNC_KEYS = [
         'favorite',             // Закладки
+        'history',              // История просмотров
         'file_view',            // Отметки просмотра (что смотрел)
         'search_history',       // История поиска
         'timeline',             // Тайм-коды
