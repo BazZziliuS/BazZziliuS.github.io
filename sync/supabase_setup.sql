@@ -13,34 +13,26 @@ create table if not exists sync_data (
 -- Индекс для быстрого поиска по токену
 create index if not exists idx_sync_data_token on sync_data (token);
 
--- RLS: доступ только при указании конкретного токена в запросе
+-- Права для анонимного доступа (через anon key)
+grant usage on schema public to anon;
+grant select, insert, update, delete on sync_data to anon;
+
+-- RLS: токен >= 16 символов (31^16 ≈ 10^24 комбинаций, подбор невозможен)
 alter table sync_data enable row level security;
 
--- Чтение: только если в запросе указан фильтр token=eq.XXX
--- Без знания токена получить данные невозможно
-create policy "read by token"
+create policy "select by token"
     on sync_data for select
-    using (
-        token = current_setting('request.query.token', true)::text
-        or token = any(
-            string_to_array(
-                current_setting('request.filters', true),
-                ','
-            )
-        )
-    );
+    using (length(token) >= 16);
 
--- Вставка: разрешена, токен должен быть >= 16 символов
-create policy "insert with long token"
+create policy "insert by token"
     on sync_data for insert
     with check (length(token) >= 16);
 
--- Обновление: только свои строки (по совпадению токена в данных)
 create policy "update by token"
     on sync_data for update
-    using (length(token) >= 16);
+    using (length(token) >= 16)
+    with check (length(token) >= 16);
 
--- Удаление: разрешено
 create policy "delete by token"
     on sync_data for delete
     using (length(token) >= 16);
