@@ -76,24 +76,40 @@
     // =========================================================================
 
     function supabaseRequest(method, path, body, callback, onError) {
-        $.ajax({
-            url: SUPABASE_URL + '/rest/v1/' + path,
-            method: method,
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_KEY,
-                'Content-Type': 'application/json',
-                'Prefer': method === 'POST' ? 'resolution=merge-duplicates,return=minimal' : 'return=minimal'
-            },
-            data: body ? JSON.stringify(body) : undefined,
-            success: function (data) {
+        var url = SUPABASE_URL + '/rest/v1/' + path;
+        var headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': method === 'POST' ? 'resolution=merge-duplicates,return=minimal' : 'return=minimal'
+        };
+
+        if (method === 'GET') {
+            var network = new Lampa.Reguest();
+            network.timeout(15000);
+            network.silent(url, function (data) {
                 if (callback) callback(data);
-            },
-            error: function (xhr) {
-                console.error('Sync', method, path, xhr.status, xhr.responseText);
-                if (onError) onError(xhr);
-            }
-        });
+            }, function (err) {
+                console.error('Sync', method, path, err);
+                if (onError) onError(err);
+            }, false, {
+                headers: headers
+            });
+        } else {
+            $.ajax({
+                url: url,
+                method: method,
+                headers: headers,
+                data: body ? JSON.stringify(body) : undefined,
+                success: function (data) {
+                    if (callback) callback(data);
+                },
+                error: function (xhr) {
+                    console.error('Sync', method, path, xhr.status, xhr.responseText);
+                    if (onError) onError(xhr);
+                }
+            });
+        }
     }
 
     // =========================================================================
