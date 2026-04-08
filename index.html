@@ -780,10 +780,14 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      gap: 10px;
       white-space: nowrap;
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
+    }
+    .footer__sep {
+      opacity: 0.5;
     }
 
     /* ===== Responsive ===== */
@@ -832,8 +836,8 @@
     <a href="#" class="navbar__brand">BazZziliuS</a>
     <nav class="navbar__social" id="navSocial">
       <div class="navbar__hover-bg" id="navHoverBg"></div>
-      <a href="https://vk.com/bazzzilius" class="menu__link" aria-label="ВКонтакте">
-        <img src="img/vk.svg" alt="VK">
+      <a href="https://blog.cloudea.org" class="menu__link" aria-label="Blog" target="_blank" rel="noopener">
+        <img src="img/blog.svg" alt="Blog">
       </a>
       <a href="https://discord.com/users/347880706724069376" class="menu__link" aria-label="Discord">
         <img src="img/discord.svg" alt="Discord">
@@ -926,7 +930,9 @@
   </main>
 
   <footer>
-    BazZziliuS · <span id="footerYear"></span>
+    <span>BazZziliuS</span>
+    <span class="footer__sep">·</span>
+    <span id="footerYear"></span>
   </footer>
 
   <script src="projects.js"></script>
